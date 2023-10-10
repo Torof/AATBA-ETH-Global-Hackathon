@@ -3,10 +3,10 @@
 pragma solidity 0.8.20;
 
 import {IERC6551Registry} from "../ERC6551/interfaces/IERC6551Registry.sol";
-import "./ProfileNFT.sol";
+import "./SubProfileNFT.sol";
 import "@openzeppelin/contracts/access/Ownable2Step.sol";
 
-contract ProfileFactory is Ownable2Step {
+contract SubProfileFactory is Ownable2Step {
 
     address public immutable erc6551registryAddress;
 
@@ -37,7 +37,7 @@ contract ProfileFactory is Ownable2Step {
         //IMPLEMENT can only create ONE profile of EACH profileType per user
 
         //mints token of specific profileType
-        (uint256 tokenId) = ProfileNFT(profileTypeContracts[index]).mint(to);
+        (uint256 tokenId) = SubProfileNFT(profileTypeContracts[index]).mint(to);
 
         // //create account in ERC6551Registry and bind to profileNFT
         // (bool success, bytes memory data) = erc6551registryAddress.call(abi.encodeWithSignature("createAccount(address,uint256,address,uint256,uint256,bytes)", userAccountImplementationAddress,chainId, profileTypeContracts[index], tokenId, 0));
@@ -55,7 +55,7 @@ contract ProfileFactory is Ownable2Step {
         //IMPLEMENT: check address is allowed to create new profileType
 
         //deploy new profileTypeContract
-        ProfileNFT profileTypeContract = new ProfileNFT(name, symbol);
+        SubProfileNFT profileTypeContract = new SubProfileNFT(name, symbol);
 
         //add to profileTypeContracts
         profileTypeContracts.push(address(profileTypeContract));
@@ -68,7 +68,7 @@ contract ProfileFactory is Ownable2Step {
 
     //function to fetch totalSupply of profileTypeContract for specific address
     function totalSupply(uint256 index) external view returns(uint256 supply){
-        supply = ProfileNFT(profileTypeContracts[index]).totalSupply();
+        supply = SubProfileNFT(profileTypeContracts[index]).totalSupply();
     }
 
 

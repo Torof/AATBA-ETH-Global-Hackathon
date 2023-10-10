@@ -7,7 +7,7 @@ import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Recei
 import {IERC1155Receiver} from "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 
 
-contract ProfileAccount is ERC6551Account, IERC721Receiver, IERC1155Receiver {
+contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver {
     //TODO add ownership cycle guards
 
     function onERC721Received(address operator, address from, uint256 tokenId, bytes calldata data)
