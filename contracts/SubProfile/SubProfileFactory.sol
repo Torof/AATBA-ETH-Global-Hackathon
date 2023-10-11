@@ -34,7 +34,7 @@ contract SubProfileFactory is Ownable2Step {
      * @return tba address of boundAccount
      * @return tokenId tokenId of minted profileNFT
      */
-    function mintAndBind(address to, uint256 index) external returns (address tba, uint256 tokenId){
+    function createSubProfileForUser(address to, uint256 index) external returns (address tba, uint256 tokenId){
         //IMPLEMENT: check address is allowed to mint its profile NFT && is App account (maybe from UserAccountFactory)
         require( index < subProfileContract.length, "index out of bounds" );
         //can only create ONE profile of EACH profileType per user, check balance is = 0
@@ -58,7 +58,7 @@ contract SubProfileFactory is Ownable2Step {
      * @param symbol symbol of profileType
      * @return profileTypeContractAddress address of deployed profileTypeContract
      */
-    function createNewProfileType(string memory name, string memory symbol) external onlyOwner() returns(address profileTypeContractAddress){
+    function generateSubProfileTemplate(string memory name, string memory symbol) external onlyOwner() returns(address profileTypeContractAddress){
         //IMPLEMENT: check address is allowed to create new profileType
 
         //deploy new profileTypeContract

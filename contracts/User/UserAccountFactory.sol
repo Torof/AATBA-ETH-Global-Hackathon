@@ -5,4 +5,8 @@ contract UserAccountFactory {
     constructor() {
         
     }
+
+    function createAccount() external returns(address account){
+        account = address(0);
+    }
 }
