@@ -16,14 +16,17 @@ contract SubProfileNFT is Ownable2Step, ERC721, IERC5192 {
 
     constructor(string memory name, string memory symbol) ERC721(name, symbol) Ownable(msg.sender){}
 
-    function mint(address to) public onlyOwner returns (uint256 tokenId_){
-
+    /**
+     * 
+     * @param to address to mint token to
+     * @return tokenId tokenId of minted token
+     */
+    function mint(address to) public onlyOwner returns (uint256 tokenId){
         _totalSupply++;
-        uint256 tokenId = _totalSupply;
+        tokenId = _totalSupply;
 
         //starts at id#1
         _safeMint(to, tokenId);
-        tokenId_ = tokenId;
     }
 
     function transferFrom(address from, address to, uint256 tokenId) public virtual override {
@@ -32,12 +35,26 @@ contract SubProfileNFT is Ownable2Step, ERC721, IERC5192 {
     }
 
     //IMPLEMENT signature verification?
+    /**
+     * @notice allow transfer for SBT token
+     * @param tokenId token to unlock transfer for
+     * @param to address to transfer token to
+     */
     function unlockAndTransfer(uint256 tokenId, address to) external onlyOwner(){} 
 
+    /**
+     * 
+     * @param tokenId token to check if locked transfer
+     * @return isLocked true if locked transfer
+     */
     function locked(uint256 tokenId) external view returns (bool isLocked){
         isLocked = !_unlocked[tokenId];
     }
 
+    /**
+     * @notice get totalSupply of SBT tokens
+     * @return supply totalSupply of SBT tokens
+     */
     function totalSupply() external view returns(uint256 supply){
         supply = _totalSupply;
     }
