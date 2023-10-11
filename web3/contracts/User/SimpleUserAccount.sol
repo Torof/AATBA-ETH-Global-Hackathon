@@ -30,6 +30,6 @@ contract SimpleUserAccount is IERC721Receiver{
     }
 
     function createSubProfile(uint256 index) external returns(address subProfile){
-        (subProfile,) = SubProfileFactory(subProfileFactory).mintAndBind(msg.sender, index);
+        (subProfile,) = SubProfileFactory(subProfileFactory).createSubProfileForUser(msg.sender, index);
     }
 }
