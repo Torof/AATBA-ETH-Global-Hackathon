@@ -7,6 +7,7 @@ import {SubProfileFactory} from "../SubProfile/SubProfileFactory.sol";
 
 
 contract SimpleUserAccount is IERC721Receiver{
+
     address immutable subProfileFactory;
     constructor(address _subProfileFactory) {
         subProfileFactory = _subProfileFactory;

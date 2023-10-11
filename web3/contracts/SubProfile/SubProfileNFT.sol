@@ -9,7 +9,7 @@ import {Ownable2Step, Ownable} from "@openzeppelin/contracts/access/Ownable2Step
 
 //IMPLEMENT IERC165 support interface
 contract SubProfileNFT is Ownable2Step, ERC721, IERC5192 {
-
+    
     // SBT is locked on minting
     mapping(uint256 => bool) private _unlocked;
     uint256 private _totalSupply;

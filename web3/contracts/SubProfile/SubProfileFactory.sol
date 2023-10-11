@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/Ownable2Step.sol";
 contract SubProfileFactory is Ownable2Step {
 
     address public immutable erc6551registryAddress;
-    address public immutable userAccountImplementationAddress;
+    address public immutable subProfileTBAImplementation;
     uint256 public immutable chainId;
 
     //index => address of profileTypeContract
@@ -21,9 +21,9 @@ contract SubProfileFactory is Ownable2Step {
 
 
     //CHECK Can either deploy ProfileAccount and pass to constructor or deploy in constructor 
-    constructor(address erc6551registryAddress_, address userAccountImplementationAddress_) Ownable(msg.sender) {
+    constructor(address erc6551registryAddress_, address subProfileTBAImplementation_) Ownable(msg.sender) {
         erc6551registryAddress = erc6551registryAddress_;
-        userAccountImplementationAddress = userAccountImplementationAddress_;
+        subProfileTBAImplementation = subProfileTBAImplementation_;
         chainId = block.chainid;
     }
 
@@ -43,7 +43,7 @@ contract SubProfileFactory is Ownable2Step {
         uint256 currentSupply = SubProfileNFT(subProfileContract[index]).totalSupply();
 
         //register boundAccount for tokenId of profileType
-        tba = IERC6551Registry(erc6551registryAddress).createAccount(userAccountImplementationAddress, chainId, subProfileContract[index], currentSupply, 0, "");
+        tba = IERC6551Registry(erc6551registryAddress).createAccount(subProfileTBAImplementation, chainId, subProfileContract[index], currentSupply, 0, "");
         require( tba != address(0), "failed to create account" );
 
         //mints token of specific profileType
@@ -75,7 +75,7 @@ contract SubProfileFactory is Ownable2Step {
      * @param tokenId tokenId of profileNFT
      */
     function account(uint256 index, uint256 tokenId) external view returns (address account_){
-        account_ = IERC6551Registry(erc6551registryAddress).account( userAccountImplementationAddress , chainId, subProfileContract[index], tokenId, 0);
+        account_ = IERC6551Registry(erc6551registryAddress).account( subProfileTBAImplementation , chainId, subProfileContract[index], tokenId, 0);
     }
 
     /**
@@ -88,4 +88,4 @@ contract SubProfileFactory is Ownable2Step {
 
 
     //IMPLEMENT: function for ownership change of profileNFT for upgradeability
-}
+} 
