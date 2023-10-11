@@ -11,24 +11,35 @@
         "deploy": "next build && next export && npx thirdweb@latest upload out"
     },
     "dependencies": {
-        "@thirdweb-dev/react": "^3",
-        "@thirdweb-dev/sdk": "^3",
-        "ethers": "^5",
+        "@radix-ui/react-slot": "^1.0.2",
+        "@thirdweb-dev/react": "^4.0.1",
+        "@thirdweb-dev/sdk": "^4.0.0",
+        "class-variance-authority": "^0.7.0",
+        "clsx": "^2.0.0",
+        "ethers": "5",
+        "lucide-react": "^0.285.0",
         "next": "13.5.4",
+        "next-themes": "^0.2.1",
         "react": "^18",
-        "react-dom": "^18"
+        "react-dom": "^18",
+        "tailwind-merge": "^1.14.0",
+        "tailwindcss-animate": "^1.0.7"
     },
     "devDependencies": {
         "@types/node": "^20",
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "autoprefixer": "^10",
+        "babel-eslint": "^10.1.0",
         "encoding": "^0.1.13",
         "eslint": "^8",
         "eslint-config-next": "13.5.4",
         "lokijs": "^1.5.12",
         "pino-pretty": "^10.2.3",
         "postcss": "^8",
+        "prettier": "^3.0.3",
+        "prettier-plugin-tailwindcss": "^0.5.5",
+        "react-icons": "^4.11.0",
         "tailwindcss": "^3",
         "typescript": "^5"
     }
