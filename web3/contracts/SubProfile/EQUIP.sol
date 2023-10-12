@@ -3,20 +3,20 @@
 pragma solidity ^0.8.0;
 
 import {IEQUIP} from "../interfaces/IEQUIP.sol";
+import {SubProfileNFT} from "./SubProfileNFT.sol";
 
 contract EQUIP is IEQUIP {
 
-    // TODO: Add a check to ensure correct contract is calling
-
-    // function verifyBadge(address from)
-    // public view
-    // returns(VerificationStatus status) {
-    //     require(msg.sender.code.length > 0, "Only contract can call");
-    //     return _verifyBadge(from);
-    // }
+    function verifyBadge(address from, uint256 tokenId)
+    public view
+    returns(VerificationStatus status) {
+        address token_owner = SubProfileNFT(msg.sender).ownerOf(tokenId);
+        require(msg.sender == token_owner, "Only owner can call");
+        return _verifyBadge(from);
+    }
 
     function _verifyBadge(address from) 
-    internal view 
+    internal view
     returns(VerificationStatus status) {
         if (from.code.length > 0) {
             status = VerificationStatus.VERIFIED;
