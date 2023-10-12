@@ -7,8 +7,8 @@ const Header = (props: Props) => {
     const { theme, setTheme } = useTheme()
     return (
         <>
-            <h1 className="text-3xl px-4"> AATBA </h1>
-            <div className="flex items-center justify-between space-x-4">
+            <h1 className="text-3xl pl-4"> AATBA </h1>
+            <div className="flex items-center justify-between space-x-4 pr-2">
                 <ConnectWallet
                     theme={theme === "light" ? "light" : "dark"}
                     dropdownPosition={{
