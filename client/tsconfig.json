@@ -27,6 +27,6 @@
             "@assets/*": ["app/assets/*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/profiles/(profile)/[profile]"],
     "exclude": ["node_modules"]
 }
