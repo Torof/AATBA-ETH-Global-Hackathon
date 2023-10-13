@@ -10,11 +10,13 @@ import {IEQUIP} from "../interfaces/IEQUIP.sol";
 import {EQUIP} from "./EQUIP.sol";
 
 
+
 contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, ISubProfileTBA, IEQUIP, EQUIP {
+
     //TODO add ownership cycle guards
-    event ERC721Received(address operator, address from, uint256 tokenId, bytes data);
-    event ERC1155Received(address operator, address from, uint256 id, uint256 value, bytes data);
-    event ERC1155BatchReceived(address operator, address from, uint256[] ids, uint256[] values, bytes data);
+    event ERC721Received(address indexed operator, address indexed from, uint256 indexed tokenId, bytes data);
+    event ERC1155Received(address indexed operator, address indexed from, uint256 indexed id, uint256 value, bytes data);
+    event ERC1155BatchReceived(address indexed operator, address indexed from, uint256[] indexed ids, uint256[] values, bytes data);
 
     mapping(address => Badge[]) public subProfileBadges;
 
