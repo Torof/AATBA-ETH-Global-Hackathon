@@ -26,7 +26,7 @@ export default function Home() {
                     </div>
                 ) : (
                     // <div> Please Sign In using a Wallet or Login </div>
-                    <div className="max-h-full w-screen max-w-5xl">
+                    <div className="">
                         <UserAccount userAddress={userAddress} />
                     </div>
                 )}
