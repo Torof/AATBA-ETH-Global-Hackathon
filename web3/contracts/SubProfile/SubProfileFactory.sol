@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.20;
+pragma solidity ^0.8.0;
 
 import {IERC6551Registry} from "../ERC6551/interfaces/IERC6551Registry.sol";
 import "./SubProfileNFT.sol";

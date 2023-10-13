@@ -1,21 +1,24 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-pragma solidity 0.8.20;
+pragma solidity ^0.8.0;
 
 
 import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import {SubProfileFactory} from "../SubProfile/SubProfileFactory.sol";
 import {SubProfileTemplateRegistry} from "../SubProfile/SubProfileTemplateRegistry.sol";
+import {ISimpleUserAccount} from "../interfaces/ISimpleUserAccount.sol";
+import {ISubProfileTBA} from "../interfaces/ISubProfileTBA.sol";
 
 
-contract SimpleUserAccount is IERC721Receiver{
-    address public immutable user;
-    uint256[] public subprofilesTokenIds;
+contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTBA {
 
     address immutable subProfileFactory;
+    
+    uint256[] public subprofilesTokenIds;
 
-    SubProfileTemplateRegistry public immutable subProfileTemplateRegistry;
+    mapping(address => SubProfileTBA[]) public userSubProfiles;
 
-    constructor(address _subProfileFactory, address user_) {
+    constructor(address _subProfileFactory) {
+
         subProfileFactory = _subProfileFactory;
         subProfileTemplateRegistry = SubProfileTemplateRegistry(SubProfileFactory(_subProfileFactory).subProfileTemplateRegistryAddress());
         user = user_;
@@ -63,6 +66,7 @@ contract SimpleUserAccount is IERC721Receiver{
                 subprofilesTokenIds.push(0);
             }
         }
+
     }
 
 }
