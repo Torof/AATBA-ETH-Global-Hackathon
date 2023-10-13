@@ -4,18 +4,21 @@ pragma solidity ^0.8.0;
 
 import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import {SubProfileFactory} from "../SubProfile/SubProfileFactory.sol";
-import {ISimpleUserAccount} from "../interfaces/ISimpleUserAccount.sol";
-import {ISubProfileTBA} from "../interfaces/ISubProfileTBA.sol";
+import {SubProfileTemplateRegistry} from "../SubProfile/SubProfileTemplateRegistry.sol";
 
 
-contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTBA {
+contract SimpleUserAccount is IERC721Receiver{
+    address public immutable user;
+    uint256[] public subprofilesTokenIds;
 
     address immutable subProfileFactory;
 
-    mapping(address => SubProfileTBA[]) public userSubProfiles;
+    SubProfileTemplateRegistry public immutable subProfileTemplateRegistry;
 
-    constructor(address _subProfileFactory) {
+    constructor(address _subProfileFactory, address user_) {
         subProfileFactory = _subProfileFactory;
+        subProfileTemplateRegistry = SubProfileTemplateRegistry(SubProfileFactory(_subProfileFactory).subProfileTemplateRegistryAddress());
+        user = user_;
     }
 
     //TODO add verification of the subProfileFactory if registered subProfile
@@ -35,11 +38,11 @@ contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTB
         return IERC721Receiver.onERC721Received.selector;
     }
 
-    function createSubProfile(uint256 index) external returns(address subProfile){
-        uint256 tokenId;
-        (subProfile, tokenId) = SubProfileFactory(subProfileFactory).createSubProfileForUser(msg.sender, index);
-        SubProfileTBA memory mySubProfile = SubProfileTBA(subProfile, tokenId, block.number);
-        userSubProfiles[address(this)].push(mySubProfile);
-        emit AddedSubProfile(address(this), subProfile, tokenId);
+    function createSubProfile(uint256 index) external returns(address subProfile, uint256 tokenId){
+        require(msg.sender == user, "only user can create subProfile");
+
+        (address subProfileTemplateAddress, , ) = subProfileTemplateRegistry.getSubProfileTemplate(index);
+        (subProfile, tokenId) = SubProfileFactory(subProfileFactory).createSubProfileForUser(msg.sender, subProfileTemplateAddress);
+        subprofilesTokenIds[index] = tokenId;
     }
 }
