@@ -1,21 +1,39 @@
-import { ConnectWallet } from "@thirdweb-dev/react"
-import { ThemeToggle } from ".."
+import { ConnectWallet, useAddress } from "@thirdweb-dev/react"
 import { useTheme } from "next-themes"
+import { ThemeToggle } from ".."
 
 type Props = {}
 const Header = (props: Props) => {
-    const { theme, setTheme } = useTheme()
+    const connected = useAddress()
+
+    const { theme } = useTheme()
     return (
         <>
-            <h1 className="text-3xl pl-4"> AATBA </h1>
+            <div>
+                <div className=" mt-10">
+                    <h1 className="ml-1 pl-4 text-5xl font-bold tracking-widest">
+                        {" "}
+                        <span>AA</span>
+                        <span className="text-muted-foreground">TBA</span>
+                    </h1>
+                    <div className="flex ">
+                        <h6 className="pl-4 text-[0.5rem] tracking-wider text-muted-foreground"> account abstraction </h6>
+                        <h6 className="pl-4 text-[0.5rem] tracking-wider text-muted-foreground"> token based accounts </h6>
+                    </div>
+                </div>
+            </div>
             <div className="flex items-center justify-between space-x-4 pr-2">
-                <ConnectWallet
-                    theme={theme === "light" ? "light" : "dark"}
-                    dropdownPosition={{
-                        side: "bottom",
-                        align: "center",
-                    }}
-                />
+                {connected ? (
+                    <ConnectWallet
+                        btnTitle="Login"
+                        displayBalanceToken={"false"}
+                        theme={theme === "light" ? "light" : "dark"}
+                        dropdownPosition={{
+                            side: "bottom",
+                            align: "center",
+                        }}
+                    />
+                ) : null}
                 <ThemeToggle />
             </div>
         </>
