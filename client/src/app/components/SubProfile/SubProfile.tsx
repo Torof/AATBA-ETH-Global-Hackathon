@@ -3,17 +3,18 @@ import Link from "next/link"
 import { SubProfile } from "../../../../typings"
 
 type Props = {
-    profile: SubProfile
+    profile: SubProfile;
+    cn?: string;
 }
 
-const SubProfile = ({ profile }: Props) => {
+const SubProfile = ({ profile, cn }: Props) => {
     // const navigateTo = useRouter().push
 
     return (
-        <div className="group h-80 w-80 rounded-[1.7rem] border">
-            <Link href={`/profiles/${profile.id}`}>
+        <div className={`${cn} group w-80 rounded-[1.7rem] border`}>
+            <Link href={profile.id !== 3 ? `/profiles/${profile.id}` : `/newprofile/${profile.id}`}>
                 <Image
-                    className="h-full w-full rounded-[1.7rem] object-cover filter transition duration-300 ease-in-out hover:cursor-pointer group-hover:grayscale"
+                    className="absolute top-0 z-0 h-full w-full rounded-[1.7rem] object-cover filter transition duration-300 ease-in-out hover:cursor-pointer group-hover:grayscale"
                     src={profile.profilePic}
                     height={500}
                     width={500}

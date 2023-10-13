@@ -7,9 +7,6 @@ export default function Home() {
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-12">
-            <header className="z-10 flex w-full max-w-5xl flex-col items-center justify-between space-y-4 md:flex-row md:py-12">
-                <Header />
-            </header>
             <section>
                 {!address ? (
                     <div> Please Sign In using a Wallet or Login </div>
@@ -19,9 +16,6 @@ export default function Home() {
                     </div>
                 )}
             </section>
-            <footer className="z-10 flex w-screen items-center justify-center p-12 mt-20">
-                <Footer />
-            </footer>
         </main>
     )
 }

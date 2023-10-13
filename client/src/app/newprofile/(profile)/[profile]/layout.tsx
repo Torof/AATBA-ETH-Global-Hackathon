@@ -5,7 +5,7 @@ interface LayoutProps {
 }
 
 const Layout: FC<LayoutProps> = ({ children }) => {
-return <div className=''>{children}</div>
+    return <div className=''>{children}</div>
 }
 
 export default Layout
