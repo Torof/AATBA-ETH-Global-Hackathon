@@ -7,3 +7,6 @@ export { default as UserInfo } from "./UserInfo/UserInfo";
 export { default as Title } from "./ui/Title";
 export { default as SubProfile } from "./SubProfile/SubProfile";
 export { default as Dropdown } from "./Dropdown/Dropdown";
+export { default as CreateUserAccount } from "./UserAccount/CreateUserAccount"
+export { default as SubProfileHeader } from "./SubProfile/SubProfileHeader"
+export { default as SubProfileFooter } from "./SubProfile/SubProfileFooter"
