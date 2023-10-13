@@ -12,12 +12,14 @@ import {ISubProfileTBA} from "../interfaces/ISubProfileTBA.sol";
 contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTBA {
 
     address immutable subProfileFactory;
+    SubProfileTemplateRegistry immutable subProfileTemplateRegistry;
+    address immutable user;
     
     uint256[] public subprofilesTokenIds;
 
     mapping(address => SubProfileTBA[]) public userSubProfiles;
 
-    constructor(address _subProfileFactory) {
+    constructor(address _subProfileFactory, address user_) {
 
         subProfileFactory = _subProfileFactory;
         subProfileTemplateRegistry = SubProfileTemplateRegistry(SubProfileFactory(_subProfileFactory).subProfileTemplateRegistryAddress());
