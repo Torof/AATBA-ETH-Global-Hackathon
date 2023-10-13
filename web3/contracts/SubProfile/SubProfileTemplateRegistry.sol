@@ -27,4 +27,10 @@ contract SubProfileTemplateRegistry {
         index_ = registry[index].index;
         name = registry[index].name;
     }
+
+    function registryLength() external view returns(uint256 length){
+        length = registry.length;
+    }
+
+    
 }

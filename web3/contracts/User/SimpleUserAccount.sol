@@ -19,6 +19,9 @@ contract SimpleUserAccount is IERC721Receiver{
         subProfileFactory = _subProfileFactory;
         subProfileTemplateRegistry = SubProfileTemplateRegistry(SubProfileFactory(_subProfileFactory).subProfileTemplateRegistryAddress());
         user = user_;
+        for(uint256 i = 0; i < subProfileTemplateRegistry.registryLength(); i++){
+            subprofilesTokenIds.push(0);
+        }
     }
 
     //TODO add verification of the subProfileFactory if registered subProfile
@@ -40,9 +43,26 @@ contract SimpleUserAccount is IERC721Receiver{
 
     function createSubProfile(uint256 index) external returns(address subProfile, uint256 tokenId){
         require(msg.sender == user, "only user can create subProfile");
+        verifyRegistryLengthOrFix();
 
         (address subProfileTemplateAddress, , ) = subProfileTemplateRegistry.getSubProfileTemplate(index);
         (subProfile, tokenId) = SubProfileFactory(subProfileFactory).createSubProfileForUser(msg.sender, subProfileTemplateAddress);
         subprofilesTokenIds[index] = tokenId;
     }
+
+    function getSubProfile(uint256 index) external view returns(address subProfileAddress, uint256 tokenId){
+        require(index < subprofilesTokenIds.length, "index out of bounds");
+        tokenId = subprofilesTokenIds[index];
+        require(tokenId != 0, "subProfile does not exist");
+        subProfileAddress = SubProfileFactory(subProfileFactory).tbaAccount(index, tokenId);
+    }
+
+    function verifyRegistryLengthOrFix() internal {
+        if(subprofilesTokenIds.length < subProfileTemplateRegistry.registryLength()){
+            for(uint256 i = subprofilesTokenIds.length; i < subProfileTemplateRegistry.registryLength(); i++){
+                subprofilesTokenIds.push(0);
+            }
+        }
+    }
+
 }
