@@ -16,6 +16,8 @@ contract SubProfileNFT is Ownable2Step, ERC721, IERC5192 {
 
     constructor(string memory name, string memory symbol) ERC721(name, symbol) Ownable(msg.sender){}
 
+    //TODO override uri() to return uri of profileTypeContract
+
     /**
      * 
      * @param to address to mint token to

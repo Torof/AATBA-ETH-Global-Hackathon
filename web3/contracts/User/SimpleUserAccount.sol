@@ -4,13 +4,21 @@ pragma solidity 0.8.20;
 
 import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import {SubProfileFactory} from "../SubProfile/SubProfileFactory.sol";
+import {SubProfileTemplateRegistry} from "../SubProfile/SubProfileTemplateRegistry.sol";
 
 
 contract SimpleUserAccount is IERC721Receiver{
+    address public immutable user;
+    uint256[] public subprofilesTokenIds;
 
     address immutable subProfileFactory;
-    constructor(address _subProfileFactory) {
+
+    SubProfileTemplateRegistry public immutable subProfileTemplateRegistry;
+
+    constructor(address _subProfileFactory, address user_) {
         subProfileFactory = _subProfileFactory;
+        subProfileTemplateRegistry = SubProfileTemplateRegistry(SubProfileFactory(_subProfileFactory).subProfileTemplateRegistryAddress());
+        user = user_;
     }
 
     //TODO add verification of the subProfileFactory if registered subProfile
@@ -30,7 +38,11 @@ contract SimpleUserAccount is IERC721Receiver{
         return IERC721Receiver.onERC721Received.selector;
     }
 
-    function createSubProfile(uint256 index) external returns(address subProfile){
-        (subProfile,) = SubProfileFactory(subProfileFactory).createSubProfileForUser(msg.sender, index);
+    function createSubProfile(uint256 index) external returns(address subProfile, uint256 tokenId){
+        require(msg.sender == user, "only user can create subProfile");
+
+        (address subProfileTemplateAddress, , ) = subProfileTemplateRegistry.getSubProfileTemplate(index);
+        (subProfile, tokenId) = SubProfileFactory(subProfileFactory).createSubProfileForUser(msg.sender, subProfileTemplateAddress);
+        subprofilesTokenIds[index] = tokenId;
     }
 }
