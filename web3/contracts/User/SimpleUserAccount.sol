@@ -5,15 +5,17 @@ pragma solidity ^0.8.0;
 import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import {SubProfileFactory} from "../SubProfile/SubProfileFactory.sol";
 import {SubProfileTemplateRegistry} from "../SubProfile/SubProfileTemplateRegistry.sol";
+import {ISimpleUserAccount} from "../interfaces/ISimpleUserAccount.sol";
+import {ISubProfileTBA} from "../interfaces/ISubProfileTBA.sol";
 
 
-contract SimpleUserAccount is IERC721Receiver{
-    address public immutable user;
-    uint256[] public subprofilesTokenIds;
+contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTBA {
 
     address immutable subProfileFactory;
-
-    SubProfileTemplateRegistry public immutable subProfileTemplateRegistry;
+    SubProfileTemplateRegistry immutable subProfileTemplateRegistry;
+    address immutable user;
+    
+    uint256[] public subprofilesTokenIds;
 
     constructor(address _subProfileFactory, address user_) {
         subProfileFactory = _subProfileFactory;

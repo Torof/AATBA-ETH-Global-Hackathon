@@ -10,7 +10,7 @@ import {IEQUIP} from "../interfaces/IEQUIP.sol";
 import {EQUIP} from "./EQUIP.sol";
 
 
-contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver {
+contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, ISubProfileTBA, IEQUIP, EQUIP {
 
     //TODO add ownership cycle guards
     event ERC721Received(address indexed operator, address indexed from, uint256 indexed tokenId, bytes data);
