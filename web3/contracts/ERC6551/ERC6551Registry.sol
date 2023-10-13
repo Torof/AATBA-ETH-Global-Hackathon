@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/Create2.sol";
 import "../ERC6551/interfaces/IERC6551Registry.sol";
 import "../ERC6551/lib/ERC6551BytecodeLib.sol";
 
-contract Registry is IERC6551Registry {
+contract ERC6551Registry is IERC6551Registry {
     error AccountCreationFailed();
 
     function createAccount(

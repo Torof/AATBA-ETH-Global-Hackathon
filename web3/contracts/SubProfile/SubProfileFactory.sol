@@ -9,7 +9,7 @@ import "./SubProfileTemplateRegistry.sol";
 
 contract SubProfileFactory is Ownable2Step {
     SubProfileTemplateRegistry private immutable subProfileTemplateRegistry;
-    address public immutable erc6551registryAddress;
+    address public immutable erc6551RegistryAddress;
     address public immutable subProfileTBAImplementation;
     uint256 public immutable chainId;
 
@@ -19,9 +19,9 @@ contract SubProfileFactory is Ownable2Step {
 
 
     //CHECK Can either deploy ProfileAccount and pass to constructor or deploy in constructor 
-    constructor(address erc6551registryAddress_, address subProfileTBAImplementation_) Ownable(msg.sender) {
+    constructor(address erc6551RegistryAddress_, address subProfileTBAImplementation_) Ownable(msg.sender) {
         //TBA is deployed in ERC6551Registry
-        erc6551registryAddress = erc6551registryAddress_;
+        erc6551RegistryAddress = erc6551RegistryAddress_;
 
         //Implementation of TBA
         subProfileTBAImplementation = subProfileTBAImplementation_;
@@ -49,7 +49,7 @@ contract SubProfileFactory is Ownable2Step {
         uint256 currentSupply = SubProfileNFT(subProfileTemplateAddress).totalSupply();
 
         //register boundAccount for tokenId of profileType
-        tba = IERC6551Registry(erc6551registryAddress).createAccount(subProfileTBAImplementation, chainId, subProfileTemplateAddress, currentSupply, 0, "");
+        tba = IERC6551Registry(erc6551RegistryAddress).createAccount(subProfileTBAImplementation, chainId, subProfileTemplateAddress, currentSupply, 0, "");
         require( tba != address(0), "failed to create account" );
 
         //mints token of specific profileType
@@ -85,7 +85,7 @@ contract SubProfileFactory is Ownable2Step {
         (address subProfileTemplateAddress, , ) = subProfileTemplateRegistry.getSubProfileTemplate(index);
         
         //return TokenboundAccount address
-        account_ = IERC6551Registry(erc6551registryAddress).account( subProfileTBAImplementation , chainId, subProfileTemplateAddress, tokenId, 0);
+        account_ = IERC6551Registry(erc6551RegistryAddress).account( subProfileTBAImplementation , chainId, subProfileTemplateAddress, tokenId, 0);
     }
 
     function subProfileTemplateRegistryAddress() public view returns (address _subProfileTemplateRegistryAddress){
