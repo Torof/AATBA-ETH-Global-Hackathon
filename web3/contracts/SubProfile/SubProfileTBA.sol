@@ -12,12 +12,6 @@ import {EQUIP} from "./EQUIP.sol";
 
 contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver {
 
-    VerifiedBadge[] public verifiedBadges;
-    struct VerifiedBadge {
-        uint256 tokenId;
-        address issuer;
-        uint256 issuedAt;
-    }  
     //TODO add ownership cycle guards
     event ERC721Received(address indexed operator, address indexed from, uint256 indexed tokenId, bytes data);
     event ERC1155Received(address indexed operator, address indexed from, uint256 indexed id, uint256 value, bytes data);
@@ -29,7 +23,6 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver {
         external 
         returns (bytes4)
     {
-        registerVerifiedBadge(tokenId, operator);
         emit ERC721Received(operator, from, tokenId, data);
         VerificationStatus status = verifyBadge(from, tokenId);
         Badge memory badge = Badge(from, tokenId, data, block.number, status);
@@ -42,7 +35,6 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver {
         external
         returns (bytes4)
     {
-        registerVerifiedBadge(id, operator);
         emit ERC1155Received(operator, from, id, value, data);
         VerificationStatus status = verifyBadge(from, id);
         Badge memory badge = Badge(from, id, data, block.number, status);
@@ -60,9 +52,6 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver {
     ) 
     external 
     returns (bytes4) {
-        for(uint256 i = 0; i < ids.length; i++){
-            registerVerifiedBadge(ids[i], operator);
-        }
         emit ERC1155BatchReceived(operator, from, ids, values, data);
         return IERC1155Receiver.onERC1155BatchReceived.selector;
     }
@@ -75,10 +64,6 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver {
             interfaceId == type(IERC1155Receiver).interfaceId ||
             interfaceId ==  type(IERC721Receiver).interfaceId
         );
-    }
-
-    function registerVerifiedBadge(uint256 tokenId, address issuer) private {
-        verifiedBadges.push(VerifiedBadge(tokenId, issuer, block.timestamp));
     }
 
     //IMPLEMENT: verify & equip functionnality - internal called by onReceived?
