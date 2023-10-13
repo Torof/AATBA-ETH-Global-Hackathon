@@ -22,7 +22,7 @@ const SubProfileHeader = ({ profile }: Props) => {
             ) : (
                 <GrMagic className="ml-4" />
             )}
-            <Title title={profile.name} cn="absolute top-3 left-12 text-black/60" />
+            <Title title={profile.name} cn="absolute top-[4.5] left-10 text-black/70" />
             <div className="mr-4">
                 <Dropdown />
             </div>
