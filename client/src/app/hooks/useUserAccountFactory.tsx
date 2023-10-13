@@ -13,7 +13,6 @@ const useUserAccountFactory = () => {
 
     useEffect(() => {
         if (address) updateUser(address!)
-        return
     }, [address])
 
     const getUserAccount = () => {

@@ -2,6 +2,7 @@
 
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 import * as React from "react"
+import {AiOutlineShareAlt} from "react-icons/ai"
 
 import { Button } from "@components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@components/ui/dropdown-menu"
@@ -17,9 +18,10 @@ const Dropdown = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="default" size={"sm"} className="bg-transparant">
-                    Share
-                </Button>
+                {/* <Button variant="default" size={"sm"} className="bg-transparant"> */}
+
+                    <div className="flex justify-center items-center gap-2 rounded-full py-1 px-3 bg-muted-foreground/40 hover:bg-muted-foreground text-white text-sm"><span className="text-xs">Share</span> <AiOutlineShareAlt /> </div>
+                {/* </Button> */}
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>Click to Copy</DropdownMenuLabel>

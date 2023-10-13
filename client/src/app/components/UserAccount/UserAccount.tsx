@@ -2,7 +2,7 @@ import useUserAccountFactory from "@hooks/useUserAccountFactory"
 
 import HashLoader from "react-spinners/HashLoader"
 import { SubProfile as SubProfileType } from "../../../../typings"
-import { CreateUserAccount, SubProfile, SubProfileFooter, SubProfileHeader, UserInfo } from "../index"
+import { CreateUserAccount, SubProfile, UserInfo } from "../index"
 
 type Props = {
     userAddress: string
@@ -16,6 +16,8 @@ const SUBPROFILES: SubProfileType[] = [
 ]
 
 const UserAccount = ({ userAddress }: Props) => {
+    console.log(userAddress)
+
     const [getUserAccount] = useUserAccountFactory()
     const userAccountResponse = getUserAccount()
 
@@ -32,13 +34,9 @@ const UserAccount = ({ userAddress }: Props) => {
             </div>
 
             {/* Show sub profiles, if any */}
-            <div className="mt-12 flex flex-wrap justify-evenly gap-4 p-4">
+            <div className="mt-12 flex flex-wrap gap-4 px-4">
                 {SUBPROFILES.map((profile) => (
-                    <div key={profile.id} className="relative flex h-[500px] flex-col items-center justify-center gap-4 rounded-3xl">
-                        <SubProfileHeader profile={profile} />
-                        <SubProfile profile={profile} cn="h-[400px]" />
-                        <SubProfileFooter />
-                    </div>
+                    <SubProfile userAddress={userAddress} profile={profile} />
                 ))}
                 {/* Are there any sub-profiles?? */}
                 {/* <UserAccountItem /> */}
