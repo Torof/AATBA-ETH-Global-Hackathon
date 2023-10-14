@@ -4,8 +4,9 @@ pragma solidity ^0.8.0;
 
 import {IEQUIP} from "../interfaces/IEQUIP.sol";
 import {SubProfileNFT} from "./SubProfileNFT.sol";
+import {WhitelistRegistry} from "./WhitelistRegistry.sol";
 
-contract EQUIP is IEQUIP {
+contract EQUIP is IEQUIP, WhitelistRegistry {
 
     function verifyBadge(address sender, uint256 tokenId)
     public view
@@ -18,10 +19,14 @@ contract EQUIP is IEQUIP {
     function _verifyBadge(address sender) 
     internal view
     returns(VerificationStatus status) {
-        if (sender.code.length > 0) {
-            status = VerificationStatus.VERIFIED;
+        if (verificationRequests[sender].requestExists) {
+            if (isWhitelisted(sender)) {
+                status = VerificationStatus.VERIFIED;
+            } else {
+                status = VerificationStatus.PENDING;
+            }
         } else {
             status = VerificationStatus.NOT_VERIFIED;
-        }
+        }  
     }
 }
