@@ -7,18 +7,18 @@ import {SubProfileNFT} from "./SubProfileNFT.sol";
 
 contract EQUIP is IEQUIP {
 
-    function verifyBadge(address from, uint256 tokenId)
+    function verifyBadge(address sender, uint256 tokenId)
     public view
     returns(VerificationStatus status) {
         address token_owner = SubProfileNFT(msg.sender).ownerOf(tokenId);
         require(msg.sender == token_owner, "Only owner can call");
-        return _verifyBadge(from);
+        return _verifyBadge(sender);
     }
 
-    function _verifyBadge(address from) 
+    function _verifyBadge(address sender) 
     internal view
     returns(VerificationStatus status) {
-        if (from.code.length > 0) {
+        if (sender.code.length > 0) {
             status = VerificationStatus.VERIFIED;
         } else {
             status = VerificationStatus.NOT_VERIFIED;
