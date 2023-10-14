@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/access/Ownable2Step.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {ERC1155} from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 
-contract WhitelistRegistry is Ownable2Step {
+contract WhitelistRegistry {
 
     enum verifyRequest {
         REQUESTED,
@@ -21,9 +20,17 @@ contract WhitelistRegistry is Ownable2Step {
         verifyRequest verifiedStatus;
     }
 
-    mapping(address => WhitelistRequest) verificationRequests;
+    mapping(address => WhitelistRequest) public verificationRequests;
+    address immutable public Whitelister;
 
-    constructor() Ownable(msg.sender) {}
+    modifier onlyWhitelister() {
+        require(msg.sender == Whitelister, "Only owner can call this function");
+        _;
+    }
+
+    constructor() {
+        Whitelister = msg.sender;
+    }
 
     function requestForWhitelisting(address contractAddress, bytes memory code) public {
         require(contractAddress != address(0), "Invalid contract address");
@@ -54,7 +61,7 @@ contract WhitelistRegistry is Ownable2Step {
     //     }
     // }
 
-    function addWhitelisterc(address contractAddress) public onlyOwner() {
+    function addWhitelisterc(address contractAddress) public onlyWhitelister() {
         require(verificationRequests[contractAddress].requestExists, "Request does not exist");
         require(verificationRequests[contractAddress].verifiedStatus == verifyRequest.REQUESTED, "Whitelisting not requested");
 
@@ -66,7 +73,7 @@ contract WhitelistRegistry is Ownable2Step {
     }
 
     // For testing purposes
-    function addWhitelistEOA(address sender) public onlyOwner() {
+    function addWhitelistEOA(address sender) public onlyWhitelister() {
         require(sender != address(0), "Invalid contract address");
         require(!verificationRequests[sender].requestExists, "Request already exists");
 
@@ -74,13 +81,13 @@ contract WhitelistRegistry is Ownable2Step {
     }
 
     // For testing purposes
-    function removeWhitelistEOA(address sender) public onlyOwner() {
+    function removeWhitelistEOA(address sender) public onlyWhitelister() {
         require(verificationRequests[sender].requestExists, "Request does not exist");
 
         verificationRequests[sender] = WhitelistRequest(false, "", verifyRequest.REMOVED);
     }
 
-    function removeWhitelist(address contractAddress) public onlyOwner() {
+    function removeWhitelist(address contractAddress) public onlyWhitelister() {
         require(verificationRequests[contractAddress].requestExists, "Request does not exist");
         require(verificationRequests[contractAddress].verifiedStatus != verifyRequest.REMOVED, "Request already removed");
 

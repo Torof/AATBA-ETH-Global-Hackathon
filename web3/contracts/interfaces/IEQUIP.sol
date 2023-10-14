@@ -18,4 +18,5 @@ interface IEQUIP {
         uint256 blockNumber; // Received timeStamp
         VerificationStatus status;
     }
+
 }

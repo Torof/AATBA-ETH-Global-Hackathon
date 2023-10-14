@@ -7,13 +7,13 @@ import {SubProfileNFT} from "./SubProfileNFT.sol";
 import {WhitelistRegistry} from "./WhitelistRegistry.sol";
 
 contract EQUIP is IEQUIP, WhitelistRegistry {
-
-    function verifyBadge(address sender, uint256 tokenId)
-    public view
-    returns(VerificationStatus status) {
+    function verifyBadgeAndEquip(address sender, uint256 tokenId, bytes memory data)
+    public 
+    returns(Badge memory) {
         address token_owner = SubProfileNFT(msg.sender).ownerOf(tokenId);
         require(msg.sender == token_owner, "Only owner can call");
-        return _verifyBadge(sender);
+        VerificationStatus status = _verifyBadge(sender);
+        return _Equip(sender, tokenId, data, status);
     }
 
     function _verifyBadge(address sender) 
@@ -28,5 +28,14 @@ contract EQUIP is IEQUIP, WhitelistRegistry {
         } else {
             status = VerificationStatus.NOT_VERIFIED;
         }  
+    }
+
+    function _Equip(address sender, uint256 tokenId, bytes memory data, VerificationStatus status)
+    internal 
+    returns(Badge memory) {
+        require(status == VerificationStatus.VERIFIED, "Badge not verified");
+        Badge memory badge = Badge(sender, tokenId, data, block.number, status);
+        emit BadgeReceived(tokenId, status);
+        return badge;
     }
 }
