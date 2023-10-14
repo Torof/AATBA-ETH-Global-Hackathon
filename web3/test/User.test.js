@@ -42,10 +42,23 @@ describe("User, UserFactory + UserAccount", function () {
     describe("Deployment of User", function () {
         it("Should succesfully deploy a user", async function () {
             const { userAccountFactory,addressZero, acc1 } = await loadFixture(deployUserAccountFactoryFixture);
+            //No account created should return address(0)
             expect(await userAccountFactory.getUserAccount(acc1)).to.equal(addressZero);
+            
+            //Create an account for acc1
             await userAccountFactory.connect(acc1).createUserAccount()
-            .then((tx) => tx.wait());
-            expect(await userAccountFactory.getUserAccount(acc1)).to.not.equal(addressZero);
+
+            const userAccountAddress = await userAccountFactory.getUserAccount(acc1);
+            //Should return the address of the account created for acc1
+            expect(userAccountAddress).to.not.equal(addressZero);
+
+            //Get userAccount instance
+            const userAccount = await hre.ethers.getContractAt("SimpleUserAccount", userAccountAddress);
+
+            //User should be same address that created the account; acc1
+            expect(await userAccount.user()).to.equal(acc1.address);
+
+            //
         });
     });
 });
