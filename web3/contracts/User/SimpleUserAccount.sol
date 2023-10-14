@@ -16,6 +16,7 @@ contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTB
     address immutable user;
     
     uint256[] public subprofilesTokenIds;
+    mapping(address => SubProfileTBA[]) public userSubProfiles;
 
     constructor(address _subProfileFactory, address user_) {
         subProfileFactory = _subProfileFactory;
