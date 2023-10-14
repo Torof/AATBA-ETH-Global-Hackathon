@@ -1,11 +1,11 @@
-import { GrMagic } from "react-icons/gr"
-import { IoMdSchool } from "react-icons/io"
-import { MdEmojiEvents, MdOutlineWork } from "react-icons/md"
+import useUserAccountFactory from "@hooks/useUserAccountFactory"
+
+import HashLoader from "react-spinners/HashLoader"
 import { SubProfile as SubProfileType } from "../../../../typings"
-import { SubProfile, Title, UserInfo, Dropdown } from "../index"
+import { CreateUserAccount, SubProfile, UserInfo } from "../index"
 
 type Props = {
-    address: string
+    userAddress: string
 }
 
 const SUBPROFILES: SubProfileType[] = [
@@ -15,46 +15,40 @@ const SUBPROFILES: SubProfileType[] = [
     { id: 3, name: "Create", profilePic: "/create.png" },
 ]
 
-const UserAccount = ({ address }: Props) => {
-    console.log(address)
-    // address ? <span></span>
+const UserAccount = ({ userAddress }: Props) => {
+    console.log(userAddress)
 
-    return (
+    const [getUserAccount] = useUserAccountFactory()
+    const userAccountResponse = getUserAccount()
+
+    return userAccountResponse && userAccountResponse.isLoading ? (
+        // ! Still loading..
+        <div className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+            <HashLoader color="#FF8F5F" />
+        </div>
+    ) : userAccountResponse && !userAccountResponse.isLoading && userAccountResponse.data !== "0x0000000000000000000000000000000000000000" ? (
+        // ! User Account available with valid address
         <div className="container">
-            <div className="mx-4 flex flex-col gap-5 rounded-3xl border">
-                <UserInfo />
+            <div className="mx-4 flex flex-col gap-5 rounded-3xl">
+                <UserInfo user={userAccountResponse.data} />
             </div>
-            <div className="mt-12 flex flex-wrap justify-evenly gap-4 p-4">
-                {SUBPROFILES.map((profile) => (
-                    <div
-                        key={profile.id}
-                        className="relative flex h-[500px] flex-col items-center justify-center gap-4 rounded-3xl border border-purple-800"
-                    >
-                        <div className="absolute top-0 z-10 h-[65px] w-full rounded-t-3xl border backdrop-blur-md flex justify-between items-center">
-                            {profile.id === 0 ? (
-                                <MdOutlineWork className="ml-4" />
-                            ) : profile.id === 1 ? (
-                                <MdEmojiEvents className="ml-4" />
-                            ) : profile.id === 2 ? (
-                                <IoMdSchool className="ml-4" />
-                            ) : (
-                                <GrMagic className="ml-4" />
-                            )}
-                            <Title title={profile.name} cn="absolute top-3 left-12 text-black/60" />
-                            <div className="mr-4">
-                            <Dropdown />
 
-                            </div>
-                        </div>
-                        <SubProfile profile={profile} cn="h-[400px]" />
-                        <div className="absolute bottom-0 h-24 w-full rounded-b-[1.7rem] bg-[#FFEDED]"></div>
-                    </div>
+            {/* Show sub profiles, if any */}
+            <div className="mt-12 flex flex-wrap gap-4 px-4">
+                {SUBPROFILES.map((profile) => (
+                    <SubProfile userAddress={userAddress} profile={profile} />
                 ))}
                 {/* Are there any sub-profiles?? */}
                 {/* <UserAccountItem /> */}
                 {/* Show Tile with an NFT, representing an Sub-Profile */}
                 {/* Create a new sub-profile */}
             </div>
+            {/* create sub profile */}
+        </div>
+    ) : (
+        // ! No User Account available
+        <div className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+            <CreateUserAccount />
         </div>
     )
 }

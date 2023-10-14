@@ -1,18 +1,33 @@
 "use client"
-import { Footer, Header, UserAccount } from "@components/index"
-import { useAddress } from "@thirdweb-dev/react"
+import { ConnectWallet, useAddress } from "@thirdweb-dev/react"
+import { useTheme } from "next-themes"
+import { UserAccount } from "./components"
 
 export default function Home() {
-    const address = useAddress()
+    // get MM address
+    const userAddress = useAddress()
+    const { theme } = useTheme()
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-12">
             <section>
-                {!address ? (
-                    <div> Please Sign In using a Wallet or Login </div>
+                {/* Login to wallet */}
+                {!userAddress ? (
+                    <div className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+                        <ConnectWallet
+                            btnTitle="Connect Wallet"
+                            displayBalanceToken={"false"}
+                            theme={theme === "light" ? "light" : "dark"}
+                            dropdownPosition={{
+                                side: "bottom",
+                                align: "center",
+                            }}
+                        />
+                    </div>
                 ) : (
-                    <div className="w-screen max-w-5xl max-h-full">
-                        <UserAccount address={address} />{" "}
+                    // <div> Please Sign In using a Wallet or Login </div>
+                    <div className="">
+                        <UserAccount userAddress={userAddress} />
                     </div>
                 )}
             </section>
