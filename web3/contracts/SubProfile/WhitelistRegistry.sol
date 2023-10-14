@@ -54,7 +54,7 @@ contract WhitelistRegistry is Ownable2Step {
     //     }
     // }
 
-    function addWhitelisterc1155(address contractAddress) public onlyOwner() {
+    function addWhitelisterc(address contractAddress) public onlyOwner() {
         require(verificationRequests[contractAddress].requestExists, "Request does not exist");
         require(verificationRequests[contractAddress].verifiedStatus == verifyRequest.REQUESTED, "Whitelisting not requested");
 
@@ -63,6 +63,21 @@ contract WhitelistRegistry is Ownable2Step {
         if (keccak256(code) == keccak256(sharedCode)) {
             verificationRequests[contractAddress].verifiedStatus = verifyRequest.VERIFIED;
         }
+    }
+
+    // For testing purposes
+    function addWhitelistEOA(address sender) public onlyOwner() {
+        require(sender != address(0), "Invalid contract address");
+        require(!verificationRequests[sender].requestExists, "Request already exists");
+
+        verificationRequests[sender] = WhitelistRequest(true, "", verifyRequest.VERIFIED);
+    }
+
+    // For testing purposes
+    function removeWhitelistEOA(address sender) public onlyOwner() {
+        require(verificationRequests[sender].requestExists, "Request does not exist");
+
+        verificationRequests[sender] = WhitelistRequest(false, "", verifyRequest.REMOVED);
     }
 
     function removeWhitelist(address contractAddress) public onlyOwner() {
