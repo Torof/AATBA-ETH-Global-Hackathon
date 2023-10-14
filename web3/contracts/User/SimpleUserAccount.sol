@@ -23,8 +23,6 @@ contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTB
     //array of tokenIds of subProfiles at specific index of subProfileTemplateRegistry
     uint256[] private subprofilesTokenIds;
 
-    mapping(address => SubProfileTBA[]) public userSubProfiles;
-
     event SubProfileCreated(address indexed subProfileAddress, uint256 indexed tokenId);
 
     event ReceivedERC721(address indexed operator, address indexed from, uint256 indexed tokenId, bytes data);
