@@ -18,7 +18,7 @@ contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTB
     SubProfileTemplateRegistry immutable subProfileTemplateRegistry;
 
     //the address of user owning the account
-    address immutable user;
+    address immutable _user;
     
     //array of tokenIds of subProfiles at specific index of subProfileTemplateRegistry
     uint256[] private subprofilesTokenIds;
@@ -30,7 +30,7 @@ contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTB
     constructor(address _subProfileFactory, address user_) {
         subProfileFactory = SubProfileFactory(_subProfileFactory);
         subProfileTemplateRegistry = SubProfileTemplateRegistry(subProfileFactory.subProfileTemplateRegistryAddress());
-        user = user_;
+        _user = user_;
         for(uint256 i = 0; i < subProfileTemplateRegistry.registryLength(); i++){
             subprofilesTokenIds.push(0);
         }
@@ -60,7 +60,7 @@ contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTB
      * @return tokenId tokenId of the subProfileNFT linked to the subProfileTBA
      */
     function createSubProfile(uint256 index) external returns(address subProfileAddress, uint256 tokenId){
-        require(msg.sender == user, "only user can create subProfile");
+        require(msg.sender == _user, "only user can create subProfile");
         verifyRegistryLengthOrFix();
 
         (address subProfileTemplateAddress, , ) = subProfileTemplateRegistry.getSubProfileTemplate(index);
@@ -100,4 +100,7 @@ contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTB
         return address(subProfileTemplateRegistry);
     }
 
+    function user() external view returns(address){
+        return _user;
+    }
 }

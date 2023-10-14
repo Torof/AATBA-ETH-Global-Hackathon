@@ -2,9 +2,9 @@
 pragma solidity 0.8.20;
 
 contract SubProfileTemplateRegistry {
-    address immutable public owner;
+    address immutable private _subProfileFactoryAddress;
     constructor() {
-        owner = msg.sender;
+        _subProfileFactoryAddress= msg.sender;
     }
 
     SubProfileTemplate[] public registry;
@@ -17,7 +17,7 @@ contract SubProfileTemplateRegistry {
 
 
     function registerSubProfileTemplate(address _subProfileCollection, string memory name) external {
-        require(msg.sender == owner, "only owner can register subProfile");
+        require(msg.sender == _subProfileFactoryAddress, "only owner can register subProfile");
         registry.push(SubProfileTemplate(_subProfileCollection, registry.length, name));
     }
 
@@ -32,5 +32,7 @@ contract SubProfileTemplateRegistry {
         length = registry.length;
     }
 
-    
+    function subProfileFactoryAddress() external view returns(address){
+        return _subProfileFactoryAddress;
+    }
 }
