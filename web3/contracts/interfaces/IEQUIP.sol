@@ -12,10 +12,10 @@ interface IEQUIP {
     }
 
     struct Badge {
-        address source;
+        address nftAddress;
+        address from;
         uint256 tokenId;
         bytes data; 
-        uint256 blockNumber; // Received timeStamp
         VerificationStatus status;
     }
 
