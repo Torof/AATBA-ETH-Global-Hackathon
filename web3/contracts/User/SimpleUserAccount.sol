@@ -50,6 +50,9 @@ contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTB
         (address subProfileTemplateAddress, , ) = subProfileTemplateRegistry.getSubProfileTemplate(index);
         (subProfile, tokenId) = SubProfileFactory(subProfileFactory).createSubProfileForUser(msg.sender, subProfileTemplateAddress);
         subprofilesTokenIds[index] = tokenId;
+        SubProfileTBA memory mySubProfile = SubProfileTBA(subProfile, tokenId, block.number);
+        userSubProfiles[address(this)].push(mySubProfile);
+        emit AddedSubProfile(address(this), subProfile, tokenId);
     }
 
     function getSubProfile(uint256 index) external view returns(address subProfileAddress, uint256 tokenId){
