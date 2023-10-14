@@ -8,27 +8,6 @@
 const hre = require("hardhat");
 
 async function main() {
-<<<<<<< HEAD
-  // const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  // const unlockTime = currentTimestampInSeconds + 60;
-
-  // const lockedAmount = hre.ethers.parseEther("0.001");
-
-  const erc6551Registry = await hre.ethers.deployContract("ERC6551Registry");
-  await erc6551Registry.waitForDeployment();
-  const erc6551RegistryAddress = erc6551Registry.target;
-
-  const subProfileTBA = await hre.ethers.deployContract("SubProfileTBA");
-  await subProfileTBA.waitForDeployment();
-  const subProfileTBAAddress = subProfileTBA.target;
-
-  const subProfileFactory = await hre.ethers.deployContract("SubProfileFactory", [erc6551RegistryAddress, subProfileTBAAddress]); 
-  await subProfileFactory.waitForDeployment();
-  const subProfileFactoryAddress = subProfileFactory.target;
-
-  const userAccountFactory = await hre.ethers.deployContract("UserAccountFactory", [subProfileFactoryAddress]);
-
-=======
 
   //Deploy a registry for ERC6551 that regsiters all TBA. On mainnet it is already deployed
   //We'll be using the official one deployed on the chain we will be using for the final version.
@@ -61,7 +40,6 @@ async function main() {
 
   //The subProfileFactory, the subProfileTemplateRegistry and the userAccountFactory are the 3 you will be using on your dapp.
   // The subProfileTemplatesAddresses and the userAccount will be directly accessible from those.
->>>>>>> e7f1f6c9acf71a44e4a04a05beb1d57571a716c1
 
   console.log(
     `
@@ -69,10 +47,7 @@ async function main() {
     SubProfileTBA deployed to: ${subProfileTBA.target},
     SubProfileFactory deployed to: ${subProfileFactory.target},
     UserAccountFactory deployed to: ${userAccountFactory.target}
-<<<<<<< HEAD
-=======
     subProfileTemplateRegistryAddress: ${subProfileTemplateRegistryAddress}
->>>>>>> e7f1f6c9acf71a44e4a04a05beb1d57571a716c1
     `
   );
 }

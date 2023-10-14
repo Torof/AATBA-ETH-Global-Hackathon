@@ -16,7 +16,7 @@ contract WhitelistRegistry {
 
     struct WhitelistRequest {
         bool requestExists;
-        bytes code;
+        bytes byteCode;
         verifyRequest verifiedStatus;
     }
 
@@ -32,12 +32,12 @@ contract WhitelistRegistry {
         Whitelister = msg.sender;
     }
 
-    function requestForWhitelisting(address contractAddress, bytes memory code) public {
+    function requestForWhitelisting(address contractAddress, bytes memory byteCode) public {
         require(contractAddress != address(0), "Invalid contract address");
         require(contractAddress.code.length > 0, "Address is not a contract address");
         require(!verificationRequests[contractAddress].requestExists, "Request already exists");
 
-        verificationRequests[contractAddress] = WhitelistRequest(true, code, verifyRequest.REQUESTED);
+        verificationRequests[contractAddress] = WhitelistRequest(true, byteCode, verifyRequest.REQUESTED);
     }
 
     function removeFromWhitelistRequest(address contractAddress) public {
@@ -48,31 +48,18 @@ contract WhitelistRegistry {
         verificationRequests[contractAddress] = WhitelistRequest(false, "", verifyRequest.REMOVED);
     }
 
-    // function addWhitelisterc721(address contractAddress) public onlyOwner() {
-    //     require(verificationRequests[contractAddress].requestExists, "Request does not exist");
-    //     require(verificationRequests[contractAddress].verifiedStatus == verifyRequest.REQUESTED, "Whitelisting not requested");
-
-    //     // Get the contract
-    //     ERC721 targetContract = ERC721(contractAddress);
-    //     bytes memory targetCode = contractAddress.code;
-    //     bytes memory code = targetContract.creationCode;
-    //     if (code == targetCode) {
-    //         verificationRequests[contractAddress].verifiedStatus = verifyRequest.VERIFIED;
-    //     }
-    // }
-
     function addWhitelisterc(address contractAddress) public onlyWhitelister() {
         require(verificationRequests[contractAddress].requestExists, "Request does not exist");
         require(verificationRequests[contractAddress].verifiedStatus == verifyRequest.REQUESTED, "Whitelisting not requested");
 
         bytes memory code = contractAddress.code;
-        bytes memory sharedCode = verificationRequests[contractAddress].code;
+        bytes memory sharedCode = verificationRequests[contractAddress].byteCode;
         if (keccak256(code) == keccak256(sharedCode)) {
             verificationRequests[contractAddress].verifiedStatus = verifyRequest.VERIFIED;
         }
     }
 
-    // For testing purposes
+    // For testing purposes, to add a trusted EOA
     function addWhitelistEOA(address sender) public onlyWhitelister() {
         require(sender != address(0), "Invalid contract address");
         require(!verificationRequests[sender].requestExists, "Request already exists");
@@ -80,7 +67,7 @@ contract WhitelistRegistry {
         verificationRequests[sender] = WhitelistRequest(true, "", verifyRequest.VERIFIED);
     }
 
-    // For testing purposes
+    // For testing purposes, to remove an EOA
     function removeWhitelistEOA(address sender) public onlyWhitelister() {
         require(verificationRequests[sender].requestExists, "Request does not exist");
 
