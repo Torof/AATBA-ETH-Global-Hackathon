@@ -68,7 +68,7 @@ contract SubProfileFactory is Ownable2Step {
 
         //deploy new profileTypeContract
         SubProfileNFT subProfile = new SubProfileNFT(name, symbol);
-        subProfileTemplateRegistry.registerSubProfileTemplate(address(subProfile), name);
+        // subProfileTemplateRegistry.registerSubProfileTemplate(address(subProfile), name);
 
         //add to subProfileTemplateRegistry
         subProfileTemplateRegistry.registerSubProfileTemplate(address(subProfile), name);

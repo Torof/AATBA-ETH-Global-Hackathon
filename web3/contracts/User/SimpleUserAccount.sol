@@ -6,10 +6,8 @@ import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Recei
 import {SubProfileFactory} from "../SubProfile/SubProfileFactory.sol";
 import {SubProfileTemplateRegistry} from "../SubProfile/SubProfileTemplateRegistry.sol";
 import {ISimpleUserAccount} from "../interfaces/ISimpleUserAccount.sol";
-import {ISubProfileTBA} from "../interfaces/ISubProfileTBA.sol";
 
-
-contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTBA {
+contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount {
 
     //SubProfileFactory contract instance
     SubProfileFactory immutable subProfileFactory;
@@ -66,6 +64,7 @@ contract SimpleUserAccount is IERC721Receiver, ISimpleUserAccount, ISubProfileTB
         (address subProfileTemplateAddress, , ) = subProfileTemplateRegistry.getSubProfileTemplate(index);
         (subProfileAddress, tokenId) = subProfileFactory.createSubProfileForUser(msg.sender, subProfileTemplateAddress);
         subprofilesTokenIds[index] = tokenId;
+        emit AddedSubProfile(address(this), subProfileAddress, tokenId);
     }
 
     /**
