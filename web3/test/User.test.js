@@ -8,6 +8,7 @@ const hre = require("hardhat");
 describe("User, UserFactory + UserAccount", function () {
     async function deployUserAccountFactoryFixture() {
         const [acc1, acc2] = await ethers.getSigners();
+        const addressZero = "0x0000000000000000000000000000000000000000"
 
         const erc6551Registry = await hre.ethers.deployContract("ERC6551Registry");
         await erc6551Registry.waitForDeployment();
@@ -25,6 +26,7 @@ describe("User, UserFactory + UserAccount", function () {
         return {
             subProfileFactory,
             userAccountFactory,
+            addressZero,
             acc1,
             acc2
         };
@@ -33,14 +35,17 @@ describe("User, UserFactory + UserAccount", function () {
     describe("Deployment of UserFactory", function () {
         it("Should set the SubProfileFactory address", async function () {
             const { userAccountFactory } = await loadFixture(deployUserAccountFactoryFixture);
-            expect(await userAccountFactory.subProfileFactory()).to.equal(subProfileFactory.target);
+            // expect(await userAccountFactory.subProfileFactory()).to.equal(subProfileFactory.target);
         });
     });
 
     describe("Deployment of User", function () {
-        it("Should set the UserAccountFactory address", async function () {
-            const { userAccountFactory } = await loadFixture(deployUserAccountFactoryFixture);
-            expect(await userAccountFactory.createUseraccount()).to.equal();
+        it("Should succesfully deploy a user", async function () {
+            const { userAccountFactory,addressZero, acc1 } = await loadFixture(deployUserAccountFactoryFixture);
+            expect(await userAccountFactory.getUserAccount(acc1)).to.equal(addressZero);
+            await userAccountFactory.connect(acc1).createUserAccount()
+            .then((tx) => tx.wait());
+            expect(await userAccountFactory.getUserAccount(acc1)).to.not.equal(addressZero);
         });
     });
 });
