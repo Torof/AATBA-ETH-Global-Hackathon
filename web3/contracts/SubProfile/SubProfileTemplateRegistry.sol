@@ -2,9 +2,9 @@
 pragma solidity ^0.8.0;
 
 contract SubProfileTemplateRegistry {
-    address immutable public owner;
+    address immutable private _subProfileFactoryAddress;
     constructor() {
-        owner = msg.sender;
+        _subProfileFactoryAddress= msg.sender;
     }
 
     SubProfileTemplate[] public registry;
@@ -17,20 +17,22 @@ contract SubProfileTemplateRegistry {
 
 
     function registerSubProfileTemplate(address _subProfileCollection, string memory name) external {
-        require(msg.sender == owner, "only owner can register subProfile");
+        require(msg.sender == _subProfileFactoryAddress, "only factory can register subProfile");
         registry.push(SubProfileTemplate(_subProfileCollection, registry.length, name));
     }
 
-    function getSubProfileTemplate(uint256 index) external view returns(address subProfileTemplateAddress, uint256 index_, string memory name){
-        require(index < registry.length, "index out of bounds");
-        subProfileTemplateAddress = registry[index].subProfileTemplateAddress;
-        index_ = registry[index].index;
-        name = registry[index].name;
+    function getSubProfileTemplate(uint256 indexAt) external view returns(address subProfileTemplateAddress, uint256 index, string memory name){
+        require(indexAt < registry.length, "index out of bounds");
+        subProfileTemplateAddress = registry[indexAt].subProfileTemplateAddress;
+        index = registry[indexAt].index;
+        name = registry[indexAt].name;
     }
 
     function registryLength() external view returns(uint256 length){
         length = registry.length;
     }
 
-    
+    function subProfileFactoryAddress() external view returns(address){
+        return _subProfileFactoryAddress;
+    }
 }

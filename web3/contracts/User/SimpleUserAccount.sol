@@ -15,7 +15,7 @@ contract SimpleUserAccount is IERC721Receiver {
     SubProfileTemplateRegistry immutable subProfileTemplateRegistry;
 
     //the address of user owning the account
-    address immutable user;
+    address immutable _user;
     
     //array of tokenIds of subProfiles at specific index of subProfileTemplateRegistry
     uint256[] private subprofilesTokenIds;
@@ -29,7 +29,7 @@ contract SimpleUserAccount is IERC721Receiver {
     constructor(address _subProfileFactory, address user_) {
         subProfileFactory = SubProfileFactory(_subProfileFactory);
         subProfileTemplateRegistry = SubProfileTemplateRegistry(subProfileFactory.subProfileTemplateRegistryAddress());
-        user = user_;
+        _user = user_;
         for(uint256 i = 0; i < subProfileTemplateRegistry.registryLength(); i++){
             subprofilesTokenIds.push(0);
         }
@@ -55,15 +55,15 @@ contract SimpleUserAccount is IERC721Receiver {
     /**
      * @notice create a subProfile NFt linked to a subProfileTBA for the user
      * @param index index of the subProfileTemplate in the subProfileTemplateRegistry
-     * @return subProfileAddress address of the subProfileTBA
+     * @return subProfileTbaAddress address of the subProfileTBA
      * @return tokenId tokenId of the subProfileNFT linked to the subProfileTBA
      */
-    function createSubProfile(uint256 index) external returns(address subProfileAddress, uint256 tokenId){
-        require(msg.sender == user, "only user can create subProfile");
+    function createSubProfile(uint256 index) external returns(address subProfileTbaAddress, uint256 tokenId){
+        require(msg.sender == _user, "only user can create subProfile");
         verifyRegistryLengthOrFix();
 
         (address subProfileTemplateAddress, , ) = subProfileTemplateRegistry.getSubProfileTemplate(index);
-        (subProfileAddress, tokenId) = subProfileFactory.createSubProfileForUser(msg.sender, subProfileTemplateAddress);
+        (subProfileTbaAddress, tokenId) = subProfileFactory.createSubProfileForUser(msg.sender, subProfileTemplateAddress);
         subprofilesTokenIds[index] = tokenId;
         emit AddedSubProfile(address(this), subProfileAddress, tokenId);
     }
@@ -71,10 +71,13 @@ contract SimpleUserAccount is IERC721Receiver {
     /**
      * @notice get the subProfileTBA and tokenId of a subProfile
      * @param index index of the subProfileTemplate in the subProfileTemplateRegistry
-     * @return subProfileAddress address of the subProfileTBA linked to NFT of tokenId of subProfileTemplate at index in subProfileTemplateRegistry
+     * @return subProfileTemplateAddress address of the subProfileTemplate
+     * @return name name of the subProfileTemplate
      * @return tokenId tokenId of the subProfileNFT linked to the subProfileTBA
+     * @return subProfileAddress address of the subProfileTBA linked to NFT of tokenId of subProfileTemplate at index in subProfileTemplateRegistry
      */
-    function getSubProfile(uint256 index) external view returns(address subProfileAddress, uint256 tokenId){
+    function getSubProfile(uint256 index) external view returns(address subProfileTemplateAddress,string memory name, uint256 tokenId, address subProfileAddress){
+        (subProfileTemplateAddress, , name) = subProfileTemplateRegistry.getSubProfileTemplate(index);
         require(index < subprofilesTokenIds.length, "index out of bounds");
         tokenId = subprofilesTokenIds[index];
         require(tokenId != 0, "subProfile does not exist");
@@ -92,6 +95,10 @@ contract SimpleUserAccount is IERC721Receiver {
         }
     }
 
+    function getTokenId(uint256 index) external view returns(uint256 tokenId){
+        tokenId = subprofilesTokenIds[index];
+    }
+
     function subProfileFactoryAddress() external view returns(address){
         return address(subProfileFactory);
     }
@@ -100,4 +107,7 @@ contract SimpleUserAccount is IERC721Receiver {
         return address(subProfileTemplateRegistry);
     }
 
+    function user() external view returns(address){
+        return _user;
+    }
 }
