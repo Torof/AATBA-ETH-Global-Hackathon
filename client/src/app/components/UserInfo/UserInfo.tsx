@@ -35,7 +35,7 @@ const UserInfo = ({ user }: Props) => {
                         <FaEthereum className="bg-[#FF8F5F]" />
                     </span>
                     <h3 className="text-[#FF8F5F] font-medium tracking-wider text-sm">
-                        {user.substring(0, 5)}"..."{ETHADDRESS.substring(ETHADDRESS.length - 4)}
+                        {user.substring(0, 5)}"..."{user.substring(user.length - 4)}
                     </h3>
                 </div>
             </div>
