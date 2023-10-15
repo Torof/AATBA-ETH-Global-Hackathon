@@ -1,9 +1,14 @@
 import { useAddress, useContract, useContractRead } from "@thirdweb-dev/react"
-import { useEffect, useState } from "react"
+import { SetStateAction, useEffect, useState } from "react"
 
 const useUserAccountFactory = () => {
     const address = useAddress()
     const [user, setUser] = useState<string>(address!)
+
+    const [nameValue, setNameValue] = useState<string>("")
+    const [symbolValue, setSymbolValue] = useState<string>("")
+    const onNameChange = (event: { target: { value: SetStateAction<string> } }) => setNameValue(event.target.value)
+    const onSymbolChange = (event: { target: { value: SetStateAction<string> } }) => setSymbolValue(event.target.value)
 
     const updateUser = (user: string) => setUser(user)
 
