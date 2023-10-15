@@ -16,7 +16,7 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, IEQ
     event ERC1155BatchReceived(address indexed operator, address indexed from, uint256[] indexed ids, uint256[] values, bytes data);
     event AddedBadge(address indexed userSubProfile, uint256 indexed tokenId, verifyRequest status);
 
-    mapping(address => Badge[]) public subProfileBadges;
+    Badge[] public subProfileBadges;
 
     function onERC721Received(address operator, address from, uint256 tokenId, bytes calldata data)
         external 
@@ -24,7 +24,7 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, IEQ
     {
         emit ERC721Received(operator, from, tokenId, data);
         Badge memory badge = verifyBadgeAndEquip(address(msg.sender), from, tokenId, data);
-        subProfileBadges[address(this)].push(badge);
+        subProfileBadges.push(badge);
         emit AddedBadge(address(this), tokenId, badge.status);
         return IERC721Receiver.onERC721Received.selector;
     }
@@ -35,7 +35,7 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, IEQ
     {
         emit ERC1155Received(operator, from, id, value, data);
         Badge memory badge = verifyBadgeAndEquip(operator, from, id, data);
-        subProfileBadges[address(this)].push(badge);
+        subProfileBadges.push(badge);
         emit AddedBadge(address(this), id, badge.status);
         return IERC1155Receiver.onERC1155Received.selector;
     }

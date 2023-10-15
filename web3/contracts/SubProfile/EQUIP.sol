@@ -9,6 +9,7 @@ contract EQUIP is IEQUIP, WhitelistRegistry {
 
     function verifyBadgeAndEquip(address senderContract, address from, uint256 tokenId, bytes memory data)
     public 
+    view
     returns(Badge memory) {
         bool verified = isWhitelisted(senderContract);
         require(verified,"Sender Contract is not whitelisted");

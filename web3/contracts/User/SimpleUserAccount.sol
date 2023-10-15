@@ -65,7 +65,7 @@ contract SimpleUserAccount is IERC721Receiver {
         (address subProfileTemplateAddress, , ) = subProfileTemplateRegistry.getSubProfileTemplate(index);
         (subProfileTbaAddress, tokenId) = subProfileFactory.createSubProfileForUser(msg.sender, subProfileTemplateAddress);
         subprofilesTokenIds[index] = tokenId;
-        emit AddedSubProfile(address(this), subProfileAddress, tokenId);
+        emit AddedSubProfile(address(this), subProfileTbaAddress, tokenId);
     }
 
     /**
