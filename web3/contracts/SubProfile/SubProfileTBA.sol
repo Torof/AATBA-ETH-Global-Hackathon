@@ -5,16 +5,16 @@ pragma solidity ^0.8.0;
 import "../ERC6551/ERC6551Account.sol";
 import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import {IERC1155Receiver} from "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
-import {ISubProfileTBA} from "../interfaces/ISubProfileTBA.sol";
 import {IEQUIP} from "../interfaces/IEQUIP.sol";
 import {EQUIP} from "./EQUIP.sol";
 
-contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, ISubProfileTBA, IEQUIP, EQUIP {
+contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, IEQUIP, EQUIP {
 
     //TODO add ownership cycle guards
     event ERC721Received(address indexed operator, address indexed from, uint256 indexed tokenId, bytes data);
     event ERC1155Received(address indexed operator, address indexed from, uint256 indexed id, uint256 value, bytes data);
     event ERC1155BatchReceived(address indexed operator, address indexed from, uint256[] indexed ids, uint256[] values, bytes data);
+    event AddedBadge(address indexed userSubProfile, uint256 indexed tokenId);
 
     mapping(address => Badge[]) public subProfileBadges;
 
