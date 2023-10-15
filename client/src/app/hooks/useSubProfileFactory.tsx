@@ -1,4 +1,4 @@
-import { useAddress, useContract, useContractWrite } from "@thirdweb-dev/react"
+import { useAddress, useContract, useContractRead, useContractWrite } from "@thirdweb-dev/react"
 import { useEffect, useState } from "react"
 
 interface UserAccountProps {
@@ -18,7 +18,7 @@ const useSubProfileFactory = () => {
     }, [address])
 
     const createSubProfileForUser = () => {
-        const { contract } = useContract("0xe0BafCA03141126bcf402BDaf7020Ac9939E1297")
+        const { contract } = useContract(process.env.NEXT_PUBLIC_SUB_PROFILE_FACTORY_ADDRESS)
         const { mutateAsync: createSubProfileForUser, isLoading } = useContractWrite(contract, "createSubProfileForUser")
 
         const call = async () => {
@@ -34,7 +34,7 @@ const useSubProfileFactory = () => {
 
     // TODO: make dynamic
     const generateSubProfileTemplate = () => {
-        const { contract } = useContract("0xe0BafCA03141126bcf402BDaf7020Ac9939E1297")
+        const { contract } = useContract(process.env.NEXT_PUBLIC_SUB_PROFILE_FACTORY_ADDRESS)
         const { mutateAsync: generateSubProfileTemplate, isLoading } = useContractWrite(contract, "generateSubProfileTemplate")
 
         const name = "Work"
@@ -52,6 +52,30 @@ const useSubProfileFactory = () => {
         
     }
 
+
+
+        const getSubProfileTemplateRegistryAddress = () => {
+            const { contract } = useContract(process.env.NEXT_PUBLIC_SUB_PROFILE_FACTORY_ADDRESS) // SubProfileFactory address
+            const { data, isLoading } = useContractRead(contract, "subProfileTemplateRegistryAddress", [])
+
+            return { data, isLoading }
+        }
+
+        const getSubProfileTemplateTokenId = () => {
+            // from tokenIds[] retrieve the tokenId at index of the subProfileTemplate you need
+            // use this tokenId in conjonction with the index
+            // as arguments for tbaAccount(uint256 index, uint256 tokenId)
+        }
+
+        const getTBAAccount = () => {
+            const index = 0
+            const tokenId = "tokenId"
+
+            const { contract } = useContract(process.env.NEXT_PUBLIC_SUB_PROFILE_FACTORY_ADDRESS)
+            const { data, isLoading } = useContractRead(contract, "tbaAccount", [index, tokenId])
+
+            return { data, isLoading }
+        }
     return []
 }
 

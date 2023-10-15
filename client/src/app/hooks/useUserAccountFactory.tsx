@@ -1,10 +1,6 @@
 import { useAddress, useContract, useContractRead } from "@thirdweb-dev/react"
 import { useEffect, useState } from "react"
 
-interface UserAccountProps {
-    account?: string
-}
-
 const useUserAccountFactory = () => {
     const address = useAddress()
     const [user, setUser] = useState<string>(address!)
@@ -18,26 +14,26 @@ const useUserAccountFactory = () => {
     const getUserAccount = () => {
         if (!user || user === "undefined") return
 
-        const { contract } = useContract("0x98E2DDA0521c526Be9b0a6a08F5f6c0014C44904")
+        const { contract } = useContract(process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS)
         const { data, isLoading } = useContractRead(contract, "getUserAccount", [user])
 
-        console.log(data, isLoading)
+        console.log("[getUserAccount]", data, isLoading)
         return { data, isLoading }
     }
 
     const getUserAccountsCount = () => {
-        const { contract } = useContract("0x98E2DDA0521c526Be9b0a6a08F5f6c0014C44904")
+        const { contract } = useContract(process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS)
         const { data, isLoading } = useContractRead(contract, "userAccountsCount", [])
 
-        console.log(data, isLoading)
+        // console.log(data, isLoading)
         return { data, isLoading }
     }
 
     const getSubProfileFactory = () => {
-        const { contract } = useContract("0x98E2DDA0521c526Be9b0a6a08F5f6c0014C44904")
+        const { contract } = useContract(process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS)
         const { data, isLoading } = useContractRead(contract, "subProfileFactory", [])
 
-        console.log(data, isLoading)
+        // console.log(data, isLoading)
         return { data, isLoading }
     }
 
