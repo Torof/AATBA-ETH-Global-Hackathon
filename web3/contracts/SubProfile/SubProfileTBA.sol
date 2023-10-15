@@ -9,8 +9,6 @@ import {ISubProfileTBA} from "../interfaces/ISubProfileTBA.sol";
 import {IEQUIP} from "../interfaces/IEQUIP.sol";
 import {EQUIP} from "./EQUIP.sol";
 
-
-
 contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, ISubProfileTBA, IEQUIP, EQUIP {
 
     //TODO add ownership cycle guards
@@ -25,8 +23,7 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, ISu
         returns (bytes4)
     {
         emit ERC721Received(operator, from, tokenId, data);
-        VerificationStatus status = verifyBadge(from, tokenId);
-        Badge memory badge = Badge(from, tokenId, data, block.number, status);
+        Badge memory badge = verifyBadgeAndEquip(msg.sender, from, tokenId, data);
         subProfileBadges[address(this)].push(badge);
         emit AddedBadge(address(this), tokenId);
         return IERC721Receiver.onERC721Received.selector;
@@ -37,8 +34,7 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, ISu
         returns (bytes4)
     {
         emit ERC1155Received(operator, from, id, value, data);
-        VerificationStatus status = verifyBadge(from, id);
-        Badge memory badge = Badge(from, id, data, block.number, status);
+        Badge memory badge = verifyBadgeAndEquip(operator, from, id, data);
         subProfileBadges[address(this)].push(badge);
         emit AddedBadge(address(this), id);
         return IERC1155Receiver.onERC1155Received.selector;
