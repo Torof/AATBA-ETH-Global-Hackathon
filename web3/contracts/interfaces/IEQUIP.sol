@@ -1,14 +1,18 @@
 // SPDX-License-Identifier: MIT
-
 pragma solidity ^0.8.0;
 
 interface IEQUIP {
-    event BadgeReceived(uint256 indexed tokenId, VerificationStatus status);
 
-    enum VerificationStatus {
-        PENDING,
+    enum verifyRequest {
+        REQUESTED,
         VERIFIED,
-        NOT_VERIFIED
+        NOT_VERIFIED, // verification fails
+        REMOVED
+    }
+
+    struct WhitelistRequest {
+        bool requestExists;
+        verifyRequest verifiedStatus;
     }
 
     struct Badge {
@@ -16,7 +20,7 @@ interface IEQUIP {
         address from;
         uint256 tokenId;
         bytes data; 
-        VerificationStatus status;
+        verifyRequest status;
     }
 
 }

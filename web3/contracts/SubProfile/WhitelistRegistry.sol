@@ -1,23 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {SubProfileNFT} from "./SubProfileNFT.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IERC1155} from "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
+import {IEQUIP} from "../interfaces/IEQUIP.sol";
 
-contract WhitelistRegistry {
-
-    enum verifyRequest {
-        REQUESTED,
-        VERIFIED,
-        NOT_VERIFIED, // verification fails
-        REMOVED
-    }
-
-    struct WhitelistRequest {
-        bool requestExists;
-        verifyRequest verifiedStatus;
-    }
+contract WhitelistRegistry is IEQUIP {
 
     mapping(address => WhitelistRequest) public verificationRequests;
     address immutable public Whitelister;
@@ -51,9 +39,9 @@ contract WhitelistRegistry {
         require(verificationRequests[contractAddress].requestExists, "Request does not exist");
         require(verificationRequests[contractAddress].verifiedStatus == verifyRequest.REQUESTED, "Whitelisting not requested");
 
-        if (SubProfileNFT(contractAddress).supportsInterface(type(IERC721).interfaceId)) {
+        if (IERC721(contractAddress).supportsInterface(type(IERC721).interfaceId)) {
             verificationRequests[contractAddress].verifiedStatus = verifyRequest.VERIFIED;
-        } else if (SubProfileNFT(contractAddress).supportsInterface(type(IERC1155).interfaceId)) {
+        } else if (IERC1155(contractAddress).supportsInterface(type(IERC1155).interfaceId)) {
             verificationRequests[contractAddress].verifiedStatus = verifyRequest.VERIFIED;
         } else {
             verificationRequests[contractAddress].verifiedStatus = verifyRequest.NOT_VERIFIED;

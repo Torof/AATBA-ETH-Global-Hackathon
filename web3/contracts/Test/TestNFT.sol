@@ -1,7 +1,5 @@
-//write a simple NFT contract in Solidity using ERC721 from OpenZeppelin.
 
 // SPDX-License-Identifier: MIT
-
 pragma solidity 0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -59,6 +57,3 @@ contract TestNFT is ERC721("TestNFT", "TNFT"), Ownable2Step {
             supply = _totalSupply;
         }
 }
-
-
-

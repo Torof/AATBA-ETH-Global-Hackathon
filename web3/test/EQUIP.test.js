@@ -12,7 +12,6 @@ describe("EQUIP + Whitelisting", function () {
 
         const subProfileTBA = await hre.ethers.deployContract("SubProfileTBA");
         await subProfileTBA.waitForDeployment();
-        const subProfileTBAAddress = subProfileTBA.target;
 
         const subProfileNFT = await hre.ethers.deployContract("SubProfileNFT",["Test", "TST"]);
         await subProfileNFT.waitForDeployment();
@@ -24,15 +23,18 @@ describe("EQUIP + Whitelisting", function () {
         await equip.waitForDeployment();
         // const equipAddress = equip.target;
 
+        const testNFT = await hre.ethers.deployContract("TestNFT");
+        await testNFT.waitForDeployment();
+
         return {
             subProfileTBA,
-            subProfileTBAAddress,
             subProfileNFT,
             whitelistRegistry,
             equip,
             addressZero,
             acc1,
-            acc2
+            acc2,
+            testNFT
         };
     }
 
@@ -98,16 +100,25 @@ describe("EQUIP + Whitelisting", function () {
         });
     });
 
-    // SubProfileNFT and params need to be understood 
     describe("EQUIP, using transfer and mint functions", function() {
         it("Should be able receive and verify badge by minting", async function(){
-            const{subProfileTBAAddress, subProfileNFT, whitelistRegistry, equip} = await loadFixture(deploySubProfileNFTFixture);
-            const subProfileNFTAddress = await subProfileNFT.getAddress();
-            await whitelistRegistry.requestForWhitelisting(subProfileNFTAddress);
-            await whitelistRegistry.addWhitelisterc(subProfileNFTAddress);
-            expect(await whitelistRegistry.getRequestStatus(subProfileNFTAddress)).to.equal(1); // Verified status
-            await expect(subProfileNFT.mint(subProfileTBAAddress)).to.emit(equip,'BadgeReceived').withArgs(1,1);
+            const{subProfileTBA, whitelistRegistry, equip, testNFT, acc1, addressZero} = await loadFixture(deploySubProfileNFTFixture);
+            const testNFTAddress = await testNFT.getAddress();
+            const subProfileTBAAddress = await subProfileTBA.getAddress();
+            await whitelistRegistry.requestForWhitelisting(testNFTAddress);
+            await whitelistRegistry.addWhitelisterc(testNFTAddress);
+            expect(await whitelistRegistry.getRequestStatus(testNFTAddress)).to.equal(1); // Verified status
+            await expect(testNFT.mint(subProfileTBAAddress)).to.emit(subProfileTBA,'AddedBadge').withArgs(subProfileTBAAddress,1, 1);
+        });
 
+        it("Should fail to transfer SBT to another account after minting", async function(){
+            const{subProfileTBA, whitelistRegistry, equip, testNFT, acc1, acc2} = await loadFixture(deploySubProfileNFTFixture);
+            const acc2Address = await acc2.getAddress();
+            const subProfileTBAAddress = await subProfileTBA.getAddress();
+            await whitelistRegistry.addWhitelistEOA(acc2Address);
+            expect(await whitelistRegistry.getRequestStatus(acc2Address)).to.equal(1); // Verified status
+            await testNFT.mint(acc2Address);
+            await expect(testNFT.connect(acc2).transferFrom(acc2Address, subProfileTBAAddress, 1)).to.be.revertedWith('SBT: only if unlocked');
         });
     });
 });
