@@ -22,7 +22,7 @@ describe("User, UserFactory + UserAccount", function () {
         await subProfileFactory.waitForDeployment();
 
         const userAccountFactory = await hre.ethers.deployContract("UserAccountFactory", [subProfileFactory.target]);
-
+        await userAccountFactory.waitForDeployment();
         return {
             subProfileFactory,
             userAccountFactory,
@@ -40,25 +40,27 @@ describe("User, UserFactory + UserAccount", function () {
     });
 
     describe("Deployment of User", function () {
-        it("Should succesfully deploy a user", async function () {
-            const { userAccountFactory,addressZero, acc1 } = await loadFixture(deployUserAccountFactoryFixture);
+        it("Should succesfully deploy a userAccount", async function () {
+            const { userAccountFactory, addressZero, acc1 } = await loadFixture(deployUserAccountFactoryFixture);
             //No account created should return address(0)
             expect(await userAccountFactory.getUserAccount(acc1)).to.equal(addressZero);
-            
+
             //Create an account for acc1
             await userAccountFactory.connect(acc1).createUserAccount()
 
             const userAccountAddress = await userAccountFactory.getUserAccount(acc1);
-            //Should return the address of the account created for acc1
+
+            //the account created for acc1 should not be address(0) anymore
             expect(userAccountAddress).to.not.equal(addressZero);
+        });
 
-            //Get userAccount instance
+        it("Should have the caller address as user of the account", async function () {
+            const { userAccountFactory, acc1 } = await loadFixture(deployUserAccountFactoryFixture);
+            await userAccountFactory.connect(acc1).createUserAccount()
+            const userAccountAddress = await userAccountFactory.getUserAccount(acc1);
             const userAccount = await hre.ethers.getContractAt("SimpleUserAccount", userAccountAddress);
-
-            //User should be same address that created the account; acc1
             expect(await userAccount.user()).to.equal(acc1.address);
-
-            //
         });
     });
+
 });
