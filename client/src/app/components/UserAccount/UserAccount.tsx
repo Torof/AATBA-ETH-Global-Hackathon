@@ -1,9 +1,11 @@
-import useUserAccountFactory from "@hooks/useUserAccountFactory"
-
-import { Fragment } from "react"
+import { useUserAccountFactory, useSubProfileFactory, useSimpleContract } from "@hooks/index"
+import { Web3Button } from "@thirdweb-dev/react";
+import { ethers } from "ethers"
+import { Fragment, useState } from "react"
 import HashLoader from "react-spinners/HashLoader"
 import { SubProfile as SubProfileType } from "../../../../typings"
-import { CreateUserAccount, SubProfile, UserInfo } from "../index"
+import { CreateSubProfileTemplate, CreateUserAccount, Dropdown, SubProfile, UserInfo } from "../index"
+import { subProfileFactoryAbi } from "../../../../constants";
 
 type Props = {
     userAddress: string
@@ -19,8 +21,31 @@ const SUBPROFILES: SubProfileType[] = [
 const UserAccount = ({ userAddress }: Props) => {
     console.log(userAddress)
 
+    const [nameValue, setNameValue] = useState<string>("")
+    const [symbolValue, setSymbolValue] = useState<string>("")
+    const onNameChange = (event: any) => setNameValue(event.target.value)
+    const onSymbolChange = (event: any) => setSymbolValue(event.target.value)
+
     const [getUserAccount] = useUserAccountFactory()
     const userAccountResponse = getUserAccount()
+
+    // const [getSubProfileTemplateRegistryAddress] = useSubProfileFactory()
+    // const templateRegistryResponse = getSubProfileTemplateRegistryAddress()
+
+    const [getSubProfile] = useSimpleContract()
+    const subProfile = getSubProfile(0)
+
+    console.log("subProfile", subProfile)
+
+    const connectContract = async () => {
+        const contractAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+        const contractAbi = subProfileFactoryAbi
+
+        const provider = new ethers.providers.Web3Provider(window.ethereum)
+        const signer = provider.getSigner()
+        const contract = new ethers.Contract(contractAddress, contractAbi, signer)
+        console.log(contract)
+    }
 
     return userAccountResponse?.data === undefined ? (
         // ! No User Account available
@@ -40,7 +65,11 @@ const UserAccount = ({ userAddress }: Props) => {
             </div>
 
             {/* Show sub profiles, if any */}
-            <div className="mt-12 flex flex-wrap gap-4 px-4 w-screen max-w-5xl">
+            <div className="mt-12 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
+                <input type="text" name="name" placeholder="name" className="pl-4 rounded-lg" value={nameValue} onChange={(e) => onNameChange(e)} />
+                <input type="text" name="symbol" placeholder="symbol" className="pl-4 rounded-lg" value={symbolValue} onChange={(e) => onSymbolChange(e)} />
+                <CreateSubProfileTemplate name={nameValue} symbol={symbolValue} />
+
                 {SUBPROFILES.map((profile) => (
                     <Fragment key={profile.id}>
                         <SubProfile userAddress={userAddress} profile={profile} />
