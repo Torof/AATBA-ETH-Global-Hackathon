@@ -101,13 +101,15 @@ describe("EQUIP + Whitelisting", function () {
     });
 
     describe("EQUIP, using transfer and mint functions", function() {
-        it("Should be able receive and verify badge by minting", async function(){
+        it.only("Should be able receive and verify badge by minting", async function(){
             const{subProfileTBA, whitelistRegistry, equip, testNFT, acc1, addressZero} = await loadFixture(deploySubProfileNFTFixture);
             const testNFTAddress = await testNFT.getAddress();
             const subProfileTBAAddress = await subProfileTBA.getAddress();
+            console.log("NFT contract: ", testNFTAddress);
             await whitelistRegistry.requestForWhitelisting(testNFTAddress);
             await whitelistRegistry.addWhitelisterc(testNFTAddress);
             expect(await whitelistRegistry.getRequestStatus(testNFTAddress)).to.equal(1); // Verified status
+            console.log("Is whitelisted: ", await whitelistRegistry.isWhitelisted(testNFTAddress));
             await expect(testNFT.mint(subProfileTBAAddress)).to.emit(subProfileTBA,'AddedBadge').withArgs(subProfileTBAAddress,1, 1);
         });
 

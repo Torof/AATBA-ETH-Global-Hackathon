@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IERC1155} from "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import {IEQUIP} from "../interfaces/IEQUIP.sol";
+import "hardhat/console.sol";
 
 contract WhitelistRegistry is IEQUIP {
 
@@ -41,8 +42,12 @@ contract WhitelistRegistry is IEQUIP {
 
         if (IERC721(contractAddress).supportsInterface(type(IERC721).interfaceId)) {
             verificationRequests[contractAddress].verifiedStatus = verifyRequest.VERIFIED;
+            console.log("Whitelist Registry contract whitelisted: ", contractAddress);
+            console.log("Whitelist Registry Is whitelisted: ", isWhitelisted(contractAddress));
         } else if (IERC1155(contractAddress).supportsInterface(type(IERC1155).interfaceId)) {
             verificationRequests[contractAddress].verifiedStatus = verifyRequest.VERIFIED;
+            console.log("Whitelist Registry contract whitelisted: ", contractAddress);
+            console.log("Whitelist Registry Is whitelisted: ", isWhitelisted(contractAddress));
         } else {
             verificationRequests[contractAddress].verifiedStatus = verifyRequest.NOT_VERIFIED;
         }
@@ -54,6 +59,8 @@ contract WhitelistRegistry is IEQUIP {
         require(!verificationRequests[sender].requestExists, "Request already exists");
 
         verificationRequests[sender] = WhitelistRequest(true, verifyRequest.VERIFIED);
+        console.log("Whitelist Registry EOA whitelisted: ", sender);
+        console.log("Whitelist Registry Is whitelisted: ", isWhitelisted(sender));
     }
 
     // For testing purposes, to remove an EOA
