@@ -7,6 +7,7 @@ import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Recei
 import {IERC1155Receiver} from "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 import {IEQUIP} from "../interfaces/IEQUIP.sol";
 import {EQUIP} from "./EQUIP.sol";
+import "hardhat/console.sol";
 
 contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, IEQUIP, EQUIP {
 
@@ -30,7 +31,9 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, IEQ
         returns (bytes4)
     {
         emit ERC721Received(operator, from, tokenId, data);
-        Badge memory badge = verifyBadgeAndEquip(address(msg.sender), from, tokenId, data);
+        console.log("TBA onReceived: ", msg.sender);
+        console.log("TBA isWhitelisted: ", isWhitelisted(msg.sender));
+        Badge memory badge = verifyBadgeAndEquip(msg.sender, from, tokenId, data);
         subProfileBadges.push(badge);
         emit BadgeAdded(address(this), tokenId, badge.status);
         return IERC721Receiver.onERC721Received.selector;
