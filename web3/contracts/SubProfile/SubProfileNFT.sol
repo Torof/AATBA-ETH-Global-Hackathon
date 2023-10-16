@@ -4,7 +4,6 @@ pragma solidity ^0.8.0;
 
 import {IERC5192} from "../interfaces/IERC5192.sol";
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import {IERC1155} from "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import {Ownable2Step, Ownable} from "@openzeppelin/contracts/access/Ownable2Step.sol";
 
 
@@ -37,7 +36,8 @@ contract SubProfileNFT is Ownable2Step, ERC721, IERC5192 {
         super.transferFrom(from, to, tokenId);
     }
 
-    //IMPLEMENT signature verification?
+    //IMPLEMENT signature verification
+    //TODO write
     /**
      * @notice allow transfer for SBT token
      * @param tokenId token to unlock transfer for
@@ -64,7 +64,7 @@ contract SubProfileNFT is Ownable2Step, ERC721, IERC5192 {
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721) returns (bool) {
         return (
-            interfaceId == type(IERC1155).interfaceId ||
+            interfaceId == type(IERC5192).interfaceId ||
             super.supportsInterface(interfaceId)
         );
     }

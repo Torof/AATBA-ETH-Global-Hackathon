@@ -14,10 +14,17 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, IEQ
     event ERC721Received(address indexed operator, address indexed from, uint256 indexed tokenId, bytes data);
     event ERC1155Received(address indexed operator, address indexed from, uint256 indexed id, uint256 value, bytes data);
     event ERC1155BatchReceived(address indexed operator, address indexed from, uint256[] indexed ids, uint256[] values, bytes data);
-    event AddedBadge(address indexed userSubProfile, uint256 indexed tokenId, verifyRequest status);
+    event BadgeAdded(address indexed userSubProfile, uint256 indexed tokenId, verifyRequest status);
 
     Badge[] public subProfileBadges;
 
+    /**
+     * 
+     * @param operator address that initiated the transfer
+     * @param from address of the user the NFT comes from
+     * @param tokenId id of the NFT
+     * @param data additional data
+     */
     function onERC721Received(address operator, address from, uint256 tokenId, bytes calldata data)
         external 
         returns (bytes4)
@@ -25,10 +32,18 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, IEQ
         emit ERC721Received(operator, from, tokenId, data);
         Badge memory badge = verifyBadgeAndEquip(address(msg.sender), from, tokenId, data);
         subProfileBadges.push(badge);
-        emit AddedBadge(address(this), tokenId, badge.status);
+        emit BadgeAdded(address(this), tokenId, badge.status);
         return IERC721Receiver.onERC721Received.selector;
     }
 
+    /**
+     * 
+     * @param operator address that initiated the transfer
+     * @param from address of the user the NFT comes from
+     * @param id id of the NFT
+     * @param value number of NFTs transferred
+     * @param data additional data
+     */
     function onERC1155Received(address operator, address from, uint256 id, uint256 value, bytes calldata data)
         external
         returns (bytes4)
@@ -36,10 +51,17 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, IEQ
         emit ERC1155Received(operator, from, id, value, data);
         Badge memory badge = verifyBadgeAndEquip(operator, from, id, data);
         subProfileBadges.push(badge);
-        emit AddedBadge(address(this), id, badge.status);
+        emit BadgeAdded(address(this), id, badge.status);
         return IERC1155Receiver.onERC1155Received.selector;
     }
 
+    /**
+     * @param operator address that initiated the transfer
+     * @param from address of the user the NFT comes from
+     * @param ids ids of the NFTs
+     * @param values number of NFTs transferred
+     * @param data additional data
+     */
     function onERC1155BatchReceived(
         address operator,
         address from,
@@ -53,6 +75,11 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, IEQ
         return IERC1155Receiver.onERC1155BatchReceived.selector;
     }
 
+    /**
+     * @notice check if the contract supports an interface
+     * see {IERC165-supportsInterface}
+     * @param interfaceId id of the interface to check
+     */
     function supportsInterface(bytes4 interfaceId) external override(ERC6551Account, IERC165) pure returns (bool) {
         return (
             interfaceId == type(IERC165).interfaceId || 
@@ -63,5 +90,4 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver, IEQ
         );
     }
 
-    //IMPLEMENT: verify & equip functionnality - internal called by onReceived?
 }

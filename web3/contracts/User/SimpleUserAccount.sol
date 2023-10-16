@@ -24,7 +24,7 @@ contract SimpleUserAccount is IERC721Receiver {
 
     event ReceivedERC721(address indexed operator, address indexed from, uint256 indexed tokenId, bytes data);
 
-    event AddedSubProfile(address indexed userAccount, address indexed subProfile, uint256 indexed tokenId);
+    event SubProfileAdded(address indexed userAccount, address indexed subProfile, uint256 indexed tokenId);
 
     constructor(address _subProfileFactory, address user_) {
         subProfileFactory = SubProfileFactory(_subProfileFactory);
@@ -60,12 +60,12 @@ contract SimpleUserAccount is IERC721Receiver {
      */
     function createSubProfile(uint256 index) external returns(address subProfileTbaAddress, uint256 tokenId){
         require(msg.sender == _user, "only user can create subProfile");
-        verifyRegistryLengthOrFix();
+        _verifyRegistryLengthOrFix();
 
         (address subProfileTemplateAddress, , ) = subProfileTemplateRegistry.getSubProfileTemplate(index);
         (subProfileTbaAddress, tokenId) = subProfileFactory.createSubProfileForUser(msg.sender, subProfileTemplateAddress);
         subprofilesTokenIds[index] = tokenId;
-        emit AddedSubProfile(address(this), subProfileTbaAddress, tokenId);
+        emit SubProfileAdded(address(this), subProfileTbaAddress, tokenId);
     }
 
     /**
@@ -87,7 +87,7 @@ contract SimpleUserAccount is IERC721Receiver {
     /**
      * @notice verifies the length of the subProfileTemplateRegistry and fixes the subprofilesTokenIds array length if needed
      */
-    function verifyRegistryLengthOrFix() internal {
+    function _verifyRegistryLengthOrFix() internal {
         if(subprofilesTokenIds.length < subProfileTemplateRegistry.registryLength()){
             for(uint256 i = subprofilesTokenIds.length; i < subProfileTemplateRegistry.registryLength(); i++){
                 subprofilesTokenIds.push(0);

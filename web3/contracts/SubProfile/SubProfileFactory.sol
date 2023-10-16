@@ -13,12 +13,6 @@ contract SubProfileFactory is Ownable2Step {
     address public immutable subProfileTBAImplementation;
     uint256 public immutable chainId;
 
-    //CHECK maybe implement account verification instead of data structure?
-    //address of user => is allowed to mint
-    mapping(address => bool) private _allowlist;
-
-
-    //CHECK Can either deploy ProfileAccount and pass to constructor or deploy in constructor 
     constructor(address erc6551RegistryAddress_, address subProfileTBAImplementation_) Ownable(msg.sender) {
         //TBA is deployed in ERC6551Registry
         erc6551RegistryAddress = erc6551RegistryAddress_;
@@ -64,9 +58,8 @@ contract SubProfileFactory is Ownable2Step {
      * @return profileTypeContractAddress address of deployed profileTypeContract
      */
     function generateSubProfileTemplate(string memory name, string memory symbol) external onlyOwner() returns(address profileTypeContractAddress){
-        //IMPLEMENT: check address is allowed to create new profileType
 
-        //deploy new profileTypeContract
+        //deploy new subProfileTypeContract
         SubProfileNFT subProfile = new SubProfileNFT(name, symbol);
 
         //add to subProfileTemplateRegistry
@@ -87,10 +80,11 @@ contract SubProfileFactory is Ownable2Step {
         account_ = IERC6551Registry(erc6551RegistryAddress).account( subProfileTBAImplementation , chainId, subProfileTemplateAddress, tokenId, 0);
     }
 
+    /**
+     * @return _subProfileTemplateRegistryAddress address of subProfileTemplateRegistry
+     */
     function subProfileTemplateRegistryAddress() public view returns (address _subProfileTemplateRegistryAddress){
         _subProfileTemplateRegistryAddress = address(subProfileTemplateRegistry);
     }
 
-
-    //IMPLEMENT: function for ownership change of profileNFT for upgradeability
 } 
