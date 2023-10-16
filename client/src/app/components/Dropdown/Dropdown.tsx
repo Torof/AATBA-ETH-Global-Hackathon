@@ -4,6 +4,7 @@ import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu"
 import { Dispatch, useState, SetStateAction } from "react"
 import { AiOutlineShareAlt } from "react-icons/ai"
 
+
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@components/ui/dropdown-menu"
 
 type Checked = DropdownMenuCheckboxItemProps["checked"]
@@ -26,13 +27,13 @@ const Dropdown = ({ items, shareBtn, btnText, cn, state, setState }: Props) => {
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <div
-                    className={`${cn} flex items-center justify-center gap-2 rounded-full bg-muted-foreground/40 px-3 py-1 text-sm text-white hover:bg-muted-foreground`}
+                    className={`${cn} flex cursor-pointer items-center justify-center gap-2 rounded-full bg-muted-foreground/80 px-3 py-1 text-sm text-white hover:bg-muted-foreground/80 dark:hover:bg-secondary/80 dark:bg-secondary/50`}
                 >
                     {shareBtn ? (
-                        <>
-                            <span className="text-xs">Share</span>
+                        <div className="cursor-pointer">
+                            {/* <span className="text-xs">Share</span> */}
                             <AiOutlineShareAlt />
-                        </>
+                        </div>
                     ) : (
                         <span className="text-xs">{btnText}</span>
                     )}
@@ -43,8 +44,16 @@ const Dropdown = ({ items, shareBtn, btnText, cn, state, setState }: Props) => {
                 {/* <DropdownMenuSeparator /> */}
                 {items?.map((i) => (
                     // <DropdownMenuItem value={} >{i} </DropdownMenuItem>
-                    <DropdownMenuRadioGroup value={state} onValueChange={setState}>
-                        <option value={i}>{i}</option>
+                    <DropdownMenuRadioGroup key={i} value={state} onValueChange={setState}>
+                        <option
+                            onClick={() => {
+                                navigator.clipboard.writeText(i)
+                            }}
+                            className="mb-2 pl-4"
+                            value={i}
+                        >
+                            {i}
+                        </option>
                     </DropdownMenuRadioGroup>
                 ))}
 

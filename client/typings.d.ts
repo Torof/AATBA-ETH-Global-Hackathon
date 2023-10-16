@@ -12,5 +12,5 @@ export interface SubProfile {
     id: number
     name: string
     profilePic: string
-    contract: [] | SubProfileContract | undefined
+    contract: [] | SubProfileContract
 }

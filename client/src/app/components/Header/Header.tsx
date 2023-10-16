@@ -10,6 +10,7 @@ const Header = (props: Props) => {
     return (
         <>
             <div>
+                {/* logo */}
                 <div className=" mt-10">
                     <h1 className="ml-1 pl-4 text-5xl font-bold tracking-widest">
                         {" "}
