@@ -2,7 +2,7 @@ import { useSimpleContract, useUserAccountFactory } from "@hooks/index"
 import { Fragment, useEffect, useState } from "react"
 import HashLoader from "react-spinners/HashLoader"
 import { SubProfile as SubProfileType } from "../../../../typings"
-import { CreateUserAccount, SubProfile, UserInfo } from "../index"
+import { CreateUserAccount, SubProfile, Title, UserInfo } from "../index"
 
 type Props = {
     userAddress: string
@@ -23,10 +23,9 @@ const UserAccount = ({ userAddress }: Props) => {
     const work = getSubProfile(0)
     const hackathon = getSubProfile(1)
     const education = getSubProfile(2)
-
     // append the subProfile contract to the initial state
     useEffect(() => {
-        if (work.data && !work.isLoading && hackathon.data && !hackathon.isLoading && education.data && !education.isLoading) {
+        if ((work.data && !work.isLoading) || (hackathon.data && !hackathon.isLoading) || (education.data && !education.isLoading)) {
             const updatedArray = subProfiles.map((profile) => {
                 if (profile.name === "Work") {
                     return {
@@ -57,7 +56,6 @@ const UserAccount = ({ userAddress }: Props) => {
         }
     }, [work.data, hackathon.data, education.data])
 
-
     return userAccountResponse?.data === undefined ? (
         // ! No User Account available
         <div className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
@@ -77,12 +75,15 @@ const UserAccount = ({ userAddress }: Props) => {
 
             {/* Show sub profiles, if any */}
             <div className="mt-12 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
+                <Title title="My Profiles" cn="text-4xl font-semibold tracking-wide" />
                 <div className="flex flex-wrap gap-2">
-                    {subProfiles.map((profile) => (
-                        <Fragment key={profile.id}>
-                            <SubProfile userAddress={userAddress} profile={profile} contract={profile.contract} />
-                        </Fragment>
-                    ))}
+                    {subProfiles.map((profile) =>
+                        profile.name === "Create" || (profile.contract && profile.contract > []) ? (
+                            <Fragment key={profile.id}>
+                                <SubProfile userAddress={userAddress} profile={profile} contract={profile.contract} />
+                            </Fragment>
+                        ) : null,
+                    )}
                 </div>
                 {/* Are there any sub-profiles?? */}
                 {/* <UserAccountItem /> */}
