@@ -81,14 +81,6 @@ contract WhitelistRegistry {
         isVerified[contractAddress] = false;
     }
 
-    // function isWhitelisted(address contractAddress) public view returns(bool) {
-    //     if (verificationRequests[contractAddress].verifiedStatus == verifyRequest.VERIFIED) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-
     function getRequestStatus(address contractAddress) public view returns(verifyRequest) {
         return verifyStatus[contractAddress];
     }
