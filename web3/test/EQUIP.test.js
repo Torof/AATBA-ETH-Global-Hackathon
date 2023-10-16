@@ -5,23 +5,20 @@ const { anyValue } = require("@nomicfoundation/hardhat-chai-matchers/withArgs");
 const { expect } = require("chai");
 const hre = require("hardhat");
 
-describe("EQUIP + Whitelisting", function () {
+describe("Whitelist Registry Contract", function () {
     async function deploySubProfileNFTFixture() {
         const [acc1, acc2] = await ethers.getSigners();
         const addressZero = "0x0000000000000000000000000000000000000000"
 
-        const subProfileTBA = await hre.ethers.deployContract("SubProfileTBA");
+        const whitelistRegistry = await hre.ethers.deployContract("WhitelistRegistry");
+        await whitelistRegistry.waitForDeployment();
+        const whitelistRegistryAddress = await whitelistRegistry.getAddress();
+
+        const subProfileTBA = await hre.ethers.deployContract("SubProfileTBA", [whitelistRegistryAddress]);
         await subProfileTBA.waitForDeployment();
 
         const subProfileNFT = await hre.ethers.deployContract("SubProfileNFT",["Test", "TST"]);
         await subProfileNFT.waitForDeployment();
-
-        const whitelistRegistry = await hre.ethers.deployContract("WhitelistRegistry");
-        await whitelistRegistry.waitForDeployment();
-
-        const equip = await hre.ethers.deployContract("EQUIP");
-        await equip.waitForDeployment();
-        // const equipAddress = equip.target;
 
         const testNFT = await hre.ethers.deployContract("TestNFT");
         await testNFT.waitForDeployment();
@@ -30,11 +27,10 @@ describe("EQUIP + Whitelisting", function () {
             subProfileTBA,
             subProfileNFT,
             whitelistRegistry,
-            equip,
+            testNFT,
             addressZero,
             acc1,
-            acc2,
-            testNFT
+            acc2
         };
     }
 
@@ -50,6 +46,11 @@ describe("EQUIP + Whitelisting", function () {
             const { whitelistRegistry, acc1 } = await loadFixture(deploySubProfileNFTFixture);
             expect(await whitelistRegistry.Whitelister()).to.equal(await acc1.getAddress());
         });
+
+        it("Should set the right whitelistRegistry address in SubProfileTBA", async function () {
+            const { whitelistRegistry, subProfileTBA } = await loadFixture(deploySubProfileNFTFixture);
+            expect(await subProfileTBA.whitelistRegistryAddress()).to.equal(await whitelistRegistry.getAddress());
+        });        
     });
 
     describe("Checking Whitelist Registry contract", function () {
@@ -65,7 +66,7 @@ describe("EQUIP + Whitelisting", function () {
             await expect(whitelistRegistry.connect(acc2).addWhitelistEOA(acc2Address)).to.be.revertedWith('Only owner can call this function');
             await expect(whitelistRegistry.addWhitelistEOA(addressZero)).to.be.revertedWith('Invalid contract address');
             await whitelistRegistry.addWhitelistEOA(acc2Address);
-            expect(await whitelistRegistry.isWhitelisted(acc2Address)).to.true;
+            expect(await whitelistRegistry.isVerified(acc2Address)).to.true;
         });
 
         it("Should be able to request for whitelist and remove whitelist request", async function() {
@@ -95,26 +96,24 @@ describe("EQUIP + Whitelisting", function () {
             expect(await whitelistRegistry.getRequestStatus(subProfileNFTAddress)).to.equal(1); // Verified status
             await expect(whitelistRegistry.connect(acc2).removeFromWhitelistRequest(subProfileNFTAddress)).to.be.revertedWith('Only owner can remove these requests');
             await whitelistRegistry.removeWhitelist(subProfileNFTAddress);
-            expect(await whitelistRegistry.isWhitelisted(subProfileNFTAddress)).to.false;
+            expect(await whitelistRegistry.isVerified(subProfileNFTAddress)).to.false;
             expect(await whitelistRegistry.getRequestStatus(subProfileNFTAddress)).to.equal(3); // Removed status
         });
     });
 
-    describe("EQUIP, using transfer and mint functions", function() {
-        it.only("Should be able receive and verify badge by minting", async function(){
-            const{subProfileTBA, whitelistRegistry, equip, testNFT, acc1, addressZero} = await loadFixture(deploySubProfileNFTFixture);
+    describe("Add verified badges, using transfer and mint functions", function() {
+        it("Should be able receive and verify badge by minting", async function() {
+            const{subProfileTBA, whitelistRegistry, testNFT} = await loadFixture(deploySubProfileNFTFixture);
             const testNFTAddress = await testNFT.getAddress();
             const subProfileTBAAddress = await subProfileTBA.getAddress();
-            console.log("NFT contract: ", testNFTAddress);
             await whitelistRegistry.requestForWhitelisting(testNFTAddress);
             await whitelistRegistry.addWhitelisterc(testNFTAddress);
             expect(await whitelistRegistry.getRequestStatus(testNFTAddress)).to.equal(1); // Verified status
-            console.log("Is whitelisted: ", await whitelistRegistry.isWhitelisted(testNFTAddress));
-            await expect(testNFT.mint(subProfileTBAAddress)).to.emit(subProfileTBA,'AddedBadge').withArgs(subProfileTBAAddress,1, 1);
+            await expect(testNFT.mint(subProfileTBAAddress)).to.emit(subProfileTBA,'BadgeAdded').withArgs(subProfileTBAAddress, 1);
         });
 
         it("Should fail to transfer SBT to another account after minting", async function(){
-            const{subProfileTBA, whitelistRegistry, equip, testNFT, acc1, acc2} = await loadFixture(deploySubProfileNFTFixture);
+            const{subProfileTBA, whitelistRegistry, testNFT, acc2} = await loadFixture(deploySubProfileNFTFixture);
             const acc2Address = await acc2.getAddress();
             const subProfileTBAAddress = await subProfileTBA.getAddress();
             await whitelistRegistry.addWhitelistEOA(acc2Address);
