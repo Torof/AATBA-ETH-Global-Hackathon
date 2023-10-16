@@ -1,20 +1,61 @@
 "use client"
 
-import { CreateSubProfile } from "@root/app/components"
-import { Button } from "@root/app/components/ui/button"
+import { CreateSubProfile, CreateSubProfileTemplate } from "@root/app/components"
+import { useState } from "react"
 
 type Props = {
     params: { address: string }
     searchParams: { [key: string]: string | string[] | undefined }
 }
 
-const page = ({ params: { address }, searchParams}: Props) => {
-    console.log(address)
-    
+const page = ({ params: { address }, searchParams }: Props) => {
+    const [templateValue, setTemplateValue] = useState<number>()
+    const onTemplateChange = (event: any) => setTemplateValue(event.target.value)
+
+    const [simpleAccountAddress, setSimpleAccountAddress] = useState<string>("")
+    const onSimpleAccountAddressChange = (event: any) => setSimpleAccountAddress(event.target.value)
+
+    const [nameValue, setNameValue] = useState<string>("")
+    const onNameChange = (event: any) => setNameValue(event.target.value)
+
+    const [symbolValue, setSymbolValue] = useState<string>("")
+    const onSymbolChange = (event: any) => setSymbolValue(event.target.value)
+
     return (
-        <div className="flex h-screen flex-col items-center justify-center">
-            <h1 className="text-3xl text-muted-foreground">New Sub-Profile {address}</h1>
-            <CreateSubProfile to={address} subProfileTemplateAddress="0x" />
+        <div className="flex flex-col items-center justify-center">
+            <div>
+                <h1 className="text-center text-3xl text-muted-foreground">New Sub-Profile</h1>
+            </div>
+            <div className="mt-12 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="name"
+                    className="max-w-lg flex-1 rounded-lg pl-4"
+                    value={nameValue}
+                    onChange={(e) => onNameChange(e)}
+                />
+                <input
+                    type="text"
+                    name="symbol"
+                    placeholder="symbol"
+                    className="max-w-lg flex-1 rounded-lg pl-4"
+                    value={symbolValue}
+                    onChange={(e) => onSymbolChange(e)}
+                />
+                <CreateSubProfileTemplate name={nameValue} symbol={symbolValue} />
+            </div>
+            <div className="mt-12 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
+                <input
+                    type="text"
+                    name="simpleAccountAddress"
+                    placeholder="0x00000000000000000"
+                    className="max-w-5xl flex-1 rounded-lg pl-4"
+                    value={simpleAccountAddress}
+                    onChange={(e) => onSimpleAccountAddressChange(e)}
+                />
+                <CreateSubProfile templateIndex={templateValue!} contractAddress={process.env.NEXT_PUBLIC_PUBLIC_WALLET_ADDRESS!} />
+            </div>
         </div>
     )
 }

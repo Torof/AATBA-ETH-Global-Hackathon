@@ -16,9 +16,9 @@ const Header = (props: Props) => {
                         <span>AA</span>
                         <span className="text-muted-foreground">TBA</span>
                     </h1>
-                    <div className="flex ">
-                        <h6 className="pl-4 text-[0.5rem] tracking-wider text-muted-foreground"> account abstraction </h6>
-                        <h6 className="pl-4 text-[0.5rem] tracking-wider text-muted-foreground"> token based accounts </h6>
+                    <div className="flex justify-center items-center">
+                        <h6 className="text-center flex-1 pl-5 text-[0.5rem] tracking-[1.25rem] text-muted-foreground"> 4337 </h6>
+                        <h6 className="text-left flex-1 pl-2 text-[0.5rem] tracking-[1.25rem] text-muted-foreground"> 6551 </h6>
                     </div>
                 </div>
             </div>

@@ -18,32 +18,11 @@ const useSubProfileFactory = () => {
         return
     }, [address])
 
-    const createSubProfileForUser = () => {
-        const { contract } = useContract(process.env.NEXT_PUBLIC_SUB_PROFILE_FACTORY_ADDRESS)
-        const { mutateAsync: createSubProfileForUser, isLoading } = useContractWrite(contract, "createSubProfileForUser")
-
-        const call = async () => {
-            try {
-                const data = await createSubProfileForUser({ args: [userAddress, subProfileTemplateAddress] })
-                console.info("contract call successs", data)
-            } catch (err) {
-                console.error("contract call failure", err)
-            }
-        }
-        console.log(call)
-    }
-
     const getSubProfileTemplateRegistryAddress = () => {
         const { contract } = useContract(process.env.NEXT_PUBLIC_SUB_PROFILE_FACTORY_ADDRESS) // SubProfileFactory address
         const { data, isLoading } = useContractRead(contract, "subProfileTemplateRegistryAddress", [])
 
         return { data, isLoading }
-    }
-
-    const getSubProfileTemplateTokenId = () => {
-        // from tokenIds[] retrieve the tokenId at index of the subProfileTemplate you need
-        // use this tokenId in conjonction with the index
-        // as arguments for tbaAccount(uint256 index, uint256 tokenId)
     }
 
     const getTBAAccount = () => {

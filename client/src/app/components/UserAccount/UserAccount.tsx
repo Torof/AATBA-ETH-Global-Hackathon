@@ -1,51 +1,62 @@
-import { useUserAccountFactory, useSubProfileFactory, useSimpleContract } from "@hooks/index"
-import { Web3Button } from "@thirdweb-dev/react";
-import { ethers } from "ethers"
-import { Fragment, useState } from "react"
+import { useSimpleContract, useUserAccountFactory } from "@hooks/index"
+import { Fragment, useEffect, useState } from "react"
 import HashLoader from "react-spinners/HashLoader"
 import { SubProfile as SubProfileType } from "../../../../typings"
-import { CreateSubProfileTemplate, CreateUserAccount, Dropdown, SubProfile, UserInfo } from "../index"
-import { subProfileFactoryAbi } from "../../../../constants";
+import { CreateUserAccount, SubProfile, UserInfo } from "../index"
 
 type Props = {
     userAddress: string
 }
 
-const SUBPROFILES: SubProfileType[] = [
-    // { id: 0, name: "Jobs", profilePic: "/jobs.png" },
-    // { id: 1, name: "Contest", profilePic: "/contest.png" },
-    // { id: 2, name: "Education", profilePic: "/education.png" },
-    // { id: 3, name: "Create", profilePic: "/create.png" },
-]
-
 const UserAccount = ({ userAddress }: Props) => {
-    console.log(userAddress)
-
-    const [nameValue, setNameValue] = useState<string>("")
-    const [symbolValue, setSymbolValue] = useState<string>("")
-    const onNameChange = (event: any) => setNameValue(event.target.value)
-    const onSymbolChange = (event: any) => setSymbolValue(event.target.value)
+    const [subProfiles, setSubProfiles] = useState<SubProfileType[]>([
+        { id: 0, name: "Work", profilePic: "/jobs.png", contract: [] },
+        { id: 1, name: "Hackathon", profilePic: "/contest.png", contract: [] },
+        { id: 2, name: "Education", profilePic: "/education.png", contract: [] },
+        { id: 3, name: "Create", profilePic: "/create.png", contract: [] },
+    ])
 
     const [getUserAccount] = useUserAccountFactory()
     const userAccountResponse = getUserAccount()
 
-    // const [getSubProfileTemplateRegistryAddress] = useSubProfileFactory()
-    // const templateRegistryResponse = getSubProfileTemplateRegistryAddress()
-
     const [getSubProfile] = useSimpleContract()
-    const subProfile = getSubProfile(0)
+    const work = getSubProfile(0)
+    const hackathon = getSubProfile(1)
+    const education = getSubProfile(2)
 
-    console.log("subProfile", subProfile)
+    // append the subProfile contract to the initial state
+    useEffect(() => {
+        if (work.data && !work.isLoading && hackathon.data && !hackathon.isLoading && education.data && !education.isLoading) {
+            const updatedArray = subProfiles.map((profile) => {
+                if (profile.name === "Work") {
+                    return {
+                        ...profile,
+                        contract: work.data,
+                    }
+                }
+                if (profile.name === "Hackathon") {
+                    return {
+                        ...profile,
+                        contract: hackathon.data,
+                    }
+                }
+                if (profile.name === "Education") {
+                    return {
+                        ...profile,
+                        contract: education.data,
+                    }
+                } else if (profile.name === "Create") {
+                    return {
+                        ...profile,
+                    }
+                }
+                return profile
+            })
+            console.log(updatedArray)
+            setSubProfiles(updatedArray)
+        }
+    }, [work.data, hackathon.data, education.data])
 
-    const connectContract = async () => {
-        const contractAddress = "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
-        const contractAbi = subProfileFactoryAbi
-
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-        const signer = provider.getSigner()
-        const contract = new ethers.Contract(contractAddress, contractAbi, signer)
-        console.log(contract)
-    }
 
     return userAccountResponse?.data === undefined ? (
         // ! No User Account available
@@ -66,15 +77,13 @@ const UserAccount = ({ userAddress }: Props) => {
 
             {/* Show sub profiles, if any */}
             <div className="mt-12 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
-                <input type="text" name="name" placeholder="name" className="pl-4 rounded-lg" value={nameValue} onChange={(e) => onNameChange(e)} />
-                <input type="text" name="symbol" placeholder="symbol" className="pl-4 rounded-lg" value={symbolValue} onChange={(e) => onSymbolChange(e)} />
-                <CreateSubProfileTemplate name={nameValue} symbol={symbolValue} />
-
-                {SUBPROFILES.map((profile) => (
-                    <Fragment key={profile.id}>
-                        <SubProfile userAddress={userAddress} profile={profile} />
-                    </Fragment>
-                ))}
+                <div className="flex flex-wrap gap-2">
+                    {subProfiles.map((profile) => (
+                        <Fragment key={profile.id}>
+                            <SubProfile userAddress={userAddress} profile={profile} contract={profile.contract} />
+                        </Fragment>
+                    ))}
+                </div>
                 {/* Are there any sub-profiles?? */}
                 {/* <UserAccountItem /> */}
                 {/* Show Tile with an NFT, representing an Sub-Profile */}

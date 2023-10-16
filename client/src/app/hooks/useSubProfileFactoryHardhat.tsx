@@ -62,8 +62,8 @@ const useSubProfileFactory = () => {
 
     let contract: Contract;
     const connectContract = async () => {
-        const contractAddress = subProfileFactoryAbi
-        const contractAbi = subProfileFactoryAddress
+        const contractAddress = subProfileFactoryAddress
+        const contractAbi = subProfileFactoryAbi
 
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const signer = provider.getSigner()
@@ -71,11 +71,10 @@ const useSubProfileFactory = () => {
         console.log(contract)
     }
     
-    const getDataFromContract = async () => {
-        const res = await contract.SubProfileFactory()
+    const getUserAccount = async () => {
+        const res = await contract.getUserAccount()
         setContractData(res)
-        console.log("state", contractData);
-        
+        console.log("state", contractData)
     }
 
     const setDataFromContract = async () => {
