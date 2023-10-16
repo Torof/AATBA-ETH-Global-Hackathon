@@ -1,5 +1,5 @@
 import { Web3Button } from "@thirdweb-dev/react"
-import { simpleUserAccountAbi } from "../../../../constants";
+// import { simpleUserAccountAbi } from "../../../../constants";
 
 type Props = {
     templateIndex: number;
@@ -11,7 +11,7 @@ const CreateSubProfile = ({ templateIndex, contractAddress }: Props) => {
 
     return (
         <Web3Button
-            contractAbi={simpleUserAccountAbi}
+            // contractAbi={simpleUserAccountAbi}
             // TODO: DYNAMIC ADDRESS
             contractAddress={process.env.NEXT_PUBLIC_SIMPLE_USER_ACCOUNT!}
             // contractAddress={contractAddress}

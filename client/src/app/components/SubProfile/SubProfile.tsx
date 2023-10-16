@@ -6,7 +6,7 @@ type Props = {
     profile: SubProfile
     cn?: string
     userAddress: string
-    contract: SubProfileContract
+    contract: any
 }
 
 const SubProfile = ({ profile, cn, userAddress, contract }: Props) => {
