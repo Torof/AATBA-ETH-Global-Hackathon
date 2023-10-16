@@ -1,19 +1,20 @@
-import { Web3Button } from "@thirdweb-dev/react";
+import { Web3Button } from "@thirdweb-dev/react"
 
 type Props = {
-    to: string
-    subProfileTemplateAddress: string;
+    templateIndex: number
 }
 
-const CreateSubProfile = ({ to, subProfileTemplateAddress }: Props) => {
+const CreateSubProfile = ({ templateIndex }: Props) => {
+    const index = templateIndex
+
     return (
         <Web3Button
-            contractAddress="0xe0BafCA03141126bcf402BDaf7020Ac9939E1297"
+            contractAddress="0x710b79d14F9E98286fA781BdCa8eC839a5A4c437"
             action={(contract) => {
-                contract.call("createSubProfileForUser", [to, subProfileTemplateAddress])
+                contract.call("createSubProfile", [index])
             }}
         >
-            Create Sub Profile
+            createSubProfile
         </Web3Button>
     )
 }
