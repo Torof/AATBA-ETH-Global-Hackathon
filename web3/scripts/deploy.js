@@ -18,7 +18,7 @@ async function main() {
 
   //That's the implemntation of the TBA subprofile. 
   //We need to deploy it as long as we're creating our own version.
-  //We mi=ay use the official one deployed on mainnet in the future, we'll talk about that later
+  //We may use the official one deployed on mainnet in the future, we'll talk about that later
   const subProfileTBA = await hre.ethers.deployContract("SubProfileTBA");
   await subProfileTBA.waitForDeployment();
   const subProfileTBAAddress = subProfileTBA.target;

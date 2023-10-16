@@ -60,10 +60,10 @@ describe("AATBA - App", function () {
     describe("user flow", function () {
 
         it("Should create subprofile", async function () {
-            const { userAccount1, sbtNFTCollection, subProfileTemplateRegistry } = await loadFixture(deployAATBAFixture);
+            const { userAccount1, sbtNFTCollection, subProfileTemplateRegistry, addr1 } = await loadFixture(deployAATBAFixture);
 
             //create a subProfile of template at index 1
-            await userAccount1.createSubProfile(1);
+            await userAccount1.connect(addr1).createSubProfile(1);
 
             //get subProfile structure
             const subProfile1 = await userAccount1.getSubProfile(1);
