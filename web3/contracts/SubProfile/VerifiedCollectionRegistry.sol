@@ -4,7 +4,9 @@ pragma solidity ^0.8.0;
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IERC1155} from "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 
-contract WhitelistRegistry {
+contract VerifiedCollectionRegistry {
+
+   // WARNING for now we cannot traverse the mapping, so we cannot get a list of all verified contracts, maybe use double mapping to get around this?
 
     enum verifyRequest {
         REQUESTED,
@@ -16,18 +18,18 @@ contract WhitelistRegistry {
     // mapping(address => WhitelistRequest) public verificationRequests;
     mapping(address => bool) public isVerified;
     mapping(address => verifyRequest) public verifyStatus;
-    address immutable public Whitelister;
+    address immutable public Verifier;
 
-    modifier onlyWhitelister() {
-        require(msg.sender == Whitelister, "Only owner can call this function");
+    modifier onlyVerifier() {
+        require(msg.sender == Verifier, "Only owner can call this function");
         _;
     }
 
     constructor() {
-        Whitelister = msg.sender;
+        Verifier = msg.sender;
     }
 
-    function requestForWhitelisting(address contractAddress) public {
+    function requestForVerification(address contractAddress) public {
         require(contractAddress != address(0), "Invalid contract address");
         require(isContract(contractAddress), "Address is not a contract address");
         require(!isVerified[contractAddress], "Address already verified");
@@ -35,14 +37,14 @@ contract WhitelistRegistry {
         verifyStatus[contractAddress] = verifyRequest.REQUESTED;
     }
 
-    function removeFromWhitelistRequest(address contractAddress) public {
+    function removeFromVerificationRequest(address contractAddress) public {
         require(verifyStatus[contractAddress] != verifyRequest.REMOVED, "Request already removed");
         require(!isVerified[contractAddress], "Only owner can remove these requests");
 
         verifyStatus[contractAddress] = verifyRequest.REMOVED;
     }
 
-    function addWhitelisterc(address contractAddress) public onlyWhitelister() {
+    function addVerifiedCollection(address contractAddress) public onlyVerifier() {
         require(verifyStatus[contractAddress] == verifyRequest.REQUESTED, "Request does not exist");
         require(!isVerified[contractAddress], "Address is already verified");
 
@@ -58,7 +60,7 @@ contract WhitelistRegistry {
     }
 
     // For testing purposes, to add a trusted EOA
-    function addWhitelistEOA(address sender) public onlyWhitelister() {
+    function addVerificationEOA(address sender) public onlyVerifier() {
         require(sender != address(0), "Invalid contract address");
         require(!isVerified[sender], "Request already verified");
 
@@ -67,14 +69,14 @@ contract WhitelistRegistry {
     }
 
     // For testing purposes, to remove an EOA
-    function removeWhitelistEOA(address sender) public onlyWhitelister() {
+    function removeVerificationEOA(address sender) public onlyVerifier() {
         require(isVerified[sender], "Request does not exist");
 
         verifyStatus[sender] = verifyRequest.REMOVED;
         isVerified[sender] = false;
     }
 
-    function removeWhitelist(address contractAddress) public onlyWhitelister() {
+    function removeVerification(address contractAddress) public onlyVerifier() {
         require(isVerified[contractAddress], "Request does not exist");
 
         verifyStatus[contractAddress] = verifyRequest.REMOVED;

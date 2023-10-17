@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 import "../ERC6551/ERC6551Account.sol";
 import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import {IERC1155Receiver} from "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
-import {WhitelistRegistry} from "./WhitelistRegistry.sol";
+import {VerifiedCollectionRegistry} from "./VerifiedCollectionRegistry.sol";
 
 contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver {
 
@@ -23,12 +23,12 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver {
     event BadgeAdded(address indexed userSubProfile, uint256 indexed tokenId);
 
     Badge[] public subProfileBadges;
-    address immutable public whitelistRegistryAddress;
-    WhitelistRegistry whitelistRegistry;
+    address immutable public verifiedCollectionRegistryAddress;
+    VerifiedCollectionRegistry verifedCollectionRegistry;
 
     constructor(address _whitelistRegistryAddress) {
-        whitelistRegistryAddress = _whitelistRegistryAddress;
-        whitelistRegistry = WhitelistRegistry(whitelistRegistryAddress);
+        verifiedCollectionRegistryAddress = _whitelistRegistryAddress;
+        verifedCollectionRegistry = VerifiedCollectionRegistry(verifiedCollectionRegistryAddress);
     }
 
     /**
@@ -43,7 +43,7 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver {
         returns (bytes4)
     {
         emit ERC721Received(operator, from, tokenId, data);
-        require(whitelistRegistry.isVerified(msg.sender), "Contract is not whitelisted");
+        require(verifedCollectionRegistry.isVerified(msg.sender), "Contract is not whitelisted");
         Badge memory badge = Badge(msg.sender, from, tokenId, data);
         subProfileBadges.push(badge);
         emit BadgeAdded(address(this), tokenId);
@@ -63,7 +63,7 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver {
         returns (bytes4)
     {
         emit ERC1155Received(operator, from, id, value, data);
-        require(whitelistRegistry.isVerified(msg.sender), "Contract is not whitelisted");
+        require(verifedCollectionRegistry.isVerified(msg.sender), "Contract is not whitelisted");
         Badge memory badge = Badge(msg.sender, from, id, data);
         subProfileBadges.push(badge);
         emit BadgeAdded(address(this), id);

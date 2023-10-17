@@ -16,12 +16,31 @@ async function main() {
   await erc6551Registry.waitForDeployment();
   const erc6551RegistryAddress = erc6551Registry.target;
 
+  //Deploy a VerifiedCollectionRegistry for the accepted collections to receive NFTs from in the SubProfileTBA
+  const verifiedCollectionRegistry = await hre.ethers.deployContract("VerifiedCollectionRegistry");
+  await verifiedCollectionRegistry.waitForDeployment();
+  const verifiedCollectionRegistryAddress = verifiedCollectionRegistry.target;
+
   //That's the implemntation of the TBA subprofile. 
   //We need to deploy it as long as we're creating our own version.
   //We may use the official one deployed on mainnet in the future, we'll talk about that later
-  const subProfileTBA = await hre.ethers.deployContract("SubProfileTBA");
+  const subProfileTBA = await hre.ethers.deployContract("SubProfileTBA", [verifiedCollectionRegistryAddress]);
   await subProfileTBA.waitForDeployment();
   const subProfileTBAAddress = subProfileTBA.target;
+
+  //Deploy two dummy NFT SBT contracts for testing purposes
+  const sbt1 = await hre.ethers.deployContract("TestNFT"); 
+  await sbt1.waitForDeployment();
+  const sbt1Address = sbt1.target;
+  const sbt2 = await hre.ethers.deployContract("TestNFT");
+  await sbt2.waitForDeployment();
+  const sbt2Address = sbt2.target;
+
+  //Register the two dummy NFT SBT contracts in the VerifiedCollectionRegistry
+  await verifiedCollectionRegistry.requestForVerification(sbt1Address);
+  await verifiedCollectionRegistry.requestForVerification(sbt2Address);
+  await verifiedCollectionRegistry.addVerifiedCollection(sbt1Address);
+  await verifiedCollectionRegistry.addVerifiedCollection(sbt2Address);
 
   //This is the factory that will create the subprofiles.
   const subProfileFactory = await hre.ethers.deployContract("SubProfileFactory", [erc6551RegistryAddress, subProfileTBAAddress]); 
@@ -47,7 +66,10 @@ async function main() {
     SubProfileTBA deployed to: ${subProfileTBA.target},
     SubProfileFactory deployed to: ${subProfileFactory.target},
     UserAccountFactory deployed to: ${userAccountFactory.target}
-    subProfileTemplateRegistryAddress: ${subProfileTemplateRegistryAddress}
+    subProfileTemplateRegistryAddress: ${subProfileTemplateRegistryAddress},
+    verifiedCollectionRegistryAddress: ${verifiedCollectionRegistryAddress},
+    sbt1Address: ${sbt1Address},
+    sbt2Address: ${sbt2Address}
     `
   );
 }
