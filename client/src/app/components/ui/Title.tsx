@@ -1,12 +1,12 @@
-import { FC } from "react"
+import { toTitleCase } from "@root/app/utils/helperFunctions"
 
 type Props = {
     title: string
     cn?: string
 }
 
-const Title: FC<Props> = ({ title, cn }) => {
-    return <h2 className={`${cn} font-bold text-muted-foreground`}>{title}</h2>
+const Title = ({ title, cn }: Props) => {
+    return <h2 className={`${cn} font-bold text-muted-foreground`}>{toTitleCase(title)}</h2>
 }
 
 export default Title

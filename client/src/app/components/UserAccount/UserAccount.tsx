@@ -59,20 +59,20 @@ const UserAccount = ({ userAddress }: Props) => {
         }
     }, [work.data || !work.isLoading, hackathon.data || !hackathon.isLoading, education.data || !education.isLoading])
 
-    return userAccountResponse?.data === undefined ? (
-        // * No User Account available
-        <section className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
-            <CreateUserAccount />
-        </section>
-    ) : userAccountResponse && userAccountResponse.isLoading && !userAccountResponse.data ? (
+    return userAccountResponse && userAccountResponse.isLoading ? (
         // * Still loading..
         <section className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
             <HashLoader color="#FF8F5F" />
         </section>
+    ) : userAccountResponse?.data === undefined ? (
+        // * No User Account available
+        <section className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+            <CreateUserAccount />
+        </section>
     ) : userAccountResponse && !userAccountResponse.isLoading && userAccountResponse.data !== "0x0000000000000000000000000000000000000000" ? (
         // User Account available with valid address
         // Show sub profiles, if any
-        <section className="container">
+        <section className="container w-screen max-w-6xl">
             <PageBanner userAccountResponse={userAccountResponse} />
             <Title title="My Profiles" cn="text-4xl font-semibold tracking-wide mt-12 pl-4" />
             <SubProfiles userAddress={userAddress} subProfiles={subProfiles} />

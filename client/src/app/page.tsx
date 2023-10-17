@@ -10,10 +10,10 @@ export default function Home() {
 
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-12">
-            <section>
+            <>
                 {/* Login to wallet */}
                 {!userAddress ? (
-                    <div className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+                    <section className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
                         <ConnectWallet
                             btnTitle="Connect Wallet"
                             displayBalanceToken={"false"}
@@ -23,14 +23,13 @@ export default function Home() {
                                 align: "center",
                             }}
                         />
-                    </div>
+                    </section>
                 ) : (
-                    // <div> Please Sign In using a Wallet or Login </div>
-                    <div className="">
+                    <>
                         <UserAccount userAddress={userAddress} />
-                    </div>
+                    </>
                 )}
-            </section>
+            </>
         </main>
     )
 }
