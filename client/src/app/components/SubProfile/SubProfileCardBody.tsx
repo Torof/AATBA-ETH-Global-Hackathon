@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { SubProfileFooter } from ".."
+import { SubProfileCardFooter } from ".."
 import { SubProfile } from "../../../../typings"
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
     userAddress: string
 }
 
-const SubProfileBody = ({ profile, cn, userAddress }: Props) => {
+const SubProfileCardBody = ({ profile, cn, userAddress }: Props) => {
     // const navigateTo = useRouter().push
 
     return (
@@ -23,11 +23,13 @@ const SubProfileBody = ({ profile, cn, userAddress }: Props) => {
                     alt="#"
                 />
                 <div className="">
-                    <SubProfileFooter cn={"hidden group-hover:block absolute group-hover:bottom-0 transition group-hover:duration-150 ease-in-out"} />
+                    <SubProfileCardFooter
+                        cn={"hidden group-hover:block absolute group-hover:bottom-0 transition group-hover:duration-150 ease-in-out"}
+                    />
                 </div>
             </div>
         </Link>
     )
 }
 
-export default SubProfileBody
+export default SubProfileCardBody

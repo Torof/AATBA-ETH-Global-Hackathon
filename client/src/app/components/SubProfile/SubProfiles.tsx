@@ -1,5 +1,6 @@
 import { Fragment } from "react"
-import { SubProfile } from ".."
+import { SubProfileCard } from ".."
+import { SubProfile } from "../../../../typings"
 
 type Props = {
     subProfiles: SubProfile[]
@@ -13,7 +14,7 @@ const SubProfiles = ({ subProfiles, userAddress }: Props) => {
                 {subProfiles.map((profile) =>
                     profile.name === "Create" || (profile.contract && profile.contract > []) ? (
                         <Fragment key={profile.id}>
-                            <SubProfile userAddress={userAddress} profile={profile} contract={profile.contract} />
+                            <SubProfileCard userAddress={userAddress} profile={profile} contract={profile.contract} />
                         </Fragment>
                     ) : null,
                 )}

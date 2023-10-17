@@ -10,7 +10,7 @@ type Props = {
     contract: SubProfileContract
 }
 
-const SubProfileHeader = ({ profile, contract }: Props) => {
+const SubProfileCardHeader = ({ profile, contract }: Props) => {
     return (
         <div className="absolute top-0 z-10 flex h-[65px] w-full items-center justify-between rounded-t-3xl backdrop-blur-md">
             {profile.id === 0 ? (
@@ -22,7 +22,10 @@ const SubProfileHeader = ({ profile, contract }: Props) => {
             ) : (
                 <GrMagic className="ml-4 text-muted-foreground dark:text-secondary/70" />
             )}
-            <Title title={contract && contract.name ? contract.name : "Create" } cn="absolute top-[4.5] left-10 text-muted-foreground dark:text-secondary/70 tracking-widest" />
+            <Title
+                title={contract && contract.name ? contract.name : "Create"}
+                cn="absolute top-[4.5] left-10 text-muted-foreground dark:text-secondary/70 tracking-widest"
+            />
             <div className="mr-4">
                 <Dropdown items={["etherscan", "IPFS"]} shareBtn={true} />
             </div>
@@ -30,4 +33,4 @@ const SubProfileHeader = ({ profile, contract }: Props) => {
     )
 }
 
-export default SubProfileHeader
+export default SubProfileCardHeader
