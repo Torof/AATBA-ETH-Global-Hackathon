@@ -20,7 +20,7 @@ const PageBanner = ({ userAccountResponse, cn, subProfile }: Props) => {
         <div>
             {/* banner */}
             <div
-                className={`${cn} relative z-10 mx-auto h-64 max-w-6xl rounded-3xl bg-[url('/${subProfile.toLowerCase()}.png')] border border-blue-300`}
+                className={`${cn} relative z-10 mx-auto h-64 max-w-6xl rounded-3xl`}
             ></div>
             <div className="absolute left-0 right-0 top-0 z-20 mx-auto h-64 w-screen max-w-6xl rounded-3xl backdrop-blur-lg backdrop-brightness-110"></div>
             <Image
