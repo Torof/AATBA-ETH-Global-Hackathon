@@ -1,11 +1,19 @@
-import React from "react";
+import { UserInfo } from ".."
 
-type Props = {};
+type Props = {
+    userAccountResponse: {
+        data: string
+        isLoading: boolean
+    }
+    cn?: string
+}
 
-const PageBanner = (props: Props) => {
-  return <div className="">
-    
-  </div>;
-};
+const PageBanner = ({ userAccountResponse, cn }: Props) => {
+    return (
+        <div className={`${cn} mx-4 flex flex-col gap-5 rounded-3xl`}>
+            <UserInfo user={userAccountResponse.data} />
+        </div>
+    )
+}
 
-export default PageBanner;
+export default PageBanner

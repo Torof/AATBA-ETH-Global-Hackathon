@@ -1,8 +1,8 @@
 import { useSimpleContract, useUserAccountFactory } from "@hooks/index"
-import { Fragment, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import HashLoader from "react-spinners/HashLoader"
 import { SubProfile as SubProfileType } from "../../../../typings"
-import { CreateUserAccount, SubProfile, Title, UserInfo } from "../index"
+import { CreateUserAccount, PageBanner, SubProfiles, Title } from "../index"
 
 type Props = {
     userAddress: string
@@ -19,12 +19,12 @@ const UserAccount = ({ userAddress }: Props) => {
     const [getUserAccount] = useUserAccountFactory()
     const userAccountResponse = getUserAccount()
 
+    // get data from smart contract
     const [getSubProfile] = useSimpleContract()
     const work = getSubProfile(0)
     const hackathon = getSubProfile(1)
     const education = getSubProfile(2)
-    console.log(work, hackathon, education);
-    
+
     // append the subProfile contract to the initial state
     useEffect(() => {
         if ((work.data && !work.isLoading) || (hackathon.data && !hackathon.isLoading) || (education.data && !education.isLoading)) {
@@ -53,53 +53,35 @@ const UserAccount = ({ userAddress }: Props) => {
                 }
                 return profile
             })
-            console.log(updatedArray)
+            console.log("subProfiles from smart contract:", updatedArray)
+            // set the state
             setSubProfiles(updatedArray)
         }
-    }, [work.data, hackathon.data, education.data])
+    }, [work.data || !work.isLoading, hackathon.data || !hackathon.isLoading, education.data || !education.isLoading])
 
     return userAccountResponse?.data === undefined ? (
-        // ! No User Account available
-        <div className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+        // * No User Account available
+        <section className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
             <CreateUserAccount />
-        </div>
+        </section>
     ) : userAccountResponse && userAccountResponse.isLoading && !userAccountResponse.data ? (
-        // ! Still loading..
-        <div className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+        // * Still loading..
+        <section className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
             <HashLoader color="#FF8F5F" />
-        </div>
+        </section>
     ) : userAccountResponse && !userAccountResponse.isLoading && userAccountResponse.data !== "0x0000000000000000000000000000000000000000" ? (
-        // ! User Account available with valid address
-        <div className="container">
-            <div className="mx-4 flex flex-col gap-5 rounded-3xl">
-                <UserInfo user={userAccountResponse.data} />
-            </div>
-
-            {/* Show sub profiles, if any */}
-                <Title title="My Profiles" cn="text-4xl font-semibold tracking-wide mt-12 pl-4" />
-            <div className="mt-12 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
-                <div className="flex flex-wrap gap-2">
-                    {subProfiles.map((profile) =>
-                        profile.name === "Create" || (profile.contract && profile.contract > []) ? (
-                            <Fragment key={profile.id}>
-                                <SubProfile userAddress={userAddress} profile={profile} contract={profile.contract} />
-                            </Fragment>
-                        ) : null,
-                    )}
-                </div>
-                {/* Are there any sub-profiles?? */}
-                {/* <UserAccountItem /> */}
-                {/* Show Tile with an NFT, representing an Sub-Profile */}
-                {/* Create a new sub-profile */}
-            </div>
-            {/* create sub profile */}
-        </div>
+        // User Account available with valid address
+        // Show sub profiles, if any
+        <section className="container">
+            <PageBanner userAccountResponse={userAccountResponse} />
+            <Title title="My Profiles" cn="text-4xl font-semibold tracking-wide mt-12 pl-4" />
+            <SubProfiles userAddress={userAddress} subProfiles={subProfiles} />
+        </section>
     ) : (
-        // ! No User Account available
-        // TODO: Rerender the page when the user account is created
-        <div className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+        // * No User Account available
+        <section className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
             <CreateUserAccount />
-        </div>
+        </section>
     )
 }
 
