@@ -8,19 +8,17 @@ const Header = (props: Props) => {
 
     const { theme } = useTheme()
     return (
-        <>
-            <div>
-                {/* logo */}
-                <div className=" mt-10">
-                    <h1 className="ml-1 pl-4 text-5xl font-bold tracking-widest">
-                        {" "}
-                        <span>AA</span>
-                        <span className="text-muted-foreground">TBA</span>
-                    </h1>
-                    <div className="flex justify-center items-center">
-                        <h6 className="text-center flex-1 pl-5 text-[0.5rem] tracking-[1.25rem] text-muted-foreground"> 4337 </h6>
-                        <h6 className="text-left flex-1 pl-2 text-[0.5rem] tracking-[1.25rem] text-muted-foreground"> 6551 </h6>
-                    </div>
+        <div className="mx-auto flex w-full max-w-5xl items-center justify-between">
+            {/* logo */}
+            <div className="">
+                <h1 className="ml-1 pl-4 text-5xl font-bold tracking-widest">
+                    {" "}
+                    <span>AA</span>
+                    <span className="text-muted-foreground">TBA</span>
+                </h1>
+                <div className="flex items-center justify-center">
+                    <h6 className="flex-1 pl-5 text-center text-[0.5rem] tracking-[1.25rem] text-muted-foreground"> 4337 </h6>
+                    <h6 className="flex-1 pl-2 text-left text-[0.5rem] tracking-[1.25rem] text-muted-foreground"> 6551 </h6>
                 </div>
             </div>
             <div className="flex items-center justify-between space-x-4 pr-2">
@@ -37,7 +35,7 @@ const Header = (props: Props) => {
                 ) : null}
                 <ThemeToggle />
             </div>
-        </>
+        </div>
     )
 }
 export default Header

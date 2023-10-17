@@ -31,9 +31,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                                 }),
                             ]}
                         >
-                            <header className="z-10 mx-auto mb-20 flex w-full max-w-5xl flex-col items-center justify-between space-y-4 md:flex-row md:py-8">
+                            <header className="fixed w-screen z-10 mx-auto mb-20 flex flex-col items-center justify-between space-y-4 md:flex-row md:py-8 backdrop-blur-xl">
                                 <Header />
                             </header>
+                            {/* <div className="w-full h-44"></div> */}
                             {children}
                             <footer className="z-10 mt-20 flex w-screen items-center justify-center p-12">
                                 <Footer />
