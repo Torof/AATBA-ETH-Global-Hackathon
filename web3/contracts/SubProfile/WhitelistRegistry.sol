@@ -3,12 +3,19 @@ pragma solidity ^0.8.0;
 
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IERC1155} from "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
-import {IEQUIP} from "../interfaces/IEQUIP.sol";
-import "hardhat/console.sol";
 
-contract WhitelistRegistry is IEQUIP {
+contract WhitelistRegistry {
 
-    mapping(address => WhitelistRequest) public verificationRequests;
+    enum verifyRequest {
+        REQUESTED,
+        VERIFIED,
+        NOT_VERIFIED, // verification fails
+        REMOVED
+    }
+
+    // mapping(address => WhitelistRequest) public verificationRequests;
+    mapping(address => bool) public isVerified;
+    mapping(address => verifyRequest) public verifyStatus;
     address immutable public Whitelister;
 
     modifier onlyWhitelister() {
@@ -23,70 +30,59 @@ contract WhitelistRegistry is IEQUIP {
     function requestForWhitelisting(address contractAddress) public {
         require(contractAddress != address(0), "Invalid contract address");
         require(isContract(contractAddress), "Address is not a contract address");
-        require(!verificationRequests[contractAddress].requestExists, "Request already exists");
+        require(!isVerified[contractAddress], "Address already verified");
 
-        verificationRequests[contractAddress] = WhitelistRequest(true, verifyRequest.REQUESTED);
+        verifyStatus[contractAddress] = verifyRequest.REQUESTED;
     }
 
     function removeFromWhitelistRequest(address contractAddress) public {
-        require(verificationRequests[contractAddress].requestExists, "Request does not exist");
-        require(verificationRequests[contractAddress].verifiedStatus != verifyRequest.VERIFIED, "Only owner can remove these requests");
-        require(verificationRequests[contractAddress].verifiedStatus != verifyRequest.REMOVED, "Request already removed");
+        require(verifyStatus[contractAddress] != verifyRequest.REMOVED, "Request already removed");
+        require(!isVerified[contractAddress], "Only owner can remove these requests");
 
-        verificationRequests[contractAddress] = WhitelistRequest(false, verifyRequest.REMOVED);
+        verifyStatus[contractAddress] = verifyRequest.REMOVED;
     }
 
     function addWhitelisterc(address contractAddress) public onlyWhitelister() {
-        require(verificationRequests[contractAddress].requestExists, "Request does not exist");
-        require(verificationRequests[contractAddress].verifiedStatus == verifyRequest.REQUESTED, "Whitelisting not requested");
+        require(verifyStatus[contractAddress] == verifyRequest.REQUESTED, "Request does not exist");
+        require(!isVerified[contractAddress], "Address is already verified");
 
         if (IERC721(contractAddress).supportsInterface(type(IERC721).interfaceId)) {
-            verificationRequests[contractAddress].verifiedStatus = verifyRequest.VERIFIED;
-            console.log("Whitelist Registry contract whitelisted: ", contractAddress);
-            console.log("Whitelist Registry Is whitelisted: ", isWhitelisted(contractAddress));
+            verifyStatus[contractAddress] = verifyRequest.VERIFIED;
+            isVerified[contractAddress] = true;
         } else if (IERC1155(contractAddress).supportsInterface(type(IERC1155).interfaceId)) {
-            verificationRequests[contractAddress].verifiedStatus = verifyRequest.VERIFIED;
-            console.log("Whitelist Registry contract whitelisted: ", contractAddress);
-            console.log("Whitelist Registry Is whitelisted: ", isWhitelisted(contractAddress));
+            verifyStatus[contractAddress] = verifyRequest.VERIFIED;
+            isVerified[contractAddress] = true;
         } else {
-            verificationRequests[contractAddress].verifiedStatus = verifyRequest.NOT_VERIFIED;
+            verifyStatus[contractAddress] = verifyRequest.VERIFIED;
         }
     }
 
     // For testing purposes, to add a trusted EOA
     function addWhitelistEOA(address sender) public onlyWhitelister() {
         require(sender != address(0), "Invalid contract address");
-        require(!verificationRequests[sender].requestExists, "Request already exists");
+        require(!isVerified[sender], "Request already verified");
 
-        verificationRequests[sender] = WhitelistRequest(true, verifyRequest.VERIFIED);
-        console.log("Whitelist Registry EOA whitelisted: ", sender);
-        console.log("Whitelist Registry Is whitelisted: ", isWhitelisted(sender));
+        verifyStatus[sender] = verifyRequest.VERIFIED;
+        isVerified[sender] = true;
     }
 
     // For testing purposes, to remove an EOA
     function removeWhitelistEOA(address sender) public onlyWhitelister() {
-        require(verificationRequests[sender].requestExists, "Request does not exist");
+        require(isVerified[sender], "Request does not exist");
 
-        verificationRequests[sender] = WhitelistRequest(false, verifyRequest.REMOVED);
+        verifyStatus[sender] = verifyRequest.REMOVED;
+        isVerified[sender] = false;
     }
 
     function removeWhitelist(address contractAddress) public onlyWhitelister() {
-        require(verificationRequests[contractAddress].requestExists, "Request does not exist");
-        require(verificationRequests[contractAddress].verifiedStatus != verifyRequest.REMOVED, "Request already removed");
+        require(isVerified[contractAddress], "Request does not exist");
 
-        verificationRequests[contractAddress] = WhitelistRequest(false, verifyRequest.REMOVED);
-    }
-
-    function isWhitelisted(address contractAddress) public view returns(bool) {
-        if (verificationRequests[contractAddress].verifiedStatus == verifyRequest.VERIFIED) {
-            return true;
-        } else {
-            return false;
-        }
+        verifyStatus[contractAddress] = verifyRequest.REMOVED;
+        isVerified[contractAddress] = false;
     }
 
     function getRequestStatus(address contractAddress) public view returns(verifyRequest) {
-        return verificationRequests[contractAddress].verifiedStatus;
+        return verifyStatus[contractAddress];
     }
 
     function isContract(address account) public view returns (bool) {

@@ -14,7 +14,11 @@ describe("User, UserFactory + UserAccount", function () {
         await erc6551Registry.waitForDeployment();
         const erc6551RegistryAddress = erc6551Registry.target;
 
-        const subProfileTBA = await hre.ethers.deployContract("SubProfileTBA");
+        const whitelistRegistry = await hre.ethers.deployContract("WhitelistRegistry");
+        await whitelistRegistry.waitForDeployment();
+        const whitelistRegistryAddress = await whitelistRegistry.getAddress();
+
+        const subProfileTBA = await hre.ethers.deployContract("SubProfileTBA", [whitelistRegistryAddress]);
         await subProfileTBA.waitForDeployment();
         const subProfileTBAAddress = subProfileTBA.target;
 
