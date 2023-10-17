@@ -1,4 +1,5 @@
 import { Web3Button } from "@thirdweb-dev/react";
+// import { subProfileFactoryAbi } from "../../../../constants";
 
 type Props = {
     name: string
@@ -10,12 +11,13 @@ const CreateSubProfileTemplate = ({name, symbol}: Props) => {
 
     return (
         <Web3Button
+            // contractAbi={subProfileFactoryAbi}
             contractAddress={process.env.NEXT_PUBLIC_SUB_PROFILE_FACTORY_ADDRESS!}
             action={(contract) => {
                 contract.call("generateSubProfileTemplate", [name, symbol]);
             }}
         >
-            Create Sub Profile Template
+            createSubProfileTemplate
         </Web3Button>
     )
 }

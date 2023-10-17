@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             }),
                         ]}
                     >
-                        <header className="z-10 mx-auto flex w-full max-w-5xl flex-col items-center justify-between space-y-4 md:flex-row md:py-12">
+                        <header className="z-10 mx-auto flex w-full max-w-5xl flex-col items-center justify-between space-y-4 md:flex-row md:py-8 mb-20">
                             <Header />
                         </header>
                         {children}

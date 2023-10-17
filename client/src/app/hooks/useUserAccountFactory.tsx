@@ -22,7 +22,6 @@ const useUserAccountFactory = () => {
         const { contract } = useContract(process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS)
         const { data, isLoading } = useContractRead(contract, "getUserAccount", [user])
 
-        console.log("[getUserAccount]", data, isLoading)
         return { data, isLoading }
     }
 

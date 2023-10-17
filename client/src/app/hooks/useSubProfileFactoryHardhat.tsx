@@ -1,8 +1,8 @@
 import { useAddress, useContract, useContractRead, useContractWrite } from "@thirdweb-dev/react"
 import { Contract, ethers } from "ethers"
 import { useEffect, useState } from "react"
-import { subProfileFactoryAbi} from "../../../constants/index"
-import { subProfileFactoryAddress } from "../../../constants/subProfileFactory"
+// import { subProfileFactoryAbi} from "../../../constants/index"
+// import { subProfileFactoryAddress } from "../../../constants/subProfileFactory"
 
 interface UserAccountProps {
     account?: string
@@ -62,20 +62,19 @@ const useSubProfileFactory = () => {
 
     let contract: Contract;
     const connectContract = async () => {
-        const contractAddress = subProfileFactoryAbi
-        const contractAbi = subProfileFactoryAddress
+        // const contractAddress = subProfileFactoryAddress
+        // const contractAbi = subProfileFactoryAbi
 
         const provider = new ethers.providers.Web3Provider(window.ethereum)
         const signer = provider.getSigner()
-        contract = new ethers.Contract(contractAddress, contractAbi, signer)
+        // contract = new ethers.Contract(contractAddress, contractAbi, signer)
         console.log(contract)
     }
     
-    const getDataFromContract = async () => {
-        const res = await contract.SubProfileFactory()
+    const getUserAccount = async () => {
+        const res = await contract.getUserAccount()
         setContractData(res)
-        console.log("state", contractData);
-        
+        console.log("state", contractData)
     }
 
     const setDataFromContract = async () => {

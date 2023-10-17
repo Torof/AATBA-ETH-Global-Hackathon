@@ -1,20 +1,25 @@
 import { Web3Button } from "@thirdweb-dev/react"
+// import { simpleUserAccountAbi } from "../../../../constants";
 
 type Props = {
-    templateIndex: number
+    templateIndex: number;
+    contractAddress: string;
 }
 
-const CreateSubProfile = ({ templateIndex }: Props) => {
+const CreateSubProfile = ({ templateIndex, contractAddress }: Props) => {
     const index = templateIndex
 
     return (
         <Web3Button
-            contractAddress="0x710b79d14F9E98286fA781BdCa8eC839a5A4c437"
+            // contractAbi={simpleUserAccountAbi}
+            // TODO: DYNAMIC ADDRESS
+            contractAddress={process.env.NEXT_PUBLIC_SIMPLE_USER_ACCOUNT!}
+            // contractAddress={contractAddress}
             action={(contract) => {
                 contract.call("createSubProfile", [index])
             }}
         >
-            createSubProfile
+            createSubProfile (TBA)
         </Web3Button>
     )
 }
