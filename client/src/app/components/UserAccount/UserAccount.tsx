@@ -26,6 +26,7 @@ const UserAccount = ({ userAddress }: Props) => {
     const education = getSubProfile(2)
 
     // append the subProfile contract to the initial state
+    // Todo: move to globale state
     useEffect(() => {
         if ((work.data && !work.isLoading) || (hackathon.data && !hackathon.isLoading) || (education.data && !education.isLoading)) {
             const updatedArray = subProfiles.map((profile) => {
@@ -70,9 +71,9 @@ const UserAccount = ({ userAddress }: Props) => {
             <CreateUserAccount />
         </section>
     ) : userAccountResponse && !userAccountResponse.isLoading && userAccountResponse.data !== "0x0000000000000000000000000000000000000000" ? (
-        // User Account available with valid address
+        // * User Account available with valid address
         // Show sub profiles, if any
-        <section className="container w-screen max-w-6xl mt-44">
+        <section className="container mt-44 w-screen max-w-6xl">
             <PageBanner userAccountResponse={userAccountResponse} />
             <Title title="My Profiles" cn="text-4xl font-semibold tracking-wide mt-12 pl-4" />
             <SubProfiles userAddress={userAddress} subProfiles={subProfiles} />

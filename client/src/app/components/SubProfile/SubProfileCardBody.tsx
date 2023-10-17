@@ -13,7 +13,7 @@ const SubProfileCardBody = ({ profile, cn, userAddress }: Props) => {
     // const navigateTo = useRouter().push
 
     return (
-        <Link href={profile.id !== 3 ? `/profiles/${profile.id}` : `/newprofile/${userAddress}`}>
+        <Link href={profile.id !== 3 ? `/profiles/${profile.name}` : `/newprofile/${profile.name}`}>
             <div className={`${cn} group w-80 max-w-fit rounded-[1.7rem]`}>
                 <Image
                     className="absolute top-0 z-0 h-full w-full rounded-[1.7rem] object-cover filter transition duration-300 ease-in-out hover:cursor-pointer"

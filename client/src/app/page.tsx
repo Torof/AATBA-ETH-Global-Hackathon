@@ -9,7 +9,7 @@ export default function Home() {
     const { theme } = useTheme()
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-12">
+        <main className="flex min-h-screen flex-col items-center justify-between bg-[#FEF5FF] p-12 dark:bg-background">
             <>
                 {/* Login to wallet */}
                 {!userAddress ? (
