@@ -9,10 +9,9 @@ type Props = {
 }
 
 // ! DUMMY DATA
-const ETHADDRESS = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
 
 const PIC = <div className="mx-5 flex h-24 w-24 items-center justify-center rounded-[1.7rem] border"> PIC </div>
-const NAME = <p className="flex items-center justify-center text-2xl text-muted-foreground"> "No Name" Yet... </p>
+const NAME = <p className="flex items-center justify-center text-2xl text-muted-foreground"> Satoshi </p>
 const BUTTON: React.JSX.Element = (
     <Button size={"icon"} className="mx-5 flex items-center justify-center rounded-lg bg-muted/60 hover:bg-muted text-black dark:text-white">
         <FiEdit className="text-lg" />

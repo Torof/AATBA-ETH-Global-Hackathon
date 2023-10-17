@@ -12,8 +12,12 @@ const page = ({ params: { address }, searchParams }: Props) => {
     const [templateValue, setTemplateValue] = useState<number>()
     const onTemplateChange = (event: any) => setTemplateValue(event.target.value)
 
-    const [simpleAccountAddress, setSimpleAccountAddress] = useState<string>("")
-    const onSimpleAccountAddressChange = (event: any) => setSimpleAccountAddress(event.target.value)
+    // const [simpleAccountAddress, setSimpleAccountAddress] = useState<string>("")
+    // const onSimpleAccountAddressChange = (event: any) => {
+    //     console.log(event.target.value);
+        
+    //     setSimpleAccountAddress(event.target.value)
+    // }
 
     const [nameValue, setNameValue] = useState<string>("")
     const onNameChange = (event: any) => setNameValue(event.target.value)
@@ -27,7 +31,7 @@ const page = ({ params: { address }, searchParams }: Props) => {
                 <h1 className="text-center text-3xl text-muted-foreground">New Sub-Profile</h1>
             </div>
             <div className="mt-12 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
-                <input
+                {/* <input
                     type="text"
                     name="name"
                     placeholder="name"
@@ -43,16 +47,16 @@ const page = ({ params: { address }, searchParams }: Props) => {
                     value={symbolValue}
                     onChange={(e) => onSymbolChange(e)}
                 />
-                <CreateSubProfileTemplate name={nameValue} symbol={symbolValue} />
+                <CreateSubProfileTemplate name={nameValue} symbol={symbolValue} /> */}
             </div>
             <div className="mt-12 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
                 <input
                     type="text"
                     name="simpleAccountAddress"
-                    placeholder="0x00000000000000000"
+                    placeholder="0: work, 1: hackathon, 3: education"
                     className="max-w-5xl flex-1 rounded-lg pl-4"
-                    value={simpleAccountAddress}
-                    onChange={(e) => onSimpleAccountAddressChange(e)}
+                    value={templateValue}
+                    onChange={(e) => onTemplateChange(e)}
                 />
                 <CreateSubProfile templateIndex={templateValue!} contractAddress={process.env.NEXT_PUBLIC_PUBLIC_WALLET_ADDRESS!} />
             </div>

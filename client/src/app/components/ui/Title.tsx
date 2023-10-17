@@ -6,7 +6,7 @@ type Props = {
 }
 
 const Title: FC<Props> = ({ title, cn }) => {
-    return <h2 className={`${cn} text-lg font-bold text-muted-foreground`}>{title}</h2>
+    return <h2 className={`${cn} font-bold text-muted-foreground`}>{title}</h2>
 }
 
 export default Title

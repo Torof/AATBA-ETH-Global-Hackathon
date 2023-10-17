@@ -23,6 +23,8 @@ const UserAccount = ({ userAddress }: Props) => {
     const work = getSubProfile(0)
     const hackathon = getSubProfile(1)
     const education = getSubProfile(2)
+    console.log(work, hackathon, education);
+    
     // append the subProfile contract to the initial state
     useEffect(() => {
         if ((work.data && !work.isLoading) || (hackathon.data && !hackathon.isLoading) || (education.data && !education.isLoading)) {
@@ -74,8 +76,8 @@ const UserAccount = ({ userAddress }: Props) => {
             </div>
 
             {/* Show sub profiles, if any */}
+                <Title title="My Profiles" cn="text-4xl font-semibold tracking-wide mt-12 pl-4" />
             <div className="mt-12 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
-                <Title title="My Profiles" cn="text-4xl font-semibold tracking-wide" />
                 <div className="flex flex-wrap gap-2">
                     {subProfiles.map((profile) =>
                         profile.name === "Create" || (profile.contract && profile.contract > []) ? (

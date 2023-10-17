@@ -1,4 +1,7 @@
+import { useUserAccountFactory } from "@root/app/hooks";
 import { Web3Button } from "@thirdweb-dev/react"
+import { simpleUserAccountAbi } from "../../../../constants";
+import { useEffect, useState } from "react";
 // import { simpleUserAccountAbi } from "../../../../constants";
 
 type Props = {
@@ -8,10 +11,9 @@ type Props = {
 
 const CreateSubProfile = ({ templateIndex, contractAddress }: Props) => {
     const index = templateIndex
-
     return (
         <Web3Button
-            // contractAbi={simpleUserAccountAbi}
+            contractAbi={simpleUserAccountAbi}
             // TODO: DYNAMIC ADDRESS
             contractAddress={process.env.NEXT_PUBLIC_SIMPLE_USER_ACCOUNT!}
             // contractAddress={contractAddress}
