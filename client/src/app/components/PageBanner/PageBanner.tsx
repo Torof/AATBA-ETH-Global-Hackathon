@@ -19,10 +19,20 @@ const PageBanner = ({ userAccountResponse, cn, subProfile }: Props) => {
     ) : subProfile && subProfile !== "" ? (
         <div>
             {/* banner */}
-            <div className={`${cn} relative z-10 mx-auto h-64 max-w-6xl rounded-3xl bg-[url('/${subProfile.toLowerCase()}.png')]`}></div>
+            <div
+                className={`${cn} relative z-10 mx-auto h-64 max-w-6xl rounded-3xl bg-[url('/${subProfile.toLowerCase()}.png')] border border-blue-300`}
+            ></div>
             <div className="absolute left-0 right-0 top-0 z-20 mx-auto h-64 w-screen max-w-6xl rounded-3xl backdrop-blur-lg backdrop-brightness-110"></div>
+            <Image
+                className="absolute left-0 right-0 top-0 z-10 mx-auto h-64 w-screen max-w-6xl rounded-3xl object-cover backdrop-blur-lg backdrop-brightness-110"
+                src={`/${subProfile}.png`}
+                height={200}
+                width={200}
+                alt="#"
+                priority
+            />
             {/* profile pic */}
-            <div className="top-[13rem] absolute left-0 right-0 z-30 mx-auto h-24 w-24 max-w-6xl rounded-[1.7rem]">
+            <div className="absolute left-0 right-0 top-[13rem] z-30 mx-auto h-24 w-24 max-w-6xl rounded-[1.7rem]">
                 <Image className="" src="/pfp.png" height={200} width={200} alt="#" priority />
             </div>
         </div>
