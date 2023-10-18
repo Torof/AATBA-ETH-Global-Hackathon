@@ -5,33 +5,8 @@ import { userAccountFactoryAbi } from "../../../../constants"
 
 type Props = {}
 
-const getEvents = () => {
-    const { contract } = useContract(process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS!)
-    const { data } = useContractEvents(contract)
-
-    console.log(data)
-    return { data }
-}
-
 const CreateUserAccount = (props: Props) => {
     const { setSimpleUserAccount, simpleUserAccount } = useContextStore()
-    const events = getEvents()
-
-    useEffect(() => {
-        console.log("USE EFFECT");
-        
-        if (events.data && events.data.length) {
-            // Todo: filter out SimpleAccount for specific wallet
-            // const currentEventSimpleUser = events.data
-            const currentEventSimpleUser = events.data[0].data.account
-
-            // console.log("currentEventSimpleUser", currentEventSimpleUser)
-            
-
-            setSimpleUserAccount(currentEventSimpleUser)
-
-        }
-    }, [events.data])
 
     return (
         <Web3Button
