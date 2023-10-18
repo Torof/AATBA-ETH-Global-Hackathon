@@ -10,8 +10,8 @@ type Props = {
 
 const UserAccount = ({ userAddress }: Props) => {
     const [subProfiles, setSubProfiles] = useState<SubProfileType[]>([
-        { id: 0, name: "Work", profilePic: "/jobs.png", contract: [] },
-        { id: 1, name: "Hackathon", profilePic: "/contest.png", contract: [] },
+        { id: 0, name: "Work", profilePic: "/work.png", contract: [] },
+        { id: 1, name: "Hackathon", profilePic: "/hackathon.png", contract: [] },
         { id: 2, name: "Education", profilePic: "/education.png", contract: [] },
         { id: 3, name: "Create", profilePic: "/create.png", contract: [] },
     ])
@@ -62,12 +62,12 @@ const UserAccount = ({ userAddress }: Props) => {
 
     return userAccountResponse && userAccountResponse.isLoading ? (
         // * Still loading..
-        <section className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+        <section className="mt-44 flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
             <HashLoader color="#FF8F5F" />
         </section>
     ) : userAccountResponse?.data === undefined ? (
         // * No User Account available
-        <section className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+        <section className="mt-44 flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
             <CreateUserAccount />
         </section>
     ) : userAccountResponse && !userAccountResponse.isLoading && userAccountResponse.data !== "0x0000000000000000000000000000000000000000" ? (
@@ -80,7 +80,7 @@ const UserAccount = ({ userAddress }: Props) => {
         </section>
     ) : (
         // * No User Account available
-        <section className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+        <section className="mt-44 flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
             <CreateUserAccount />
         </section>
     )

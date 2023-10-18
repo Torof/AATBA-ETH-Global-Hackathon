@@ -13,7 +13,7 @@ export default function Home() {
             <>
                 {/* Login to wallet */}
                 {!userAddress ? (
-                    <section className="flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+                    <section className="flex h-screen mt-44 max-h-[32rem] w-screen max-w-5xl items-center justify-center">
                         <ConnectWallet
                             btnTitle="Connect Wallet"
                             displayBalanceToken={"false"}

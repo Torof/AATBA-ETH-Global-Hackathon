@@ -1,11 +1,10 @@
 "use client"
 
-import { Sepolia } from "@thirdweb-dev/chains"
+// import { Sepolia } from "@thirdweb-dev/chains"
 import { ChainId, ThirdwebProvider, magicLink, metamaskWallet, walletConnect } from "@thirdweb-dev/react"
 import { ThemeProvider } from "next-themes"
 import { Inter } from "next/font/google"
 import { Footer, Header } from "./components"
-import { StateContext } from "./context/StateContext"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -14,11 +13,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <body className={inter.className}>
-                <StateContext>
                     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                         <ThirdwebProvider
                             clientId={process.env.NEXT_PUBLIC_THIRD_WEB_CLIENT_ID}
-                            activeChain={Sepolia}
+                            activeChain={ChainId.Localhost}
                             supportedWallets={[
                                 metamaskWallet({ recommended: true }),
                                 walletConnect(),
@@ -31,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                                 }),
                             ]}
                         >
-                            <header className="fixed w-screen z-50 mx-auto mb-20 flex flex-col items-center justify-between space-y-4 md:flex-row md:py-8 backdrop-blur-xl">
+                            <header className="fixed z-50 mx-auto mb-20 flex w-screen flex-col items-center justify-between space-y-4 backdrop-blur-xl md:flex-row md:py-8">
                                 <Header />
                             </header>
                             {/* <div className="w-full h-44"></div> */}
@@ -41,7 +39,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             </footer>
                         </ThirdwebProvider>
                     </ThemeProvider>
-                </StateContext>
             </body>
         </html>
     )
