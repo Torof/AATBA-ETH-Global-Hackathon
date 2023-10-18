@@ -9,7 +9,7 @@ type Props = {
 }
 
 const SubProfiles = ({ subProfiles, userAddress }: Props) => {
-    console.log("[from subProfiles component]", subProfiles, userAddress)
+    // console.log("[from subProfiles component]", subProfiles)
     const { setSimpleUserAccount, simpleUserAccount } = useContextStore()
     console.log("[from subProfiles component] STATE", simpleUserAccount)
     

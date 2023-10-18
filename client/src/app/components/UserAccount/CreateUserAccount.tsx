@@ -16,16 +16,20 @@ const getEvents = () => {
 const CreateUserAccount = (props: Props) => {
     const { setSimpleUserAccount, simpleUserAccount } = useContextStore()
     const events = getEvents()
-        console.log("STATE", simpleUserAccount)
 
     useEffect(() => {
-        if (events.data && events.data.length > 0) {
+        console.log("USE EFFECT");
+        
+        if (events.data && events.data.length) {
             // Todo: filter out SimpleAccount for specific wallet
+            // const currentEventSimpleUser = events.data
             const currentEventSimpleUser = events.data[0].data.account
+
+            // console.log("currentEventSimpleUser", currentEventSimpleUser)
+            
 
             setSimpleUserAccount(currentEventSimpleUser)
 
-            console.log("STATE", simpleUserAccount)
         }
     }, [events.data])
 
@@ -34,14 +38,9 @@ const CreateUserAccount = (props: Props) => {
             contractAbi={userAccountFactoryAbi}
             contractAddress={process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS!}
             action={(contract: any) => {
-                console.log(contract.contractWrapper)
-                console.log(contract.contractWrapper.provider)
-                console.log(contract.contractWrapper.writeContract)
-                console.log(contract.contractWrapper.writeContract.address)
                 contract.call("createUserAccount", [])
             }}
             onSuccess={(result: any) => {
-                console.log("=====> result", result)
                 // alert("Success!")
             }}
             // onSubmit={() => console.log("Transaction submitted")}
