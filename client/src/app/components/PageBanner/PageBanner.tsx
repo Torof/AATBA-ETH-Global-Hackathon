@@ -11,7 +11,6 @@ type Props = {
 }
 
 const PageBanner = ({ userAccountResponse, cn, subProfile }: Props) => {
-    console.log("PB", subProfile)
     return userAccountResponse && userAccountResponse.data ? (
         <div className={`${cn} mx-4 flex flex-col gap-5 rounded-3xl`}>
             <UserInfo user={userAccountResponse.data} />

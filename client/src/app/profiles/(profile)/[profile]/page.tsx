@@ -1,6 +1,6 @@
 "use client"
 
-import { PageBanner, SubProfileCard, SymbolAddress, Title } from "@root/app/components"
+import { MintNFTButton, PageBanner, SubProfileCard, SymbolAddress, Title } from "@root/app/components"
 import { useSimpleContract, useUserAccountFactory } from "@root/app/hooks"
 import { useAddress } from "@thirdweb-dev/react"
 import { useEffect, useState } from "react"
@@ -76,11 +76,12 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                         <SymbolAddress cn={"text-muted-foreground"} />
                     </div>
                 </div>
-                <div className="w-full h-96 max-w-6xl border border-purple-700">
+                <div className="h-96 w-full max-w-6xl border border-purple-700">
                     {/* <Card /> */}
                     {/* <SubProfileCard contract={`${profile}.data`} userAddress={useAddress} profile={subProfile} /> */}
                     {/* <Text />> */}
                     {/* <ChainInfo /> */}
+                    <MintNFTButton />
 
                     {/* <Achievements  /> */}
                 </div>

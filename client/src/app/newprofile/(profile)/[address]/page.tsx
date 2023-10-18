@@ -1,7 +1,7 @@
 "use client"
 
-import { CreateSubProfile, PageBanner } from "@root/app/components"
-import { useState } from "react"
+import { CreateSubProfile, CreateSubProfileTemplate, PageBanner } from "@root/app/components"
+import { ChangeEvent, useState } from "react"
 
 type Props = {
     params: { address: string }
@@ -9,10 +9,13 @@ type Props = {
 }
 
 const page = ({ params: { address }, searchParams }: Props) => {
-    console.log("profff", address);
-    
     const [templateValue, setTemplateValue] = useState<number>()
-    const onTemplateChange = (event: any) => setTemplateValue(event.target.value)
+    const onTemplateChange = (event: ChangeEvent<any>) => {
+        console.log(event.target.value);
+        console.log(templateValue)
+        
+        setTemplateValue(event.target.value)
+    }
 
     const [nameValue, setNameValue] = useState<string>("")
     const onNameChange = (event: any) => setNameValue(event.target.value)
@@ -28,7 +31,7 @@ const page = ({ params: { address }, searchParams }: Props) => {
                     <h1 className="text-center text-3xl text-muted-foreground">New Sub-Profile</h1>
                 </div>
                 <div className="mt-12 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
-                    {/* <input
+                    <input
                     type="text"
                     name="name"
                     placeholder="name"
@@ -44,13 +47,13 @@ const page = ({ params: { address }, searchParams }: Props) => {
                     value={symbolValue}
                     onChange={(e) => onSymbolChange(e)}
                     />
-                <CreateSubProfileTemplate name={nameValue} symbol={symbolValue} /> */}
+                <CreateSubProfileTemplate name={nameValue} symbol={symbolValue} />
                 </div>
                 <div className="mt-12 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
                     <input
                         type="text"
-                        name="simpleAccountAddress"
-                        placeholder="0: work, 1: hackathon, 3: education"
+                        name="templateIndex"
+                        placeholder="0: work, 1: hackathon, 2: education"
                         className="max-w-5xl flex-1 rounded-lg pl-4"
                         value={templateValue}
                         onChange={(e) => onTemplateChange(e)}
