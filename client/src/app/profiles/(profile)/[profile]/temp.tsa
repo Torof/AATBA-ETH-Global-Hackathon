@@ -1,0 +1,26 @@
+                <div className="flex w-full max-w-6xl items-center justify-center border border-red-700 mb-44">
+                    {workSubProfileAddress && profile === "Work" ? (
+                        <div className="flex flex-col gap-8">
+                            <h3> SubProfile address: {workSubProfileAddress} </h3>
+                            <MintNFTButton to={workSubProfileAddress} />
+                            {/* <MintNFTButton nft={2} to={workAddress} /> */}
+                            <GetBatchButton subProfileAddress={workSubProfileAddress} />
+                        </div>
+                    ) : hackathonSubProfileAddress && profile === "Hackathon" ? (
+                        <div className="flex flex-col gap-8">
+                            <h3> SubProfile address: {hackathonSubProfileAddress} </h3>
+                            <MintNFTButton to={hackathonSubProfileAddress} />
+                            {/* <MintNFTButton nft={2} to={hackathonAddress} /> */}
+                            <GetBatchButton subProfileAddress={hackathonSubProfileAddress} />
+                        </div>
+                    ) : educationSubProfileAddress && profile === "Education" ? (
+                        <div className="flex flex-col gap-8">
+                            <h3> SubProfile address: {educationSubProfileAddress} </h3>
+                            <MintNFTButton to={educationSubProfileAddress} />
+                            {/* <MintNFTButton nft={2} to={educationSubProfileAddress} /> */}
+                            <GetBatchButton subProfileAddress={educationSubProfileAddress} />
+                        </div>
+                    ) : null}
+                    {/* <Sidebar /> */}
+
+                </div>

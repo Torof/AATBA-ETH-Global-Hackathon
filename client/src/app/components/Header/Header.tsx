@@ -15,7 +15,7 @@ const Header = (props: Props) => {
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between">
             {/* logo */}
             <div className="">
-                <Image height={200} width={200} alt="logo aatba" src={"/logo.svg"} className="" onClick={() => push("/")} />
+                <Image height={200} width={200} alt="logo aatba" src={"/logo.svg"} className="dark:invert" onClick={() => push("/")} />
                 {/* <h1 className="ml-1 pl-4 text-5xl font-bold tracking-widest">
                     {" "}
                     <span>AA</span>

@@ -1,5 +1,4 @@
 import { Dropdown, Title } from "@components/index"
-import { Contract } from "ethers"
 import { GrMagic } from "react-icons/gr"
 import { IoMdSchool } from "react-icons/io"
 import { MdEmojiEvents, MdOutlineWork } from "react-icons/md"
@@ -12,7 +11,7 @@ type Props = {
 
 const SubProfileCardHeader = ({ profile, contract }: Props) => {
     return (
-        <div className="absolute top-0 z-10 flex h-[65px] w-full items-center justify-between rounded-t-3xl backdrop-blur-md bg-white bg-opacity-60">
+        <div className="absolute top-0 z-10 flex h-[65px] w-full items-center justify-between rounded-t-3xl bg-white bg-opacity-60 backdrop-blur-md">
             {profile.id === 0 ? (
                 <MdOutlineWork className="ml-4 text-muted-foreground dark:text-secondary/70" />
             ) : profile.id === 1 ? (

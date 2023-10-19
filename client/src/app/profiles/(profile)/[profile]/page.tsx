@@ -1,8 +1,9 @@
 "use client"
 
-import { GetBatchButton, MintNFTButton, PageBanner, SymbolAddress, Title } from "@root/app/components"
+import { PageBanner, SymbolAddress, Title } from "@root/app/components"
 import { useEducationStore, useHackathonStore, useSimpleUserStore, useWorkStore } from "@root/app/context"
 import { useEvents, useSimpleContract, useSubProfileTBA } from "@root/app/hooks"
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import { SubProfile } from "../../../../../typings"
 
@@ -18,8 +19,8 @@ const page = ({ params: { profile }, searchParams }: Props) => {
 
     // initial array
     const [subProfiles, setSubProfiles] = useState<SubProfile[]>([
-        { id: 0, name: "Work", profilePic: "/jobs.png", contract: [], subProfileAddress: "" },
-        { id: 1, name: "Hackathon", profilePic: "/contest.png", contract: [], subProfileAddress: "" },
+        { id: 0, name: "Work", profilePic: "/work.png", contract: [], subProfileAddress: "" },
+        { id: 1, name: "Hackathon", profilePic: "/hackathon.png", contract: [], subProfileAddress: "" },
         { id: 2, name: "Education", profilePic: "/education.png", contract: [], subProfileAddress: "" },
         { id: 3, name: "Create", profilePic: "/create.png", contract: [], subProfileAddress: "" },
     ])
@@ -45,16 +46,10 @@ const page = ({ params: { profile }, searchParams }: Props) => {
     const badges1 = getSubProfileBadges(workSubProfileAddress)
     const badges2 = getSubProfileBadges(hackathonSubProfileAddress)
     const badges3 = getSubProfileBadges(educationSubProfileAddress)
-    
 
-
-    console.log("00000", badges1);
-    console.log("11111", badges2);
-    console.log("22222", badges3);
-
-    
-
-    
+    console.log("00000", badges1)
+    console.log("11111", badges2)
+    console.log("22222", badges3)
 
     // look for events in the smart contract
     const [getUserAccountCreatedEvents, getReceivedERC721Events, getAllEvents, getBadgeAddedEvents] = useEvents()
@@ -114,7 +109,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
         <>
             <PageBanner subProfile={profile} />
             <div className="flex flex-col items-center justify-center">
-                <div className="mt-24 flex w-screen max-w-6xl items-center justify-between">
+                <div className="mb-12 mt-24 flex w-screen max-w-6xl items-center justify-between">
                     <Title title={profile} cn="text-4xl" />
                     <div className="flex flex-col items-end">
                         <div>Achieved by:</div>
@@ -127,37 +122,40 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                         ) : null}
                     </div>
                 </div>
-                <div className="flex h-96 w-full max-w-6xl items-center justify-center">
-                    {workSubProfileAddress && profile === "Work" ? (
-                        <div className="flex flex-col gap-8">
-                            <h3> SubProfile address: {workSubProfileAddress} </h3>
-                            <MintNFTButton to={workSubProfileAddress} />
-                            {/* <MintNFTButton nft={2} to={workAddress} /> */}
-                            <GetBatchButton subProfileAddress={workSubProfileAddress} />
-                        </div>
-                    ) : hackathonSubProfileAddress && profile === "Hackathon" ? (
-                        <div className="flex flex-col gap-8">
-                            <h3> SubProfile address: {hackathonSubProfileAddress} </h3>
-                            <MintNFTButton to={hackathonSubProfileAddress} />
-                            {/* <MintNFTButton nft={2} to={hackathonAddress} /> */}
-                            <GetBatchButton subProfileAddress={hackathonSubProfileAddress} />
-                        </div>
-                    ) : educationSubProfileAddress && profile === "Education" ? (
-                        <div className="flex flex-col gap-8">
-                            <h3> SubProfile address: {educationSubProfileAddress} </h3>
-                            <MintNFTButton to={educationSubProfileAddress} />
-                            {/* <MintNFTButton nft={2} to={educationSubProfileAddress} /> */}
-                            <GetBatchButton subProfileAddress={educationSubProfileAddress} />
-                        </div>
-                    ) : null}
-                    {/* <Card /> */}
-                    {/* <SubProfileCard contract={`${profile}.data`} userAddress={userAddress} profile={subProfile} simpleUser={simpleUserAccount} /> */}
-                    {/* <Text />> */}
-                    {/* <ChainInfo /> */}
-                    {/* <MintNFTButton to={} /> */}
 
-                    {/* <Achievements  /> */}
+                <div className="mx-auto mb-44 flex w-full max-w-6xl flex-col items-center justify-center gap-4 md:flex-row">
+                    {/* <Sidebar /> */}
+                    <div className="flex w-1/3 flex-col border border-purple-600">
+                        <div> Card </div>
+                        <div> Text </div>
+                        <div> Chain Info </div>
+                    </div>
+                    {/* achievements */}
+                    <div className="achievements flex w-2/3 flex-col rounded-3xl border border-pink-300 p-4">
+                        <div className="p-12">
+                            <div className="min-w-44 relative rounded-2xl pb-10">
+                                <div
+                                    className="absolute -inset-px z-0 rounded-2xl bg-gradient-to-r from-yellow-400 to-pink-400"
+                                    aria-hidden="true"
+                                ></div>
+                                <div className="absolute inset-0 z-0 rounded-2xl bg-[#FEF5FF] dark:bg-zinc-900" aria-hidden="true"></div>
+                                <div className="absolute z-10 w-full px-2 text-center text-3xl font-normal text-zinc-900 dark:text-zinc-100">Achievements</div>
+                            </div>
+                        </div>
+                        <div className="flex flex-wrap items-center justify-center gap-4">
+                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto" />
+                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto" />
+                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto" />
+                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto" />
+                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto" />
+                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto" />
+                        </div>
+                    </div>
                 </div>
+
+                {/* Achievement */}
+                {/* <SubProfileCard contract={`${profile}.data`} userAddress={userAddress} profile={subProfile} simpleUser={simpleUserAccount} /> */}
+                {/* <ChainInfo /> */}
             </div>
         </>
     )

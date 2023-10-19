@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             }),
                         ]}
                     >
-                        <header className="fixed z-50 mx-auto mb-20 flex w-screen flex-col items-center justify-between space-y-4 backdrop-blur-lg backdrop-brightness-100 md:flex-row md:py-8">
+                        <header className="fixed z-50 mx-auto mb-20 flex w-screen flex-col items-center justify-between space-y-4 backdrop-blur-lg  dark:backdrop-brightness-50 md:flex-row md:py-8">
                             <Header />
                         </header>
                         {/* <div className="w-full h-44"></div> */}
