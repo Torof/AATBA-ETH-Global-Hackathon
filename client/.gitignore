@@ -6,8 +6,6 @@
 .pnp.js
 *.lock
 
-constants
-
 package.lock.json
 
 .env

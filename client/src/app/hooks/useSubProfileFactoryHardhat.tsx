@@ -1,6 +1,7 @@
 import { useAddress, useContract, useContractRead, useContractWrite } from "@thirdweb-dev/react"
 import { Contract, ethers } from "ethers"
 import { useEffect, useState } from "react"
+import { subProfileFactoryAddress } from "../../../constants"
 // import { subProfileFactoryAbi} from "../../../constants/index"
 // import { subProfileFactoryAddress } from "../../../constants/subProfileFactory"
 
@@ -23,7 +24,7 @@ const useSubProfileFactory = () => {
     }, [address])
 
     const createSubProfileForUser = () => {
-        const { contract } = useContract(process.env.NEXT_PUBLIC_SUB_PROFILE_FACTORY_ADDRESS)
+        const { contract } = useContract(subProfileFactoryAddress)
         const { mutateAsync: createSubProfileForUser, isLoading } = useContractWrite(contract, "createSubProfileForUser")
 
         const call = async () => {
@@ -38,7 +39,7 @@ const useSubProfileFactory = () => {
     }
 
     const getSubProfileTemplateRegistryAddress = () => {
-        const { contract } = useContract(process.env.NEXT_PUBLIC_SUB_PROFILE_FACTORY_ADDRESS) // SubProfileFactory address
+        const { contract } = useContract(subProfileFactoryAddress) // SubProfileFactory address
         const { data, isLoading } = useContractRead(contract, "subProfileTemplateRegistryAddress", [])
 
         return { data, isLoading }
@@ -54,7 +55,7 @@ const useSubProfileFactory = () => {
         const index = 0
         const tokenId = "tokenId"
 
-        const { contract } = useContract(process.env.NEXT_PUBLIC_SUB_PROFILE_FACTORY_ADDRESS)
+        const { contract } = useContract(subProfileFactoryAddress)
         const { data, isLoading } = useContractRead(contract, "tbaAccount", [index, tokenId])
 
         return { data, isLoading }

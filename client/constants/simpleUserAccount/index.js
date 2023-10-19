@@ -1,0 +1,1 @@
+export { default as simpleUserAccountAbi } from "./abi.json"

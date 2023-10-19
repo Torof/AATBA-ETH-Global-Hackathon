@@ -1,5 +1,5 @@
 import { Web3Button } from "@thirdweb-dev/react"
-import { userAccountFactoryAbi } from "../../../../constants"
+import { userAccountFactoryAbi, userAccountFactoryAddress } from "../../../../constants"
 
 type Props = {}
 
@@ -7,7 +7,7 @@ const CreateUserAccount = (props: Props) => {
     return (
         <Web3Button
             contractAbi={userAccountFactoryAbi}
-            contractAddress={process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS!}
+            contractAddress={userAccountFactoryAddress}
             action={(contract: any) => {
                 contract.call("createUserAccount", [])
             }}

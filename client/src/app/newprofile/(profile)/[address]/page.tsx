@@ -55,7 +55,7 @@ const page = ({ params: { address }, searchParams }: Props) => {
                         value={templateValue}
                         onChange={(e) => onTemplateChange(e)}
                     />
-                    <CreateSubProfile templateIndex={templateValue!} contractAddress={process.env.NEXT_PUBLIC_PUBLIC_WALLET_ADDRESS!} />
+                    <CreateSubProfile templateIndex={templateValue!} />
                 </div>
             </div>
         </div>

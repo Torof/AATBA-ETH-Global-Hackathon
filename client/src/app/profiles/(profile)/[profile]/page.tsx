@@ -42,9 +42,13 @@ const page = ({ params: { profile }, searchParams }: Props) => {
     // console.log(work, hackathon, education);
 
     const [getSubProfileBadges] = useSubProfileTBA()
-    const badges = getSubProfileBadges(workSubProfileAddress)
+    const badges1 = getSubProfileBadges(workSubProfileAddress)
+    const badges2 = getSubProfileBadges(hackathonSubProfileAddress)
+    const badges3 = getSubProfileBadges(educationSubProfileAddress)
 
-    console.log(badges);
+    badges1 && console.log(badges1);
+    badges2 && console.log(badges2);
+    badges3 && console.log(badges3);
     
 
     // look for events in the smart contract
@@ -56,6 +60,8 @@ const page = ({ params: { profile }, searchParams }: Props) => {
     // const events5 = getAllEvents("0xdc64a140aa3e981100a9beca4e685f962f0cf6c9")
 
     events1 && console.log("=====> Event workSubProfileAddress: ", events1)
+    events1 && console.log("=====> Event workSubProfileAddress: ", events2)
+    events1 && console.log("=====> Event workSubProfileAddress: ", events3)
     // console.log("=====> Event hackathonSubProfileAddress: ", events2)
     // console.log("=====> Event educationSubProfileAddress: ", events3)
     sbt1 && console.log("=====> Event sbt1: ", sbt1?.data)

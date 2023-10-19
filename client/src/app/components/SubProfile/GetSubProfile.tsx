@@ -12,7 +12,7 @@ const CreateSubProfileTemplate = ({ name, symbol }: Props) => {
     return (
         <Web3Button
             contractAbi={subProfileFactoryAbi}
-            contractAddress={process.env.NEXT_PUBLIC_SUB_PROFILE_FACTORY_ADDRESS!}
+            contractAddress={subProfileFactoryAddress}
             action={(contract) => {
                 contract.call("generateSubProfileTemplate", [name, symbol])
             }}
