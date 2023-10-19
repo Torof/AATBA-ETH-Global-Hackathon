@@ -1,10 +1,8 @@
 import { useContract, useContractEvents } from "@thirdweb-dev/react"
-// import { useStateContext } from "../context/StateContext/StateContext"
 
 const useEvents = () => {
-    // const { setSimpleUserAccount, simpleUserAccount } = useStateContext()
-    const getEvents = () => {
-        const { contract } = useContract(process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS!)
+    const getUserAccountCreatedEvents = (contractAddress: string) => {
+        const { contract } = useContract(contractAddress)
         const { data } = useContractEvents(contract, "UserAccountCreated", {
             subscribe: true, // Subscribe to new events
         })
@@ -15,7 +13,42 @@ const useEvents = () => {
 
         return { data }
     }
-    return [getEvents]
+
+    const getReceivedERC721Events = (contractAddress: string) => {
+        const { contract } = useContract(contractAddress)
+        const { data } = useContractEvents(contract, "ReceivedERC721", {
+            subscribe: true, // Subscribe to new events
+        })
+
+        if (!data) {
+            return
+        }
+
+        return { data }
+    }
+
+    const getAllEvents = (contractAddress: string) => {
+        const { contract } = useContract(contractAddress)
+        const { data } = useContractEvents(contract)
+
+        if (!data) {
+            return
+        }
+
+        return { data }
+    }
+
+    const getBadgeAddedEvents = (contractAddress: string) => {
+        const { contract } = useContract(contractAddress)
+        const { data } = useContractEvents(contract)
+
+        if (!data) {
+            return
+        }
+
+        return { data }
+    }
+    return [getUserAccountCreatedEvents, getReceivedERC721Events, getAllEvents, getBadgeAddedEvents]
 }
 
 export default useEvents

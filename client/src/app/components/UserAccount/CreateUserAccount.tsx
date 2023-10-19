@@ -1,13 +1,9 @@
-import { useContextStore } from "@root/app/context/StateContext/StateContext"
-import { Web3Button, useContract, useContractEvents } from "@thirdweb-dev/react"
-import { useEffect } from "react"
+import { Web3Button } from "@thirdweb-dev/react"
 import { userAccountFactoryAbi } from "../../../../constants"
 
 type Props = {}
 
 const CreateUserAccount = (props: Props) => {
-    const { setSimpleUserAccount, simpleUserAccount } = useContextStore()
-
     return (
         <Web3Button
             contractAbi={userAccountFactoryAbi}
@@ -15,8 +11,7 @@ const CreateUserAccount = (props: Props) => {
             action={(contract: any) => {
                 contract.call("createUserAccount", [])
             }}
-            onSuccess={(result: any) => {
-            }}
+            onSuccess={(result: any) => {}}
             onError={(error) => alert("Something went wrong!")}
         >
             createUserAccount

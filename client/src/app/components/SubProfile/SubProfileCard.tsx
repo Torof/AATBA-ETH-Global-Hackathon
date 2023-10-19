@@ -1,7 +1,7 @@
-import { useContextStore } from "@root/app/context/StateContext/StateContext"
 import { useEffect } from "react"
 import { SubProfileCardBody, SubProfileCardHeader } from ".."
 import { SubProfile } from "../../../../typings"
+import { useSimpleUserStore } from "@root/app/context"
 
 type Props = {
     profile: SubProfile
@@ -12,8 +12,8 @@ type Props = {
 }
 
 const SubProfileCard = ({ profile, cn, userAddress, contract, simpleUser }: Props) => {
-    const { setSimpleUserAccount, simpleUserAccount } = useContextStore()
-    console.log("SIMPLE USER", simpleUser);
+    const { setSimpleUserAccount, simpleUserAccount } = useSimpleUserStore()
+    // console.log("SIMPLE USER", simpleUser);
     
 
     useEffect(() => {

@@ -1,26 +1,22 @@
-import { useContextStore } from "@root/app/context/StateContext/StateContext"
 import { Web3Button } from "@thirdweb-dev/react"
-import { testNFTAbi } from "../../../../constants"
+import { testNFTAbi1, testNFTAddress1, testNFTAbi2, testNFTAddress2 } from "../../../../constants"
 
 type Props = {
     to: string
 }
 
 const MintNFTButton = ({ to }: Props) => {
-    const { simpleUserAccount, setSimpleUserAccount } = useContextStore()
     return (
         <Web3Button
-            contractAbi={testNFTAbi}
-            contractAddress={"0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"}
+            contractAbi={testNFTAbi1}
+            contractAddress={testNFTAddress1}
             action={(contract: any) => {
                 contract.call("mint", [to])
             }}
-            onSuccess={(result: any) => {
-                alert("Success!")
-            }}
+            onSuccess={(result: any) => {}}
             onError={(error) => alert("Something went wrong!")}
         >
-            Mint NFT
+            Mint SBT NFT
         </Web3Button>
     )
 }

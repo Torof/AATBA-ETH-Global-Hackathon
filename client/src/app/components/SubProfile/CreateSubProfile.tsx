@@ -1,17 +1,16 @@
-import { useUserAccountFactory } from "@root/app/hooks";
 import { Web3Button } from "@thirdweb-dev/react"
-import { simpleUserAccountAbi } from "../../../../constants";
-import { useEffect, useState } from "react";
-import { useContextStore } from "@root/app/context/StateContext/StateContext";
+import { useRouter } from "next/navigation"
+import { simpleUserAccountAbi } from "../../../../constants"
+import { useSimpleUserStore } from "@root/app/context"
 
 type Props = {
-    templateIndex: number;
-    contractAddress: string;
+    templateIndex: number
+    contractAddress: string
 }
 
 const CreateSubProfile = ({ templateIndex }: Props) => {
-    const { simpleUserAccount, setSimpleUserAccount } = useContextStore()
-    
+    const { simpleUserAccount, setSimpleUserAccount } = useSimpleUserStore()
+    const { push } = useRouter()
     return (
         <Web3Button
             contractAbi={simpleUserAccountAbi}
@@ -21,7 +20,9 @@ const CreateSubProfile = ({ templateIndex }: Props) => {
             action={(contract) => {
                 contract.call("createSubProfile", [templateIndex])
             }}
-            onSuccess={(result: any) => {}}
+            onSuccess={(result: any) => {
+                push("/")
+            }}
         >
             createSubProfile (TBA)
         </Web3Button>

@@ -1,8 +1,10 @@
 import { useContract, useContractRead } from "@thirdweb-dev/react"
+import { useSimpleUserStore } from "../context"
 
 const useSubProfileFactory = () => {
+    const { simpleUserAccount } = useSimpleUserStore()
     const getSubProfile = (index: number) => {
-        const { contract } = useContract(process.env.NEXT_PUBLIC_SIMPLE_USER_ACCOUNT!)
+        const { contract } = useContract(simpleUserAccount)
         const { data, isLoading } = useContractRead(contract, "getSubProfile", [index])
 
         return { data, isLoading }

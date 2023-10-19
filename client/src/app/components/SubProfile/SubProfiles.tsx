@@ -9,9 +9,9 @@ type Props = {
 }
 
 const SubProfiles = ({ subProfiles, userAddress }: Props) => {
-    const [getEvents] = useEvents()
+    const [getUserAccountCreatedEvents, getReceivedERC721Events, getAllEvents, getBadgeAddedEvents] = useEvents()
     // look for events in the smart contract
-    const events = getEvents()
+    const events = getUserAccountCreatedEvents(process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS!)
 
     return events ? (
         <div className="mt-12 flex w-screen max-w-5xl flex-wrap gap-4 px-4">

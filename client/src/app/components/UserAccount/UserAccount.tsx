@@ -2,7 +2,8 @@ import { useSimpleContract, useUserAccountFactory } from "@hooks/index"
 import { useEffect, useState } from "react"
 import HashLoader from "react-spinners/HashLoader"
 import { SubProfile as SubProfileType } from "../../../../typings"
-import { CreateSubProfileTemplate, CreateUserAccount, PageBanner, SubProfiles, Title } from "../index"
+import { CreateUserAccount, PageBanner, SubProfiles, Title } from "../index"
+import { useEducationStore, useHackathonStore, useSimpleUserStore, useWorkStore } from "@root/app/context"
 
 type Props = {
     userAddress: string
@@ -16,6 +17,10 @@ const UserAccount = ({ userAddress }: Props) => {
         { id: 3, name: "Create", profilePic: "/create.png", contract: [], subProfileAddress: "" },
     ])
 
+    const { simpleUserAccount, setSimpleUserAccount } = useSimpleUserStore()
+    const { workSubProfileAddress, setWorkSubProfileAddress } = useWorkStore()
+    const { hackathonSubProfileAddress, setHackathonSubProfileAddress } = useHackathonStore()
+    const { educationSubProfileAddress, setEducationSubProfileAddress } = useEducationStore()
     const [getUserAccount] = useUserAccountFactory()
     const userAccountResponse = getUserAccount()
 
@@ -28,26 +33,29 @@ const UserAccount = ({ userAddress }: Props) => {
     // append the subProfile contract to the initial state
     // Todo: move to globale state
     useEffect(() => {
-        if ((work.data && !work.isLoading) || (hackathon.data && !hackathon.isLoading) || (education.data && !education.isLoading)) {
+        if ((work?.data && !work.isLoading) || (hackathon?.data && !hackathon.isLoading) || (education?.data && !education.isLoading)) {
             const updatedArray: any = subProfiles.map((profile) => {
+                setWorkSubProfileAddress(work?.data?.subProfileAddress)
                 if (profile.name === "Work") {
                     return {
                         ...profile,
-                        contract: work.data,
-                        subProfileAddress: work.data.subProfileAddress,
+                        contract: work?.data,
+                        subProfileAddress: work?.data?.subProfileAddress,
                     }
                 }
                 if (profile.name === "Hackathon") {
+                    setHackathonSubProfileAddress(hackathon?.data?.subProfileAddress)
                     return {
                         ...profile,
-                        contract: hackathon.data,
-                        subProfileAddress: hackathon.data.subProfileAddress,
+                        contract: hackathon?.data,
+                        subProfileAddress: hackathon?.data?.subProfileAddress,
                     }
                 }
                 if (profile.name === "Education") {
+                    setEducationSubProfileAddress(education?.data?.subProfileAddress)
                     return {
                         ...profile,
-                        contract: education.data,
+                        contract: education?.data,
                         subProfileAddress: education?.data?.subProfileAddress,
                     }
                 } else if (profile.name === "Create") {

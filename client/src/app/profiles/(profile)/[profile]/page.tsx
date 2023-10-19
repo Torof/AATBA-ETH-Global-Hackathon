@@ -1,11 +1,10 @@
 "use client"
 
-import { MintNFTButton, PageBanner, SubProfileCard, SymbolAddress, Title } from "@root/app/components"
-import { useSimpleContract, useUserAccountFactory } from "@root/app/hooks"
-import { useAddress } from "@thirdweb-dev/react"
+import { GetBatchButton, MintNFTButton, PageBanner, SymbolAddress, Title } from "@root/app/components"
+import { useEducationStore, useHackathonStore, useSimpleUserStore, useWorkStore } from "@root/app/context"
+import { useEvents, useSimpleContract, useSubProfileTBA } from "@root/app/hooks"
 import { useEffect, useState } from "react"
 import { SubProfile } from "../../../../../typings"
-import { useContextStore } from "@root/app/context/StateContext/StateContext"
 
 type Props = {
     params: { profile: string }
@@ -13,30 +12,60 @@ type Props = {
 }
 
 const page = ({ params: { profile }, searchParams }: Props) => {
+    // const address = useAddress()
+    // const [getUserAccount] = useUserAccountFactory()
+    // const userAccountResponse = getUserAccount()
+
+    // initial array
     const [subProfiles, setSubProfiles] = useState<SubProfile[]>([
         { id: 0, name: "Work", profilePic: "/jobs.png", contract: [], subProfileAddress: "" },
         { id: 1, name: "Hackathon", profilePic: "/contest.png", contract: [], subProfileAddress: "" },
         { id: 2, name: "Education", profilePic: "/education.png", contract: [], subProfileAddress: "" },
         { id: 3, name: "Create", profilePic: "/create.png", contract: [], subProfileAddress: "" },
     ])
-    const { simpleUserAccount, setSimpleUserAccount } = useContextStore()
 
-    const [workAddress, setWorkAddress] = useState<string>("")
-    const [hackathonAddress, setHackathonAddress] = useState<string>("")
-    const [educationAddress, setEducationAddress] = useState<string>("")
+    // global state
+    const { simpleUserAccount, setSimpleUserAccount } = useSimpleUserStore()
+    const { workSubProfileAddress, setWorkSubProfileAddress } = useWorkStore()
+    const { hackathonSubProfileAddress, setHackathonSubProfileAddress } = useHackathonStore()
+    const { educationSubProfileAddress, setEducationSubProfileAddress } = useEducationStore()
 
-    // get data from smart contract
+    let work: any
+    let hackathon: any
+    let education: any
+    // Get data from SimpleAccount contract
     const [getSubProfile] = useSimpleContract()
-    const work = getSubProfile(0)
-    const hackathon = getSubProfile(1)
-    const education = getSubProfile(2)
+    profile === "Work" ? (work = getSubProfile(0)) : profile === "Hackathon" ? (hackathon = getSubProfile(1)) : (education = getSubProfile(2))
+    // const work = getSubProfile(0)
+    // const hackathon = getSubProfile(1)
+    // const education = getSubProfile(2)
+    // console.log(work, hackathon, education);
+
+    const [getSubProfileBadges] = useSubProfileTBA()
+    const badges = getSubProfileBadges(workSubProfileAddress)
+
+    console.log(badges);
+    
+
+    // look for events in the smart contract
+    const [getUserAccountCreatedEvents, getReceivedERC721Events, getAllEvents, getBadgeAddedEvents] = useEvents()
+    const events1 = getAllEvents(workSubProfileAddress)
+    const events2 = getAllEvents(hackathonSubProfileAddress)
+    const events3 = getAllEvents(educationSubProfileAddress)
+    const sbt1 = getAllEvents("0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9")
+    // const events5 = getAllEvents("0xdc64a140aa3e981100a9beca4e685f962f0cf6c9")
+
+    events1 && console.log("=====> Event workSubProfileAddress: ", events1)
+    // console.log("=====> Event hackathonSubProfileAddress: ", events2)
+    // console.log("=====> Event educationSubProfileAddress: ", events3)
+    sbt1 && console.log("=====> Event sbt1: ", sbt1?.data)
 
     // append the subProfile contract to the initial state
     // Todo: move to globale state
     useEffect(() => {
-        if ((work.data && !work.isLoading) || (hackathon.data && !hackathon.isLoading) || (education.data && !education.isLoading)) {
+        if ((work?.data && !work?.isLoading) || (hackathon?.data && !hackathon?.isLoading) || (education?.data && !education?.isLoading)) {
             const updatedArray: any = subProfiles.map((profile) => {
-                setWorkAddress(work?.data?.subProfileAddress)
+                setWorkSubProfileAddress(work?.data?.subProfileAddress)
                 if (profile.name === "Work") {
                     return {
                         ...profile,
@@ -45,7 +74,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                     }
                 }
                 if (profile.name === "Hackathon") {
-                    setHackathonAddress(hackathon?.data?.subProfileAddress)
+                    setHackathonSubProfileAddress(hackathon?.data?.subProfileAddress)
                     return {
                         ...profile,
                         contract: hackathon?.data,
@@ -53,7 +82,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                     }
                 }
                 if (profile.name === "Education") {
-                    setEducationAddress(education?.data?.subProfileAddress)
+                    setEducationSubProfileAddress(education?.data?.subProfileAddress)
                     return {
                         ...profile,
                         contract: education?.data,
@@ -70,7 +99,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
             // set the state
             setSubProfiles(updatedArray)
         }
-    }, [work.data || !work.isLoading, hackathon.data || !hackathon.isLoading, education.data || !education.isLoading])
+    }, [work?.data || !work?.isLoading, hackathon?.data || !hackathon?.isLoading, education?.data || !education?.isLoading])
 
     return (
         <>
@@ -80,18 +109,40 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                     <Title title={profile} cn="text-4xl" />
                     <div className="flex flex-col items-end">
                         <div>Achieved by:</div>
-                        {workAddress ? (
-                            <SymbolAddress user={workAddress} cn={"text-muted-foreground"} />
-                        ) : hackathonAddress ? (
-                            <SymbolAddress user={hackathonAddress} cn={"text-muted-foreground"} />
-                        ) : (
-                            <SymbolAddress user={educationAddress} cn={"text-muted-foreground"} />
-                        )}
+                        {workSubProfileAddress && profile === "Work" ? (
+                            <SymbolAddress user={workSubProfileAddress} cn={"text-muted-foreground"} />
+                        ) : hackathonSubProfileAddress && profile === "Hackathon" ? (
+                            <SymbolAddress user={hackathonSubProfileAddress} cn={"text-muted-foreground"} />
+                        ) : educationSubProfileAddress && profile === "Education" ? (
+                            <SymbolAddress user={educationSubProfileAddress} cn={"text-muted-foreground"} />
+                        ) : null}
                     </div>
                 </div>
                 <div className="flex h-96 w-full max-w-6xl items-center justify-center">
+                    {workSubProfileAddress && profile === "Work" ? (
+                        <div className="flex flex-col gap-8">
+                            <h3> SubProfile address: {workSubProfileAddress} </h3>
+                            <MintNFTButton to={workSubProfileAddress} />
+                            {/* <MintNFTButton nft={2} to={workAddress} /> */}
+                            <GetBatchButton subProfileAddress={workSubProfileAddress} />
+                        </div>
+                    ) : hackathonSubProfileAddress && profile === "Hackathon" ? (
+                        <div className="flex flex-col gap-8">
+                            <h3> SubProfile address: {hackathonSubProfileAddress} </h3>
+                            <MintNFTButton to={hackathonSubProfileAddress} />
+                            {/* <MintNFTButton nft={2} to={hackathonAddress} /> */}
+                            <GetBatchButton subProfileAddress={hackathonSubProfileAddress} />
+                        </div>
+                    ) : educationSubProfileAddress && profile === "Education" ? (
+                        <div className="flex flex-col gap-8">
+                            <h3> SubProfile address: {educationSubProfileAddress} </h3>
+                            <MintNFTButton to={educationSubProfileAddress} />
+                            {/* <MintNFTButton nft={2} to={educationSubProfileAddress} /> */}
+                            <GetBatchButton subProfileAddress={educationSubProfileAddress} />
+                        </div>
+                    ) : null}
                     {/* <Card /> */}
-                    {/* <SubProfileCard contract={`${profile}.data`} userAddress={useAddress} profile={subProfile} /> */}
+                    {/* <SubProfileCard contract={`${profile}.data`} userAddress={userAddress} profile={subProfile} simpleUser={simpleUserAccount} /> */}
                     {/* <Text />> */}
                     {/* <ChainInfo /> */}
                     {/* <MintNFTButton to={} /> */}
