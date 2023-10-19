@@ -125,10 +125,49 @@ const page = ({ params: { profile }, searchParams }: Props) => {
 
                 <div className="mx-auto mb-44 flex w-full max-w-6xl flex-col items-center justify-center gap-4 md:flex-row">
                     {/* <Sidebar /> */}
-                    <div className="flex w-1/3 flex-col border border-purple-600">
-                        <div> Card </div>
-                        <div> Text </div>
-                        <div> Chain Info </div>
+                    <div className="flex w-1/3 flex-col">
+                        {profile === "Work" ? (
+                            <div className="flex flex-col gap-8">
+                                <Image height={200} width={200} alt="logo aatba" src={"/work.png"} className="h-96 w-auto rounded-3xl" />
+                            </div>
+                        ) : profile === "Hackathon" ? (
+                            <div className="flex flex-col gap-8">
+                                <Image height={200} width={200} alt="logo aatba" src={"/hackathon.png"} className="h-96 w-auto rounded-3xl" />
+                            </div>
+                        ) : profile === "Education" ? (
+                            <div className="flex flex-col gap-8">
+                                <Image height={200} width={200} alt="logo aatba" src={"/education.png"} className="h-96 w-auto rounded-3xl" />
+                            </div>
+                        ) : null}
+                        <div>
+                            <p className="leading-relaxed mt-4">
+                                You like to keep on keeping it on, challenging yourself, testing your skills. This profile shows how skilled you are,
+                                let the people know you’re the GOAT.
+                            </p>
+                        </div>
+                        <div className="mt-20 border border-pink-300 p-4 rounded-3xl">
+                            <h3> On Chain Info</h3>
+                            <div className="flex justify-between">
+                                <span> Contract Address</span>
+                                <span>0x .... </span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span>Chain:</span>
+                                <span>Ethereum</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span>Date Minted</span>
+                                <span>Sept 25, 2023</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span>Token Standard</span>
+                                <span> ERC-4337 </span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span>Token Id</span>
+                                <span>#68714</span>
+                            </div>
+                        </div>
                     </div>
                     {/* achievements */}
                     <div className="achievements flex w-2/3 flex-col rounded-3xl border border-pink-300 p-4">
@@ -139,7 +178,9 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                                     aria-hidden="true"
                                 ></div>
                                 <div className="absolute inset-0 z-0 rounded-2xl bg-[#FEF5FF] dark:bg-zinc-900" aria-hidden="true"></div>
-                                <div className="absolute z-10 w-full px-2 text-center text-3xl font-normal text-zinc-900 dark:text-zinc-100">Achievements</div>
+                                <div className="absolute z-10 w-full px-2 text-center text-3xl font-normal text-zinc-900 dark:text-zinc-100">
+                                    Achievements
+                                </div>
                             </div>
                         </div>
                         <div className="flex flex-wrap items-center justify-center gap-4">
