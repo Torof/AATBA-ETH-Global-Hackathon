@@ -16,11 +16,11 @@ describe("AATBA - App", function () {
         const erc6551RegistryAddress = erc6551Registry.target;
 
         //Deploy the SubProfileTBA implementation, for cloning
-        const whitelistRegistry = await hre.ethers.deployContract("WhitelistRegistry");
-        await whitelistRegistry.waitForDeployment();
-        const whitelistRegistryAddress = await whitelistRegistry.getAddress();
+        const VerifiedCollectionRegistry = await hre.ethers.deployContract("VerifiedCollectionRegistry");
+        await VerifiedCollectionRegistry.waitForDeployment();
+        const VerifiedCollectionRegistryAddress = await VerifiedCollectionRegistry.getAddress();
 
-        const subProfileTBA = await hre.ethers.deployContract("SubProfileTBA", [whitelistRegistryAddress]);
+        const subProfileTBA = await hre.ethers.deployContract("SubProfileTBA", [VerifiedCollectionRegistryAddress]);
         await subProfileTBA.waitForDeployment();
         const subProfileTBAAddress = subProfileTBA.target;
 

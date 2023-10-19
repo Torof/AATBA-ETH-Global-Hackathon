@@ -105,4 +105,8 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver {
         );
     }
 
+    function getSubProfileBadges() external view returns(Badge[] memory) {
+        return subProfileBadges;
+    }
+
 }
