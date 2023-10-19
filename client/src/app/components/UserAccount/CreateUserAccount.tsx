@@ -16,9 +16,7 @@ const CreateUserAccount = (props: Props) => {
                 contract.call("createUserAccount", [])
             }}
             onSuccess={(result: any) => {
-                // alert("Success!")
             }}
-            // onSubmit={() => console.log("Transaction submitted")}
             onError={(error) => alert("Something went wrong!")}
         >
             createUserAccount

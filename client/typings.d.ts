@@ -13,4 +13,5 @@ export interface SubProfile {
     name: string
     profilePic: string
     contract: [] | SubProfileContract
+    subProfileAddress: string
 }

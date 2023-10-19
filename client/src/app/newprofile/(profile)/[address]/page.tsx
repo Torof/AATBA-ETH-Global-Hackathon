@@ -11,9 +11,6 @@ type Props = {
 const page = ({ params: { address }, searchParams }: Props) => {
     const [templateValue, setTemplateValue] = useState<number>()
     const onTemplateChange = (event: ChangeEvent<any>) => {
-        console.log(event.target.value);
-        console.log(templateValue)
-        
         setTemplateValue(event.target.value)
     }
 

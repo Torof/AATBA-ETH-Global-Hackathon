@@ -1,26 +1,23 @@
-import { Web3Button } from "@thirdweb-dev/react";
-import React from "react";
-import { testNFTAbi } from "../../../../constants";
+import { useContextStore } from "@root/app/context/StateContext/StateContext"
+import { Web3Button } from "@thirdweb-dev/react"
+import { testNFTAbi } from "../../../../constants"
 
-type Props = {};
+type Props = {
+    to: string
+}
 
-const MintNFTButton = (props: Props) => {
+const MintNFTButton = ({ to }: Props) => {
+    const { simpleUserAccount, setSimpleUserAccount } = useContextStore()
     return (
         <Web3Button
             contractAbi={testNFTAbi}
-            contractAddress={process.env.NEXT_PUBLIC_SBT_ADDRESS_1!}
+            contractAddress={"0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"}
             action={(contract: any) => {
-                console.log(contract.contractWrapper.address)
-                console.log(contract.contractWrapper.provider)
-                console.log(contract.contractWrapper.writeContract)
-                console.log(contract.contractWrapper.writeContract.address)
-                contract.call("mint", ["0xf6b0f36872E814878Ad5f57AfE1E17e97A591FFA"])
+                contract.call("mint", [to])
             }}
             onSuccess={(result: any) => {
-                // console.log(result)
                 alert("Success!")
             }}
-            // onSubmit={() => console.log("Transaction submitted")}
             onError={(error) => alert("Something went wrong!")}
         >
             Mint NFT

@@ -2,7 +2,7 @@ import { useSimpleContract, useUserAccountFactory } from "@hooks/index"
 import { useEffect, useState } from "react"
 import HashLoader from "react-spinners/HashLoader"
 import { SubProfile as SubProfileType } from "../../../../typings"
-import { CreateUserAccount, PageBanner, SubProfiles, Title } from "../index"
+import { CreateSubProfileTemplate, CreateUserAccount, PageBanner, SubProfiles, Title } from "../index"
 
 type Props = {
     userAddress: string
@@ -10,10 +10,10 @@ type Props = {
 
 const UserAccount = ({ userAddress }: Props) => {
     const [subProfiles, setSubProfiles] = useState<SubProfileType[]>([
-        { id: 0, name: "Work", profilePic: "/work.png", contract: [] },
-        { id: 1, name: "Hackathon", profilePic: "/hackathon.png", contract: [] },
-        { id: 2, name: "Education", profilePic: "/education.png", contract: [] },
-        { id: 3, name: "Create", profilePic: "/create.png", contract: [] },
+        { id: 0, name: "Work", profilePic: "/jobs.png", contract: [], subProfileAddress: "" },
+        { id: 1, name: "Hackathon", profilePic: "/contest.png", contract: [], subProfileAddress: "" },
+        { id: 2, name: "Education", profilePic: "/education.png", contract: [], subProfileAddress: "" },
+        { id: 3, name: "Create", profilePic: "/create.png", contract: [], subProfileAddress: "" },
     ])
 
     const [getUserAccount] = useUserAccountFactory()
@@ -29,23 +29,26 @@ const UserAccount = ({ userAddress }: Props) => {
     // Todo: move to globale state
     useEffect(() => {
         if ((work.data && !work.isLoading) || (hackathon.data && !hackathon.isLoading) || (education.data && !education.isLoading)) {
-            const updatedArray = subProfiles.map((profile) => {
+            const updatedArray: any = subProfiles.map((profile) => {
                 if (profile.name === "Work") {
                     return {
                         ...profile,
                         contract: work.data,
+                        subProfileAddress: work.data.subProfileAddress,
                     }
                 }
                 if (profile.name === "Hackathon") {
                     return {
                         ...profile,
                         contract: hackathon.data,
+                        subProfileAddress: hackathon.data.subProfileAddress,
                     }
                 }
                 if (profile.name === "Education") {
                     return {
                         ...profile,
                         contract: education.data,
+                        subProfileAddress: education?.data?.subProfileAddress,
                     }
                 } else if (profile.name === "Create") {
                     return {

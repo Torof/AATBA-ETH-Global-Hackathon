@@ -30,7 +30,6 @@ const useUserAccountFactory = () => {
         const { contract } = useContract(process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS!)
         const { data, isLoading } = useContractRead(contract, "userAccountsCount", [])
 
-        // console.log(data, isLoading)
         return { data, isLoading }
     }
 
@@ -38,7 +37,6 @@ const useUserAccountFactory = () => {
         const { contract } = useContract(process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS!)
         const { data, isLoading } = useContractRead(contract, "subProfileFactory", [])
 
-        // console.log(data, isLoading)
         return { data, isLoading }
     }
 

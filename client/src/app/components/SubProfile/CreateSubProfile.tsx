@@ -11,7 +11,6 @@ type Props = {
 
 const CreateSubProfile = ({ templateIndex }: Props) => {
     const { simpleUserAccount, setSimpleUserAccount } = useContextStore()
-    console.log(simpleUserAccount)
     
     return (
         <Web3Button
