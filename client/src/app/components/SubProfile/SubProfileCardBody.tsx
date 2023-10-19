@@ -14,9 +14,9 @@ const SubProfileCardBody = ({ profile, cn, userAddress }: Props) => {
 
     return (
         <Link href={profile.id !== 3 ? `/profiles/${profile.name}` : `/newprofile/${profile.name}`}>
-            <div className={`${cn} group w-80 max-w-fit rounded-[1.7rem]`}>
+            <div className={`${cn} h-96 group rounded-[1.7rem] border`}>
                 <Image
-                    className="absolute top-0 z-0 h-full w-full rounded-[1.7rem] object-cover filter transition duration-300 ease-in-out hover:cursor-pointer"
+                    className="absolute top-0 z-0 h-96 w-full rounded-[1.7rem] object-cover filter transition duration-300 ease-in-out hover:cursor-pointer hover:drop-shadow-2xl"
                     src={profile.profilePic}
                     height={500}
                     width={500}
@@ -24,7 +24,7 @@ const SubProfileCardBody = ({ profile, cn, userAddress }: Props) => {
                 />
                 <div className="">
                     <SubProfileCardFooter
-                        cn={"hidden group-hover:block absolute group-hover:bottom-0 transition group-hover:duration-150 ease-in-out"}
+                        cn={"hidden group-hover:block absolute group-hover:bottom-[-10px] transition group-hover:duration-150 ease-in-out"}
                     />
                 </div>
             </div>

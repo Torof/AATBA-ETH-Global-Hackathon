@@ -1,18 +1,18 @@
 import { useSimpleContract, useUserAccountFactory } from "@hooks/index"
+import { useEducationStore, useHackathonStore, useSimpleUserStore, useWorkStore } from "@root/app/context"
 import { useEffect, useState } from "react"
 import HashLoader from "react-spinners/HashLoader"
 import { SubProfile as SubProfileType } from "../../../../typings"
 import { CreateUserAccount, PageBanner, SubProfiles, Title } from "../index"
-import { useEducationStore, useHackathonStore, useSimpleUserStore, useWorkStore } from "@root/app/context"
 
 type Props = {
     userAddress: string
 }
 
-const UserAccount = ({ userAddress }: Props) => {
+const Dashboard = ({ userAddress }: Props) => {
     const [subProfiles, setSubProfiles] = useState<SubProfileType[]>([
-        { id: 0, name: "Work", profilePic: "/jobs.png", contract: [], subProfileAddress: "" },
-        { id: 1, name: "Hackathon", profilePic: "/contest.png", contract: [], subProfileAddress: "" },
+        { id: 0, name: "Work", profilePic: "/work.png", contract: [], subProfileAddress: "" },
+        { id: 1, name: "Hackathon", profilePic: "/hackathon.png", contract: [], subProfileAddress: "" },
         { id: 2, name: "Education", profilePic: "/education.png", contract: [], subProfileAddress: "" },
         { id: 3, name: "Create", profilePic: "/create.png", contract: [], subProfileAddress: "" },
     ])
@@ -97,4 +97,4 @@ const UserAccount = ({ userAddress }: Props) => {
     )
 }
 
-export default UserAccount
+export default Dashboard

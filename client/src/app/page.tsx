@@ -1,7 +1,7 @@
 "use client"
 import { ConnectWallet, useAddress } from "@thirdweb-dev/react"
 import { useTheme } from "next-themes"
-import { UserAccount } from "./components"
+import { Dashboard } from "./components"
 
 export default function Home() {
     // get MM address
@@ -9,11 +9,11 @@ export default function Home() {
     const { theme } = useTheme()
 
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between bg-[#FEF5FF] p-12= dark:bg-background">
+        <main className="p-12= flex min-h-screen flex-col items-center justify-between bg-[#FEF5FF] dark:bg-background">
             <>
                 {/* Login to wallet */}
                 {!userAddress ? (
-                    <section className="flex h-screen mt-44 max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+                    <section className="mt-44 flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
                         <ConnectWallet
                             btnTitle="Connect Wallet"
                             displayBalanceToken={"false"}
@@ -26,7 +26,7 @@ export default function Home() {
                     </section>
                 ) : (
                     <>
-                        <UserAccount userAddress={userAddress} />
+                        <Dashboard userAddress={userAddress} />
                     </>
                 )}
             </>

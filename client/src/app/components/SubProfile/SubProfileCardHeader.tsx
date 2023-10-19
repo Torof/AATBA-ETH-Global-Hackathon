@@ -12,7 +12,7 @@ type Props = {
 
 const SubProfileCardHeader = ({ profile, contract }: Props) => {
     return (
-        <div className="absolute top-0 z-10 flex h-[65px] w-full items-center justify-between rounded-t-3xl backdrop-blur-md">
+        <div className="absolute top-0 z-10 flex h-[65px] w-full items-center justify-between rounded-t-3xl backdrop-blur-md bg-white bg-opacity-60">
             {profile.id === 0 ? (
                 <MdOutlineWork className="ml-4 text-muted-foreground dark:text-secondary/70" />
             ) : profile.id === 1 ? (

@@ -14,7 +14,7 @@ const GetBatchButton = ({ subProfileAddress }: Props) => {
             contractAbi={subProfileTBAAbi}
             contractAddress={subProfileAddress}
             action={(contract: any) => {
-                contract.call("subProfileBadges", [])
+                contract.call("getSubProfileBadges", [])
             }}
             onSuccess={(result: any) => {}}
             onError={(error) => alert("Something went wrong!")}

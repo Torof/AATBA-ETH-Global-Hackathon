@@ -14,8 +14,8 @@ const SubProfiles = ({ subProfiles, userAddress }: Props) => {
     const events = getUserAccountCreatedEvents(process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS!)
 
     return events ? (
-        <div className="mt-12 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
-            <div className="flex flex-wrap gap-2">
+        <div className="mt-12 flex w-screen max-w-6xl flex-wrap gap-6 px-4">
+            <div className="flex flex-wrap gap-8">
                 {subProfiles.map((profile) =>
                     profile.name === "Create" || (profile.contract && profile.contract > []) ? (
                         <Fragment key={profile.id}>

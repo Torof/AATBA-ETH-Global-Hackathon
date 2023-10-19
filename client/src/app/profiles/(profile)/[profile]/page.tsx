@@ -45,10 +45,15 @@ const page = ({ params: { profile }, searchParams }: Props) => {
     const badges1 = getSubProfileBadges(workSubProfileAddress)
     const badges2 = getSubProfileBadges(hackathonSubProfileAddress)
     const badges3 = getSubProfileBadges(educationSubProfileAddress)
+    
 
-    badges1 && console.log(badges1);
-    badges2 && console.log(badges2);
-    badges3 && console.log(badges3);
+
+    console.log("00000", badges1);
+    console.log("11111", badges2);
+    console.log("22222", badges3);
+
+    
+
     
 
     // look for events in the smart contract
@@ -57,13 +62,11 @@ const page = ({ params: { profile }, searchParams }: Props) => {
     const events2 = getAllEvents(hackathonSubProfileAddress)
     const events3 = getAllEvents(educationSubProfileAddress)
     const sbt1 = getAllEvents("0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9")
-    // const events5 = getAllEvents("0xdc64a140aa3e981100a9beca4e685f962f0cf6c9")
 
     events1 && console.log("=====> Event workSubProfileAddress: ", events1)
     events1 && console.log("=====> Event workSubProfileAddress: ", events2)
     events1 && console.log("=====> Event workSubProfileAddress: ", events3)
     // console.log("=====> Event hackathonSubProfileAddress: ", events2)
-    // console.log("=====> Event educationSubProfileAddress: ", events3)
     sbt1 && console.log("=====> Event sbt1: ", sbt1?.data)
 
     // append the subProfile contract to the initial state

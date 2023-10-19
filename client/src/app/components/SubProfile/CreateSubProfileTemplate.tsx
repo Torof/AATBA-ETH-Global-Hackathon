@@ -1,12 +1,12 @@
-import { Web3Button } from "@thirdweb-dev/react";
-import { subProfileFactoryAbi, subProfileFactoryAddress } from "../../../../constants";
+import { Web3Button } from "@thirdweb-dev/react"
+import { subProfileFactoryAbi, subProfileFactoryAddress } from "../../../../constants"
 
 type Props = {
     name: string
-    symbol: string;
+    symbol: string
 }
 
-const CreateSubProfileTemplate = ({name, symbol}: Props) => {
+const CreateSubProfileTemplate = ({ name, symbol }: Props) => {
     return (
         <Web3Button
             contractAbi={subProfileFactoryAbi}

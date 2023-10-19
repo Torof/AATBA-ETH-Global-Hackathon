@@ -3,7 +3,7 @@ import { useContract, useContractEvents, useContractRead } from "@thirdweb-dev/r
 const useSubProfileTBA = () => {
     const getSubProfileBadges = (contractAddress: string) => {
         const { contract } = useContract(contractAddress)
-        const { data } = useContractRead(contract, "subProfileBadges")
+        const { data } = useContractRead(contract, "getSubProfileBadges")
 
         if (!data) {
             return
