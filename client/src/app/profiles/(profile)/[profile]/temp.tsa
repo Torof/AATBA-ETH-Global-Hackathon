@@ -21,6 +21,5 @@
                             <GetBatchButton subProfileAddress={educationSubProfileAddress} />
                         </div>
                     ) : null}
-                    {/* <Sidebar /> */}
 
                 </div>

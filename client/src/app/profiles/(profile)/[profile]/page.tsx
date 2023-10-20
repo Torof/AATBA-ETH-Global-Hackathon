@@ -1,11 +1,13 @@
 "use client"
 
-import { PageBanner, SymbolAddress, Title } from "@root/app/components"
+import { GetBatchButton, MintNFTButton, PageBanner, SymbolAddress, Title } from "@root/app/components"
 import { useEducationStore, useHackathonStore, useSimpleUserStore, useWorkStore } from "@root/app/context"
-import { useEvents, useSimpleContract, useSubProfileTBA } from "@root/app/hooks"
+import { useEvents, useSimpleContract, useSubProfileTBA, useUserAccountFactory } from "@root/app/hooks"
+import { useAddress } from "@thirdweb-dev/react"
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { SubProfile } from "../../../../../typings"
+import SubProfileBadges from "@root/app/components/SubProfile/SubProfileBadges"
 
 type Props = {
     params: { profile: string }
@@ -13,17 +15,11 @@ type Props = {
 }
 
 const page = ({ params: { profile }, searchParams }: Props) => {
-    // const address = useAddress()
-    // const [getUserAccount] = useUserAccountFactory()
-    // const userAccountResponse = getUserAccount()
+    const user = useAddress()
 
-    // initial array
-    const [subProfiles, setSubProfiles] = useState<SubProfile[]>([
-        { id: 0, name: "Work", profilePic: "/work.png", contract: [], subProfileAddress: "" },
-        { id: 1, name: "Hackathon", profilePic: "/hackathon.png", contract: [], subProfileAddress: "" },
-        { id: 2, name: "Education", profilePic: "/education.png", contract: [], subProfileAddress: "" },
-        { id: 3, name: "Create", profilePic: "/create.png", contract: [], subProfileAddress: "" },
-    ])
+    // get data from smart contract
+    const [getUserAccount] = useUserAccountFactory()
+    const userAccountResponse = getUserAccount(user!)
 
     // global state
     const { simpleUserAccount, setSimpleUserAccount } = useSimpleUserStore()
@@ -31,36 +27,52 @@ const page = ({ params: { profile }, searchParams }: Props) => {
     const { hackathonSubProfileAddress, setHackathonSubProfileAddress } = useHackathonStore()
     const { educationSubProfileAddress, setEducationSubProfileAddress } = useEducationStore()
 
+    // initial array
+    const [subProfiles, setSubProfiles] = useState<SubProfile[]>([
+        { id: 0, name: "Work", profilePic: "/work.png", contract: [], subProfileAddress: workSubProfileAddress },
+        { id: 1, name: "Hackathon", profilePic: "/hackathon.png", contract: [], subProfileAddress: hackathonSubProfileAddress },
+        { id: 2, name: "Education", profilePic: "/education.png", contract: [], subProfileAddress: educationSubProfileAddress },
+        { id: 3, name: "Create", profilePic: "/create.png", contract: [], subProfileAddress: "" },
+    ])
+
     let work: any
     let hackathon: any
     let education: any
+
+
     // Get data from SimpleAccount contract
     const [getSubProfile] = useSimpleContract()
-    profile === "Work" ? (work = getSubProfile(0)) : profile === "Hackathon" ? (hackathon = getSubProfile(1)) : (education = getSubProfile(2))
-    // const work = getSubProfile(0)
-    // const hackathon = getSubProfile(1)
-    // const education = getSubProfile(2)
-    // console.log(work, hackathon, education);
-
     const [getSubProfileBadges] = useSubProfileTBA()
-    const badges1 = getSubProfileBadges(workSubProfileAddress)
-    const badges2 = getSubProfileBadges(hackathonSubProfileAddress)
-    const badges3 = getSubProfileBadges(educationSubProfileAddress)
+    
 
-    console.log("00000", badges1)
-    console.log("11111", badges2)
-    console.log("22222", badges3)
+    useEffect(() => {
+        if (userAccountResponse && userAccountResponse.data && !userAccountResponse?.isLoading) {
+            setSimpleUserAccount(userAccountResponse.data)
+        }
+    }, [userAccountResponse && userAccountResponse.data && !userAccountResponse.isLoading])
 
-    // look for events in the smart contract
+    // fetch address according to url
+    profile === "Work"
+        ? (work = getSubProfile(0, simpleUserAccount))
+        : profile === "Hackathon"
+        ? (hackathon = getSubProfile(1, simpleUserAccount))
+        : (education = getSubProfile(2, simpleUserAccount))
+
+
+    // console.log("00000", badges1)
+    // console.log("11111", badges2)
+    // console.log("22222", badges3)
+
+    // // look for events in the smart contract
     const [getUserAccountCreatedEvents, getReceivedERC721Events, getAllEvents, getBadgeAddedEvents] = useEvents()
-    const events1 = getAllEvents(workSubProfileAddress)
-    const events2 = getAllEvents(hackathonSubProfileAddress)
-    const events3 = getAllEvents(educationSubProfileAddress)
+    // const events1 = getAllEvents(workSubProfileAddress)
+    // const events2 = getAllEvents(hackathonSubProfileAddress)
+    // const events3 = getAllEvents(educationSubProfileAddress)
     const sbt1 = getAllEvents("0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9")
 
-    events1 && console.log("=====> Event workSubProfileAddress: ", events1)
-    events1 && console.log("=====> Event workSubProfileAddress: ", events2)
-    events1 && console.log("=====> Event workSubProfileAddress: ", events3)
+    // events1 && console.log("=====> Event workSubProfileAddress: ", events1)
+    // events1 && console.log("=====> Event workSubProfileAddress: ", events2)
+    // events1 && console.log("=====> Event workSubProfileAddress: ", events3)
     // console.log("=====> Event hackathonSubProfileAddress: ", events2)
     sbt1 && console.log("=====> Event sbt1: ", sbt1?.data)
 
@@ -69,8 +81,8 @@ const page = ({ params: { profile }, searchParams }: Props) => {
     useEffect(() => {
         if ((work?.data && !work?.isLoading) || (hackathon?.data && !hackathon?.isLoading) || (education?.data && !education?.isLoading)) {
             const updatedArray: any = subProfiles.map((profile) => {
-                setWorkSubProfileAddress(work?.data?.subProfileAddress)
                 if (profile.name === "Work") {
+                    work?.data && setWorkSubProfileAddress(work?.data?.subProfileAddress)
                     return {
                         ...profile,
                         contract: work?.data,
@@ -78,7 +90,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                     }
                 }
                 if (profile.name === "Hackathon") {
-                    setHackathonSubProfileAddress(hackathon?.data?.subProfileAddress)
+                    hackathon?.data && setHackathonSubProfileAddress(hackathon?.data?.subProfileAddress)
                     return {
                         ...profile,
                         contract: hackathon?.data,
@@ -86,7 +98,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                     }
                 }
                 if (profile.name === "Education") {
-                    setEducationSubProfileAddress(education?.data?.subProfileAddress)
+                    education?.data && setEducationSubProfileAddress(education?.data?.subProfileAddress)
                     return {
                         ...profile,
                         contract: education?.data,
@@ -105,6 +117,20 @@ const page = ({ params: { profile }, searchParams }: Props) => {
         }
     }, [work?.data || !work?.isLoading, hackathon?.data || !hackathon?.isLoading, education?.data || !education?.isLoading])
 
+    
+    // if(workSubProfileAddress && !userAccountResponse?.isLoading) {
+    //     console.log(getSubProfileBadges(workSubProfileAddress));
+        
+    // } else if(hackathonSubProfileAddress) {
+    //     console.log(getSubProfileBadges(hackathonSubProfileAddress))
+        
+    // } else if(educationSubProfileAddress){
+    //     console.log(getSubProfileBadges(educationSubProfileAddress))
+
+    // }
+
+
+    
     return (
         <>
             <PageBanner subProfile={profile} />
@@ -123,9 +149,36 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                     </div>
                 </div>
 
+                <div className="mb-44 flex w-full max-w-6xl items-center justify-center border border-red-700">
+                    {workSubProfileAddress && profile === "Work" ? (
+                        <div className="flex flex-col gap-8">
+                            <h3> SubProfile address: {workSubProfileAddress} </h3>
+                            <MintNFTButton to={workSubProfileAddress} />
+                            {/* <MintNFTButton nft={2} to={workAddress} /> */}
+                            <GetBatchButton subProfileAddress={workSubProfileAddress} />
+                        </div>
+                    ) : hackathonSubProfileAddress && profile === "Hackathon" ? (
+                        <div className="flex flex-col gap-8">
+                            <h3> SubProfile address: {hackathonSubProfileAddress} </h3>
+                            <MintNFTButton to={hackathonSubProfileAddress} />
+                            {/* <MintNFTButton nft={2} to={hackathonAddress} /> */}
+                            <GetBatchButton subProfileAddress={hackathonSubProfileAddress} />
+                        </div>
+                    ) : educationSubProfileAddress && profile === "Education" ? (
+                        <div className="flex flex-col gap-8">
+                            <h3> SubProfile address: {educationSubProfileAddress} </h3>
+                            <MintNFTButton to={educationSubProfileAddress} />
+                            {/* <MintNFTButton nft={2} to={educationSubProfileAddress} /> */}
+                            <GetBatchButton subProfileAddress={educationSubProfileAddress} />
+                        </div>
+                    ) : null}
+
+            
+
+                </div>
                 <div className="mx-auto mb-44 flex w-full max-w-6xl flex-col items-center justify-center gap-4 md:flex-row">
                     {/* <Sidebar /> */}
-                    <div className="flex w-1/3 flex-col">
+                    <div className="flex w-1/4 flex-col">
                         {profile === "Work" ? (
                             <div className="flex flex-col gap-8">
                                 <Image height={200} width={200} alt="logo aatba" src={"/work.png"} className="h-96 w-auto rounded-3xl" />
@@ -140,12 +193,12 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                             </div>
                         ) : null}
                         <div>
-                            <p className="leading-relaxed mt-4">
+                            <p className="mt-4 leading-relaxed">
                                 You like to keep on keeping it on, challenging yourself, testing your skills. This profile shows how skilled you are,
                                 let the people know you’re the GOAT.
                             </p>
                         </div>
-                        <div className="mt-20 border border-pink-300 p-4 rounded-3xl">
+                        <div className="mt-16 rounded-3xl border border-pink-300 p-4">
                             <h3> On Chain Info</h3>
                             <div className="flex justify-between">
                                 <span> Contract Address</span>
@@ -170,7 +223,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                         </div>
                     </div>
                     {/* achievements */}
-                    <div className="achievements flex w-2/3 flex-col rounded-3xl border border-pink-300 p-4">
+                    <div className="achievements flex flex-1 flex-col rounded-3xl border border-pink-300 p-4">
                         <div className="p-12">
                             <div className="min-w-44 relative rounded-2xl pb-10">
                                 <div
@@ -184,12 +237,12 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                             </div>
                         </div>
                         <div className="flex flex-wrap items-center justify-center gap-4">
-                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto" />
-                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto" />
-                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto" />
-                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto" />
-                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto" />
-                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto" />
+                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
+                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
+                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
+                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
+                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
+                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
                         </div>
                     </div>
                 </div>
