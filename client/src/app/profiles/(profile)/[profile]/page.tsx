@@ -180,8 +180,8 @@ const page = ({ params: { profile }, searchParams }: Props) => {
 
                     <div className="relative flex w-1/4 flex-col">
                         <div className="absolute left-0 top-0 right-0 bg-white opacity-60 h-16 rounded-t-3xl">
-                            <div className="m-5 ml-24 mr-24">
-                                <Dropdown items={["etherscan", "IPFS"]} btnText="Share" shareBtn={true} />
+                            <div className="m-5 ml-28 mr-28">
+                                <Dropdown items={["etherscan", "IPFS"]} btnText="Share" shareBtn={true}/>
                             </div>
                         </div>
                         {profile === "Work" ? (
