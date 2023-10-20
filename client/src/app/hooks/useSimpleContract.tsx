@@ -1,10 +1,9 @@
 import { useContract, useContractRead } from "@thirdweb-dev/react"
-import { useSimpleUserStore } from "../context"
+import { simpleUserAccountAbi } from "../../../constants"
 
 const useSubProfileFactory = () => {
     const getSubProfile = (index: number, address: string) => {
-        
-        const { contract } = useContract(address)
+        const { contract } = useContract(address, simpleUserAccountAbi)
         const { data, isLoading } = useContractRead(contract, "getSubProfile", [index])
 
         return { data, isLoading }

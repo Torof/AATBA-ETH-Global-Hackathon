@@ -1,7 +1,7 @@
 import { useAddress, useContract, useContractRead, useContractWrite } from "@thirdweb-dev/react"
 import { Contract, ethers } from "ethers"
 import { useEffect, useState } from "react"
-import { subProfileFactoryAddress } from "../../../constants"
+import { subProfileFactoryAbi, subProfileFactoryAddress } from "../../../constants"
 // import { subProfileFactoryAbi} from "../../../constants/index"
 // import { subProfileFactoryAddress } from "../../../constants/subProfileFactory"
 
@@ -23,21 +23,6 @@ const useSubProfileFactory = () => {
         return
     }, [address])
 
-    const createSubProfileForUser = () => {
-        const { contract } = useContract(subProfileFactoryAddress)
-        const { mutateAsync: createSubProfileForUser, isLoading } = useContractWrite(contract, "createSubProfileForUser")
-
-        const call = async () => {
-            try {
-                const data = await createSubProfileForUser({ args: [userAddress, subProfileTemplateAddress] })
-                console.info("contract call successs", data)
-            } catch (err) {
-                console.error("contract call failure", err)
-            }
-        }
-        console.log(call)
-    }
-
     const getSubProfileTemplateRegistryAddress = () => {
         const { contract } = useContract(subProfileFactoryAddress) // SubProfileFactory address
         const { data, isLoading } = useContractRead(contract, "subProfileTemplateRegistryAddress", [])
@@ -45,17 +30,11 @@ const useSubProfileFactory = () => {
         return { data, isLoading }
     }
 
-    const getSubProfileTemplateTokenId = () => {
-        // from tokenIds[] retrieve the tokenId at index of the subProfileTemplate you need
-        // use this tokenId in conjonction with the index
-        // as arguments for tbaAccount(uint256 index, uint256 tokenId)
-    }
-
     const getTBAAccount = () => {
         const index = 0
         const tokenId = "tokenId"
 
-        const { contract } = useContract(subProfileFactoryAddress)
+        const { contract } = useContract(subProfileFactoryAddress, subProfileFactoryAbi)
         const { data, isLoading } = useContractRead(contract, "tbaAccount", [index, tokenId])
 
         return { data, isLoading }

@@ -3,21 +3,11 @@ import { SetStateAction, useEffect, useState } from "react"
 import { userAccountFactoryAbi, userAccountFactoryAddress } from "./../../../constants"
 
 const useUserAccountFactory = () => {
-    // const address = useAddress()
-    // const [user, setUser] = useState<string>(address!)
-
-    // const updateUser = (user: string) => setUser(user)
-
-    // useEffect(() => {
-    //     if (address) updateUser(address!)
-    // }, [address])
-
     const getUserAccount = (user: string) => {
         // if (!user || user === "undefined") return
 
-        const { contract } = useContract(userAccountFactoryAddress)
+        const { contract } = useContract(userAccountFactoryAddress, userAccountFactoryAbi)
         const { data, isLoading } = useContractRead(contract, "getUserAccount", [user])
-
 
         if (!data) {
             return

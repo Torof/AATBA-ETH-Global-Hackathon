@@ -12,8 +12,18 @@ const useSubProfileTBA = () => {
 
         return { data }
     }
+    const getSubProfileBadgesArray = (contractAddress: string) => {
+        const { contract } = useContract(contractAddress, subProfileTBAAbi)
+        const { data } = useContractRead(contract, "subProfileBadges")
 
-    return [getSubProfileBadges]
+        if (!data) {
+            return
+        }
+
+        return { data }
+    }
+
+    return [getSubProfileBadges, getSubProfileBadgesArray]
 }
 
 export default useSubProfileTBA

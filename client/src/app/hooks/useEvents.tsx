@@ -1,8 +1,8 @@
 import { useContract, useContractEvents } from "@thirdweb-dev/react"
 
 const useEvents = () => {
-    const getUserAccountCreatedEvents = (contractAddress: string) => {
-        const { contract } = useContract(contractAddress)
+    const getUserAccountCreatedEvents = (contractAddress: string, abi: any[]) => {
+        const { contract } = useContract(contractAddress, abi)
         const { data } = useContractEvents(contract, "UserAccountCreated", {
             subscribe: true, // Subscribe to new events
         })
@@ -14,8 +14,8 @@ const useEvents = () => {
         return { data }
     }
 
-    const getReceivedERC721Events = (contractAddress: string) => {
-        const { contract } = useContract(contractAddress)
+    const getReceivedERC721Events = (contractAddress: string, abi: any[]) => {
+        const { contract } = useContract(contractAddress, abi)
         const { data } = useContractEvents(contract, "ReceivedERC721", {
             subscribe: true, // Subscribe to new events
         })
@@ -27,8 +27,8 @@ const useEvents = () => {
         return { data }
     }
 
-    const getAllEvents = (contractAddress: string) => {
-        const { contract } = useContract(contractAddress)
+    const getAllEvents = (contractAddress: string, abi: any[]) => {
+        const { contract } = useContract(contractAddress, abi)
         const { data } = useContractEvents(contract)
 
         if (!data) {
@@ -38,9 +38,11 @@ const useEvents = () => {
         return { data }
     }
 
-    const getBadgeAddedEvents = (contractAddress: string) => {
-        const { contract } = useContract(contractAddress)
-        const { data } = useContractEvents(contract)
+    const getBadgeAddedEvents = (contractAddress: string, abi: any[]) => {
+        const { contract } = useContract(contractAddress, abi)
+        const { data } = useContractEvents(contract, "BadgeAdded", {
+            subscribe: true, // Subscribe to new events
+        })
 
         if (!data) {
             return
