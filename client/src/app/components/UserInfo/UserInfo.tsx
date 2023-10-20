@@ -1,7 +1,7 @@
 import Image from "next/image"
 import React from "react"
-import { FaEthereum } from "react-icons/FA"
-import { FiEdit } from "react-icons/FI"
+// import { FaEthereum } from "react-icons/FA"
+// import { FiEdit } from "react-icons/FI"
 import { Button } from "../ui/button"
 
 type Props = {
@@ -14,7 +14,7 @@ const PIC = <div className="mx-5 flex h-24 w-24 items-center justify-center roun
 const NAME = <h2 className="flex items-center justify-center text-2xl font-semibold text-black/60"> Satoshi </h2>
 const BUTTON: React.JSX.Element = (
     <Button size={"icon"} className="mx-5 flex items-center justify-center rounded-lg bg-muted/60 text-black hover:bg-muted dark:text-white">
-        <FiEdit className="text-lg" />
+        {/* <FiEdit className="text-lg" /> */}
     </Button>
 )
 
@@ -31,7 +31,7 @@ const UserInfo = ({ user }: Props) => {
                 {/* symbol, address */}
                 <div className="flex items-center justify-center gap-2 rounded-3xl">
                     <span className="rounded-full bg-[#FF8F5F] p-2">
-                        <FaEthereum className="bg-[#FF8F5F]" />
+                        {/* <FaEthereum className="bg-[#FF8F5F]" /> */}
                     </span>
                     <h3 className="text-sm font-medium tracking-wider text-[#FF8F5F]">
                         {user.substring(0, 5)}"..."{user.substring(user.length - 4)}
