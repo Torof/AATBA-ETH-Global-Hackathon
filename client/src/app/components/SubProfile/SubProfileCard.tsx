@@ -12,9 +12,7 @@ type Props = {
 }
 
 const SubProfileCard = ({ profile, cn, userAddress, contract, simpleUser }: Props) => {
-    const { setSimpleUserAccount, simpleUserAccount } = useSimpleUserStore()
-    // console.log("SIMPLE USER", simpleUser);
-    
+    const { setSimpleUserAccount, simpleUserAccount } = useSimpleUserStore()    
 
     useEffect(() => {
         simpleUser ? setSimpleUserAccount(simpleUser) : null
