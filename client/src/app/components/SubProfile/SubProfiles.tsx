@@ -4,6 +4,7 @@ import { Fragment, useEffect } from "react"
 import { SubProfileCard } from ".."
 import { SubProfile } from "../../../../typings"
 import SubProfileBadges from "./SubProfileBadges"
+import { userAccountFactoryAbi, userAccountFactoryAddress } from "../../../../constants"
 
 type Props = {
     subProfiles: SubProfile[]
@@ -14,7 +15,7 @@ type Props = {
 const SubProfiles = ({ subProfiles, userAddress, user }: Props) => {
     const [getUserAccountCreatedEvents, getReceivedERC721Events, getAllEvents, getBadgeAddedEvents] = useEvents()
     // look for events in the smart contract
-    const events = getUserAccountCreatedEvents(process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS!)
+    const events = getUserAccountCreatedEvents(userAccountFactoryAddress, userAccountFactoryAbi)
 
     const { simpleUserAccount, setSimpleUserAccount } = useSimpleUserStore()
 

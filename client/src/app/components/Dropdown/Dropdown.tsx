@@ -30,8 +30,8 @@ const Dropdown = ({ items, shareBtn, btnText, cn, state, setState }: Props) => {
                     className={`${cn} flex cursor-pointer items-center justify-center gap-2 rounded-full bg-muted-foreground/80 px-3 py-1 text-sm text-white hover:bg-muted-foreground/80 dark:hover:bg-secondary/80 dark:bg-secondary/50`}
                 >
                     {shareBtn ? (
-                        <div className="cursor-pointer">
-                            {/* <span className="text-xs">Share</span> */}
+                        <div className="cursor-pointer flex justify-center items-center gap-4">
+                            {btnText ? <span className="text-xs">Share</span> : null}
                             <AiOutlineShareAlt />
                         </div>
                     ) : (

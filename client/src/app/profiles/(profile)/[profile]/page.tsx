@@ -1,6 +1,6 @@
 "use client"
 
-import { GetBatchButton, MintNFTButton, PageBanner, SymbolAddress, Title } from "@root/app/components"
+import { Dropdown, GetBatchButton, MintNFTButton, PageBanner, SubProfileCardHeader, SymbolAddress, Title } from "@root/app/components"
 import { useEducationStore, useHackathonStore, useSimpleUserStore, useWorkStore } from "@root/app/context"
 import { useEvents, useSimpleContract, useSubProfileTBA, useUserAccountFactory } from "@root/app/hooks"
 import { useAddress } from "@thirdweb-dev/react"
@@ -8,6 +8,7 @@ import Image from "next/image"
 import { useEffect, useState } from "react"
 import { SubProfile } from "../../../../../typings"
 import SubProfileBadges from "@root/app/components/SubProfile/SubProfileBadges"
+import { testNFTAbi1 } from "../../../../../constants"
 
 type Props = {
     params: { profile: string }
@@ -68,7 +69,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
     // const events1 = getAllEvents(workSubProfileAddress)
     // const events2 = getAllEvents(hackathonSubProfileAddress)
     // const events3 = getAllEvents(educationSubProfileAddress)
-    const sbt1 = getAllEvents("0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9")
+    const sbt1 = getAllEvents("0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9", testNFTAbi1)
 
     // events1 && console.log("=====> Event workSubProfileAddress: ", events1)
     // events1 && console.log("=====> Event workSubProfileAddress: ", events2)
@@ -172,13 +173,17 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                             <GetBatchButton subProfileAddress={educationSubProfileAddress} />
                         </div>
                     ) : null}
-
-            
-
                 </div>
-                <div className="mx-auto mb-44 flex w-full max-w-6xl flex-col items-center justify-center gap-4 md:flex-row">
+
+                <div className="relative mx-auto mb-44 flex w-full max-w-6xl flex-col items-center justify-center gap-4 md:flex-row">
                     {/* <Sidebar /> */}
-                    <div className="flex w-1/4 flex-col">
+
+                    <div className="relative flex w-1/4 flex-col">
+                        <div className="absolute left-0 top-0 right-0 bg-white opacity-60 h-16 rounded-t-3xl">
+                            <div className="m-5 ml-24 mr-24">
+                                <Dropdown items={["etherscan", "IPFS"]} btnText="Share" shareBtn={true} />
+                            </div>
+                        </div>
                         {profile === "Work" ? (
                             <div className="flex flex-col gap-8">
                                 <Image height={200} width={200} alt="logo aatba" src={"/work.png"} className="h-96 w-auto rounded-3xl" />
