@@ -1,13 +1,13 @@
 import { useSimpleUserStore } from "@root/app/context"
 import { Web3Button } from "@thirdweb-dev/react"
-import { subProfileTBAAbi, subProfileTBAAddress, testNFTAbi1 } from "../../../../constants"
+import { subProfileTBAAbi } from "../../../../constants"
 
 type Props = {
     subProfileAddress: string
 }
 
 const GetBatchButton = ({ subProfileAddress }: Props) => {
-    const { simpleUserAccount, setSimpleUserAccount } = useSimpleUserStore()   
+    const { simpleUserAccount, setSimpleUserAccount } = useSimpleUserStore()
 
     return (
         <Web3Button

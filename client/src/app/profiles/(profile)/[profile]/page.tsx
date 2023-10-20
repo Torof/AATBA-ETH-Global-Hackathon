@@ -41,7 +41,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
     let education: any
 
 
-    // Get data from SimpleAccount contract
+    // Get data from contracts
     const [getSubProfile] = useSimpleContract()
     const [getSubProfileBadges] = useSubProfileTBA()
     

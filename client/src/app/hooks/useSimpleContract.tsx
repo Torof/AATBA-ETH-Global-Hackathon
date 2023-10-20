@@ -8,6 +8,12 @@ const useSubProfileFactory = () => {
 
         return { data, isLoading }
     }
+    // const getSubProfileFactoryAddress = (index: number, address: string) => {
+    //     const { contract } = useContract(address, simpleUserAccountAbi)
+    //     const { data, isLoading } = useContractRead(contract, "subProfileFactoryAddress", [])
+
+    //     return { data, isLoading }
+    // }
 
     return [getSubProfile]
 }

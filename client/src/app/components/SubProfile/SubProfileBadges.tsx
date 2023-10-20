@@ -1,10 +1,7 @@
-import { useEvents, useSimpleContract, useSubProfileTBA } from "@root/app/hooks";
-import { useContract } from "@thirdweb-dev/react";
-import React, { useEffect } from "react";
-import { subProfileTBAAbi } from "../../../../constants";
+import { useEvents, useSubProfileTBA } from "@root/app/hooks"
+import { subProfileTBAAbi } from "../../../../constants"
 
-type Props = {
-}
+type Props = {}
 
 const SubProfileBadges = (props: Props) => {
     const [getSubProfileBadges, getSubProfileBadgesArray] = useSubProfileTBA()
@@ -15,12 +12,14 @@ const SubProfileBadges = (props: Props) => {
     const events = getReceivedERC721Events("0xAE6abA5c354Ac9a70764b6bECfBaE25e5C2f0b20", subProfileTBAAbi)
 
     console.log(badges, badgesArray, events)
-    
 
-
-        return badges && badges.data ? <div>
+    return badges && badges.data ? (
+        <div>
             <p>{badges.data}</p>
-        </div> : "null"
-};
+        </div>
+    ) : (
+        "null"
+    )
+}
 
-export default SubProfileBadges;
+export default SubProfileBadges
