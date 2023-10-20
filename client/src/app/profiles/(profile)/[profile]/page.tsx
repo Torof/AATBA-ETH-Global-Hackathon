@@ -1,14 +1,14 @@
 "use client"
 
-import { Dropdown, GetBatchButton, MintNFTButton, PageBanner, SubProfileCardHeader, SymbolAddress, Title } from "@root/app/components"
+import { Dropdown, GetBatchButton, MintNFTButton, PageBanner, SymbolAddress, Title } from "@root/app/components"
 import { useEducationStore, useHackathonStore, useSimpleUserStore, useWorkStore } from "@root/app/context"
 import { useEvents, useSimpleContract, useSubProfileTBA, useUserAccountFactory } from "@root/app/hooks"
 import { useAddress } from "@thirdweb-dev/react"
 import Image from "next/image"
+import Link from "next/link"
 import { useEffect, useState } from "react"
-import { SubProfile } from "../../../../../typings"
-import SubProfileBadges from "@root/app/components/SubProfile/SubProfileBadges"
 import { testNFTAbi1 } from "../../../../../constants"
+import { SubProfile } from "../../../../../typings"
 
 type Props = {
     params: { profile: string }
@@ -40,11 +40,9 @@ const page = ({ params: { profile }, searchParams }: Props) => {
     let hackathon: any
     let education: any
 
-
     // Get data from contracts
     const [getSubProfile] = useSimpleContract()
     const [getSubProfileBadges] = useSubProfileTBA()
-    
 
     useEffect(() => {
         if (userAccountResponse && userAccountResponse.data && !userAccountResponse?.isLoading) {
@@ -53,12 +51,11 @@ const page = ({ params: { profile }, searchParams }: Props) => {
     }, [userAccountResponse && userAccountResponse.data && !userAccountResponse.isLoading])
 
     // fetch address according to url
-    profile === "Work"
+    profile === "work"
         ? (work = getSubProfile(0, simpleUserAccount))
-        : profile === "Hackathon"
+        : profile === "hackathon"
         ? (hackathon = getSubProfile(1, simpleUserAccount))
         : (education = getSubProfile(2, simpleUserAccount))
-
 
     // console.log("00000", badges1)
     // console.log("11111", badges2)
@@ -82,7 +79,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
     useEffect(() => {
         if ((work?.data && !work?.isLoading) || (hackathon?.data && !hackathon?.isLoading) || (education?.data && !education?.isLoading)) {
             const updatedArray: any = subProfiles.map((profile) => {
-                if (profile.name === "Work") {
+                if (profile.name === "work") {
                     work?.data && setWorkSubProfileAddress(work?.data?.subProfileAddress)
                     return {
                         ...profile,
@@ -90,7 +87,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                         subProfileAddress: work?.data?.subProfileAddress,
                     }
                 }
-                if (profile.name === "Hackathon") {
+                if (profile.name === "hackathon") {
                     hackathon?.data && setHackathonSubProfileAddress(hackathon?.data?.subProfileAddress)
                     return {
                         ...profile,
@@ -98,14 +95,14 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                         subProfileAddress: hackathon?.data?.subProfileAddress,
                     }
                 }
-                if (profile.name === "Education") {
+                if (profile.name === "education") {
                     education?.data && setEducationSubProfileAddress(education?.data?.subProfileAddress)
                     return {
                         ...profile,
                         contract: education?.data,
                         subProfileAddress: education?.data?.subProfileAddress,
                     }
-                } else if (profile.name === "Create") {
+                } else if (profile.name === "create") {
                     return {
                         ...profile,
                     }
@@ -118,20 +115,17 @@ const page = ({ params: { profile }, searchParams }: Props) => {
         }
     }, [work?.data || !work?.isLoading, hackathon?.data || !hackathon?.isLoading, education?.data || !education?.isLoading])
 
-    
     // if(workSubProfileAddress && !userAccountResponse?.isLoading) {
     //     console.log(getSubProfileBadges(workSubProfileAddress));
-        
+
     // } else if(hackathonSubProfileAddress) {
     //     console.log(getSubProfileBadges(hackathonSubProfileAddress))
-        
+
     // } else if(educationSubProfileAddress){
     //     console.log(getSubProfileBadges(educationSubProfileAddress))
 
     // }
 
-
-    
     return (
         <>
             <PageBanner subProfile={profile} />
@@ -140,32 +134,35 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                     <Title title={profile} cn="text-4xl" />
                     <div className="flex flex-col items-end">
                         <div>Achieved by:</div>
-                        {workSubProfileAddress && profile === "Work" ? (
+                        {workSubProfileAddress && profile === "work" ? (
                             <SymbolAddress user={workSubProfileAddress} cn={"text-muted-foreground"} />
-                        ) : hackathonSubProfileAddress && profile === "Hackathon" ? (
+                        ) : hackathonSubProfileAddress && profile === "hackathon" ? (
                             <SymbolAddress user={hackathonSubProfileAddress} cn={"text-muted-foreground"} />
-                        ) : educationSubProfileAddress && profile === "Education" ? (
+                        ) : educationSubProfileAddress && profile === "education" ? (
                             <SymbolAddress user={educationSubProfileAddress} cn={"text-muted-foreground"} />
                         ) : null}
                     </div>
                 </div>
 
-                <div className="mb-44 flex w-full max-w-6xl items-center justify-center border border-red-700">
-                    {workSubProfileAddress && profile === "Work" ? (
+                <div className="mb-44 flex w-full max-w-6xl items-center justify-center border-2 border-red-700 p-4">
+                    {workSubProfileAddress && profile === "work" ? (
                         <div className="flex flex-col gap-8">
-                            <h3> SubProfile address: {workSubProfileAddress} </h3>
+                            <div className="flex justify-between gap-10">
+                                <h3> SubProfile address: {workSubProfileAddress} </h3>
+                                <span className="font-bold text-red-700"> --debug panel</span>
+                            </div>
                             <MintNFTButton to={workSubProfileAddress} />
                             {/* <MintNFTButton nft={2} to={workAddress} /> */}
                             <GetBatchButton subProfileAddress={workSubProfileAddress} />
                         </div>
-                    ) : hackathonSubProfileAddress && profile === "Hackathon" ? (
+                    ) : hackathonSubProfileAddress && profile === "hackathon" ? (
                         <div className="flex flex-col gap-8">
                             <h3> SubProfile address: {hackathonSubProfileAddress} </h3>
                             <MintNFTButton to={hackathonSubProfileAddress} />
                             {/* <MintNFTButton nft={2} to={hackathonAddress} /> */}
                             <GetBatchButton subProfileAddress={hackathonSubProfileAddress} />
                         </div>
-                    ) : educationSubProfileAddress && profile === "Education" ? (
+                    ) : educationSubProfileAddress && profile === "education" ? (
                         <div className="flex flex-col gap-8">
                             <h3> SubProfile address: {educationSubProfileAddress} </h3>
                             <MintNFTButton to={educationSubProfileAddress} />
@@ -175,24 +172,23 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                     ) : null}
                 </div>
 
-                <div className="relative mx-auto mb-44 flex w-full max-w-6xl flex-col items-center justify-center gap-4 md:flex-row">
+                <div className="relative mx-auto mb-44 flex w-full max-w-6xl flex-col items-center justify-center gap-4 md:flex-row md:items-start md:justify-start">
                     {/* <Sidebar /> */}
-
                     <div className="relative flex w-1/4 flex-col">
-                        <div className="absolute left-0 top-0 right-0 bg-white opacity-60 h-16 rounded-t-3xl">
+                        <div className="absolute left-0 right-0 top-0 h-16 rounded-t-3xl bg-white opacity-60">
                             <div className="m-5 ml-28 mr-28">
-                                <Dropdown items={["etherscan", "IPFS"]} btnText="Share" shareBtn={true}/>
+                                <Dropdown items={["etherscan", "IPFS"]} btnText="Share" shareBtn={true} />
                             </div>
                         </div>
-                        {profile === "Work" ? (
+                        {profile === "work" ? (
                             <div className="flex flex-col gap-8">
                                 <Image height={200} width={200} alt="logo aatba" src={"/work.png"} className="h-96 w-auto rounded-3xl" />
                             </div>
-                        ) : profile === "Hackathon" ? (
+                        ) : profile === "hackathon" ? (
                             <div className="flex flex-col gap-8">
                                 <Image height={200} width={200} alt="logo aatba" src={"/hackathon.png"} className="h-96 w-auto rounded-3xl" />
                             </div>
-                        ) : profile === "Education" ? (
+                        ) : profile === "education" ? (
                             <div className="flex flex-col gap-8">
                                 <Image height={200} width={200} alt="logo aatba" src={"/education.png"} className="h-96 w-auto rounded-3xl" />
                             </div>
@@ -235,26 +231,52 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                                     className="absolute -inset-px z-0 rounded-2xl bg-gradient-to-r from-yellow-400 to-pink-400"
                                     aria-hidden="true"
                                 ></div>
-                                <div className="absolute inset-0 z-0 rounded-2xl bg-[#FEF5FF] dark:bg-zinc-900" aria-hidden="true"></div>
-                                <div className="absolute z-10 w-full px-2 text-center text-3xl font-normal text-zinc-900 dark:text-zinc-100">
+                                <div className="absolute inset-0 z-0 rounded-2xl bg-[#FEF5FF] pt-2 dark:bg-zinc-900" aria-hidden="true"></div>
+                                <div className="absolute z-10 w-full px-2 text-center text-2xl font-normal text-zinc-900 dark:text-zinc-100">
                                     Achievements
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-wrap items-center justify-center gap-4">
-                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
-                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
-                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
-                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
-                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
-                            <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
-                        </div>
+                        {profile === "hackathon" ? (
+                            <div className="mb-8 ml-12 flex flex-wrap items-center justify-start gap-4">
+                                <Link href={"/badge/ethonline"}>
+                                    <Image
+                                        height={200}
+                                        width={200}
+                                        alt="logo aatba"
+                                        src={"/badges/ethonline.png"}
+                                        className="h-72 w-auto object-contain"
+                                    />
+                                </Link>
+                                <Link href={"/badge/ETHNY"}>
+                                    <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHNY.png"} className="h-72 w-auto object-contain" />
+                                </Link>
+                                <Link href={"/badge/ETHLS"}>
+                                    <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHLS.png"} className="h-72 w-auto object-contain" />
+                                </Link>
+                                <Link href={"/badge/ETHWT"}>
+                                    <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHWT.png"} className="h-72 w-auto object-contain" />
+                                </Link>
+                                <Link href={"/badge/HACKMOS"}>
+                                    <Image
+                                        height={200}
+                                        width={200}
+                                        alt="logo aatba"
+                                        src={"/badges/HACKMOS.png"}
+                                        className="h-72 w-auto object-contain"
+                                    />
+                                </Link>
+                                <Link href={"/badge/ETHGB"}>
+                                    <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
+                                </Link>
+                            </div>
+                        ) : (
+                            <div className="mb-10 ml-12 flex flex-wrap items-center justify-start gap-4">
+                                <Image height={200} width={200} alt="logo aatba" src={"/badges/NEXT.png"} className="h-72 w-auto object-contain" />
+                            </div>
+                        )}
                     </div>
                 </div>
-
-                {/* Achievement */}
-                {/* <SubProfileCard contract={`${profile}.data`} userAddress={userAddress} profile={subProfile} simpleUser={simpleUserAccount} /> */}
-                {/* <ChainInfo /> */}
             </div>
         </>
     )
