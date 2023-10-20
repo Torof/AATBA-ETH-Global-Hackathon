@@ -27,17 +27,18 @@ const Header = (props: Props) => {
                 </div> */}
             </div>
             <div className="flex items-center justify-between space-x-4 pr-2">
-                {connected ? (
+                
                     <ConnectWallet
+                        className="bg-muted-foreground dark:bg-slate-800/60 dark:text-muted-foreground dark:hover:bg-slate-700/60 hover:bg-gray-200 animate-pulse"
                         btnTitle="Login"
                         displayBalanceToken={"false"}
-                        theme={theme === "light" ? "light" : "dark"}
+                        // theme={theme === "light" ? "light" : "dark"}
                         dropdownPosition={{
                             side: "bottom",
                             align: "center",
                         }}
                     />
-                ) : null}
+                
                 <ThemeToggle />
             </div>
         </div>

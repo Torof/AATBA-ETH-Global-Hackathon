@@ -1,7 +1,7 @@
 "use client"
-import { ConnectWallet, useAddress } from "@thirdweb-dev/react"
+import { useAddress } from "@thirdweb-dev/react"
 import { useTheme } from "next-themes"
-import { Dashboard } from "./components"
+import { Dashboard, LandingPage } from "./components"
 
 export default function Home() {
     // get MM address
@@ -13,18 +13,21 @@ export default function Home() {
             <>
                 {/* Login to wallet */}
                 {!userAddress ? (
-                    <section className="mt-44 flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
-                        <ConnectWallet
-                            btnTitle="Connect Wallet"
-                            displayBalanceToken={"false"}
-                            theme={theme === "light" ? "light" : "dark"}
-                            dropdownPosition={{
-                                side: "bottom",
-                                align: "center",
-                            }}
-                        />
-                    </section>
+                    <>
+                        <LandingPage />
+                    </>
                 ) : (
+                    // <section className="mt-44 flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
+                    //     <ConnectWallet
+                    //         btnTitle="Connect Wallet"
+                    //         displayBalanceToken={"false"}
+                    //         theme={theme === "light" ? "light" : "dark"}
+                    //         dropdownPosition={{
+                    //             side: "bottom",
+                    //             align: "center",
+                    //         }}
+                    //     />
+                    // </section>
                     <>
                         <Dashboard userAddress={userAddress} />
                     </>
