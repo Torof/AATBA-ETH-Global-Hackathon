@@ -11,7 +11,7 @@ contract VerifiedCollectionRegistry {
     enum verifyRequest {
         REQUESTED,
         VERIFIED,
-        NOT_VERIFIED, // verification fails
+        REJECTED, // verification fails
         REMOVED
     }
 

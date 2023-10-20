@@ -43,6 +43,10 @@ contract SubProfileTBA is ERC6551Account, IERC721Receiver, IERC1155Receiver {
         returns (bytes4)
     {
         emit ERC721Received(operator, from, tokenId, data);
+
+        //cycle guard prevention
+        ( , address tokenContractOwner, uint256 tokenIdOwner) = token();
+        require(msg.sender != tokenContractOwner && tokenId != tokenIdOwner, "Cannot receive token owning TBA");
         require(verifedCollectionRegistry.isVerified(msg.sender), "Contract is not whitelisted");
         Badge memory badge = Badge(msg.sender, from, tokenId, data);
         subProfileBadges.push(badge);
