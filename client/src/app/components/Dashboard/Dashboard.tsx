@@ -11,6 +11,7 @@ type Props = {
 }
 
 const Dashboard = ({ userAddress }: Props) => {
+
     const [subProfiles, setSubProfiles] = useState<SubProfileType[]>([
         { id: 0, name: "Work", profilePic: "/work.png", contract: [], subProfileAddress: "" },
         { id: 1, name: "Hackathon", profilePic: "/hackathon.png", contract: [], subProfileAddress: "" },
@@ -89,6 +90,7 @@ const Dashboard = ({ userAddress }: Props) => {
         // * No User Account available
         <section className="mt-44 flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
             <CreateUserAccount />
+            {chainId}
         </section>
     ) : userAccountResponse && !userAccountResponse.isLoading && userAccountResponse.data !== "0x0000000000000000000000000000000000000000" ? (
         // * User Account available with valid address

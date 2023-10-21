@@ -1,10 +1,16 @@
 import { useAddress, useContract, useContractRead } from "@thirdweb-dev/react"
 import { SetStateAction, useEffect, useState } from "react"
-import { userAccountFactoryAbi, userAccountFactoryAddress } from "./../../../constants"
+import { userAccountFactoryAbi } from "./../../../constants"
+import { useChainId } from "@thirdweb-dev/react"
 
 const useUserAccountFactory = () => {
+    const chainId = useChainId()
+    
     const getUserAccount = (user: string) => {
-        // if (!user || user === "undefined") return
+
+        // set address according to current chain id
+        const userAccountFactoryAddress =
+            chainId === 1337 ? process.env.NEXT_PUBLIC_HH_USER_ACCOUNT_FACTORY_ADDRESS : process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS
 
         const { contract } = useContract(userAccountFactoryAddress, userAccountFactoryAbi)
         const { data, isLoading } = useContractRead(contract, "getUserAccount", [user])

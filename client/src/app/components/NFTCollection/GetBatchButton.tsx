@@ -7,8 +7,6 @@ type Props = {
 }
 
 const GetBatchButton = ({ subProfileAddress }: Props) => {
-    const { simpleUserAccount, setSimpleUserAccount } = useSimpleUserStore()
-
     return (
         <Web3Button
             contractAbi={subProfileTBAAbi}

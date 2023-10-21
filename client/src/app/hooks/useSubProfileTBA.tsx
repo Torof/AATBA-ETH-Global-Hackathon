@@ -1,4 +1,4 @@
-import { useContract, useContractEvents, useContractRead } from "@thirdweb-dev/react"
+import { useContract, useContractRead } from "@thirdweb-dev/react"
 import { subProfileTBAAbi } from "../../../constants"
 
 const useSubProfileTBA = () => {

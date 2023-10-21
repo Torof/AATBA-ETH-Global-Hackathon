@@ -42,6 +42,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
 
     // Get data from contracts
     const [getSubProfile] = useSimpleContract()
+    // Todo: getting the badges
     const [getSubProfileBadges] = useSubProfileTBA()
 
     useEffect(() => {
@@ -57,22 +58,18 @@ const page = ({ params: { profile }, searchParams }: Props) => {
         ? (hackathon = getSubProfile(1, simpleUserAccount))
         : (education = getSubProfile(2, simpleUserAccount))
 
-    // console.log("00000", badges1)
-    // console.log("11111", badges2)
-    // console.log("22222", badges3)
-
-    // // look for events in the smart contract
+    // look for events in the smart contract
     const [getUserAccountCreatedEvents, getReceivedERC721Events, getAllEvents, getBadgeAddedEvents] = useEvents()
     // const events1 = getAllEvents(workSubProfileAddress)
     // const events2 = getAllEvents(hackathonSubProfileAddress)
     // const events3 = getAllEvents(educationSubProfileAddress)
-    const sbt1 = getAllEvents("0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9", testNFTAbi1)
+    // const sbt1 = getAllEvents("0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9", testNFTAbi1)
 
     // events1 && console.log("=====> Event workSubProfileAddress: ", events1)
     // events1 && console.log("=====> Event workSubProfileAddress: ", events2)
     // events1 && console.log("=====> Event workSubProfileAddress: ", events3)
     // console.log("=====> Event hackathonSubProfileAddress: ", events2)
-    sbt1 && console.log("=====> Event sbt1: ", sbt1?.data)
+    // sbt1 && console.log("=====> Event sbt1: ", sbt1?.data)
 
     // append the subProfile contract to the initial state
     // Todo: move to globale state

@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                     <ThirdwebProvider
                         clientId={process.env.NEXT_PUBLIC_THIRD_WEB_CLIENT_ID}
-                        activeChain={ChainId.Localhost}
+                        activeChain={ChainId.Mumbai}
                         supportedWallets={[
                             metamaskWallet({ recommended: true }),
                             walletConnect(),

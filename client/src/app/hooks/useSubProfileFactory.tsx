@@ -1,6 +1,6 @@
-import { useAddress, useContract, useContractRead } from "@thirdweb-dev/react"
+import { useAddress, useChainId, useContract, useContractRead } from "@thirdweb-dev/react"
 import { useEffect, useState } from "react"
-import { subProfileFactoryAbi, subProfileFactoryAddress } from "../../../constants"
+import { subProfileFactoryAbi } from "../../../constants"
 
 interface UserAccountProps {
     account?: string
@@ -16,6 +16,11 @@ const useSubProfileFactory = () => {
         if (address) updateUser(address!)
         return
     }, [address])
+
+    // set address according to current chain id
+    const chainId = useChainId()
+    const subProfileFactoryAddress =
+        chainId === 1337 ? process.env.NEXT_PUBLIC_HH_SUB_PROFILE_FACTORY_ADDRESS : process.env.NEXT_PUBLIC_SUB_PROFILE_FACTORY_ADDRESS
 
     const getSubProfileTemplateRegistryAddress = () => {
         const { contract } = useContract(subProfileFactoryAddress, subProfileFactoryAbi) // SubProfileFactory address
@@ -34,7 +39,7 @@ const useSubProfileFactory = () => {
         return { data, isLoading }
     }
 
-    return [getSubProfileTemplateRegistryAddress]
+    return [getSubProfileTemplateRegistryAddress, getTBAAccount]
 }
 
 export default useSubProfileFactory
