@@ -3,7 +3,7 @@ import { useContract, useContractEvents } from "@thirdweb-dev/react"
 const useEvents = () => {
     const getUserAccountCreatedEvents = (contractAddress: string, abi: any[]) => {
         const { contract } = useContract(contractAddress, abi)
-        const { data } = useContractEvents(contract, "UserAccountCreated", {
+        const { data, isLoading } = useContractEvents(contract, "UserAccountCreated", {
             subscribe: true, // Subscribe to new events
         })
 
@@ -11,7 +11,7 @@ const useEvents = () => {
             return
         }
 
-        return { data }
+        return { data, isLoading }
     }
 
     const getReceivedERC721Events = (contractAddress: string, abi: any[]) => {

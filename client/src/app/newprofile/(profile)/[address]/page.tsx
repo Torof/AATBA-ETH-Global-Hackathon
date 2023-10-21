@@ -1,8 +1,12 @@
 "use client"
 
 import { CreateSubProfile, CreateSubProfileTemplate, Dropdown, PageBanner, Title } from "@root/app/components"
+import { useEvents } from "@root/app/hooks"
+import { EventType, useChainId } from "@thirdweb-dev/react"
 import Image from "next/image"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
+import { userAccountFactoryAbi } from "../../../../../constants"
+import { useSimpleUserStore } from "@root/app/context"
 
 type Props = {
     params: { address: string }
@@ -11,15 +15,33 @@ type Props = {
 
 const page = ({ params: { address }, searchParams }: Props) => {
     const [templateValue, setTemplateValue] = useState<number>(0)
-    const onTemplateChange = (event: ChangeEvent<any>) => {
-        setTemplateValue(event.target.value)
-    }
 
     const [nameValue, setNameValue] = useState<string>("")
     const onNameChange = (event: any) => setNameValue(event.target.value)
 
     const [symbolValue, setSymbolValue] = useState<string>("")
     const onSymbolChange = (event: any) => setSymbolValue(event.target.value)
+
+    const { simpleUserAccount, setSimpleUserAccount } = useSimpleUserStore()
+
+    const chainId = useChainId()
+    const userAccountFactoryAddress =
+        chainId === 1337 ? process.env.NEXT_PUBLIC_HH_USER_ACCOUNT_FACTORY_ADDRESS! : process.env.NEXT_PUBLIC_USER_ACCOUNT_FACTORY_ADDRESS!
+
+    const [getAllEvents] = useEvents()
+    const events = getAllEvents(userAccountFactoryAddress, userAccountFactoryAbi)
+
+    // events ? setSimpleUserAccount(ev) 
+    events ? console.log(events.data[0].data.acount) : null
+    // events ? setSimpleUserAccount(events.data[0].data.acount) : null
+    
+    useEffect(() => {
+        if (events && events.data) {
+            console.log(events.data[0].data.acount)
+            setSimpleUserAccount(events.data[0].data.acount)
+        }
+    }, [events?.data])
+    
 
     return address && address !== "" ? (
         <>
@@ -46,6 +68,20 @@ const page = ({ params: { address }, searchParams }: Props) => {
                                 You like to keep on keeping it on, challenging yourself, testing your skills. This profile shows how skilled you are,
                                 let the people know you’re the GOAT.
                             </p>
+                        </div>
+                        <div className="flex gap-4 justify-between mt-8">
+                        <select className="rounded-lg p-2" value={templateValue!} onChange={(e) => setTemplateValue(Number(e.target.value))}>
+                            <option className="p-2" value={0}>
+                                Work
+                            </option>
+                            <option className="p-2" value={1}>
+                                Hackathon
+                            </option>
+                            <option className="p-2" value={2}>
+                                Education
+                            </option>
+                        </select>
+                        <CreateSubProfile templateIndex={templateValue!} simpleUser={simpleUserAccount} />
                         </div>
                         {/* <div className="mt-16 rounded-3xl border border-pink-300 p-4">
                         <h3> On Chain Info</h3>
@@ -91,7 +127,7 @@ const page = ({ params: { address }, searchParams }: Props) => {
                     </div>
                 </div>
                 {/* create sub profile template */}
-                <div className="mx-auto my-6 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
+                {/* <div className="mx-auto my-6 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
                     <input
                         type="text"
                         name="name"
@@ -109,25 +145,16 @@ const page = ({ params: { address }, searchParams }: Props) => {
                         onChange={(e) => onSymbolChange(e)}
                     />
                     <CreateSubProfileTemplate name={nameValue} symbol={symbolValue} />
-                </div>
+                </div> */}
                 {/* create sub profile */}
-                <div className="mx-auto w-screen max-w-5xl flex justify-start items-center pl-8">
-                    <label className="hover:cursor-pointer" htmlFor="templateIndex">
-                        0: work, 1: hackathon, 2: education
-                    </label>
-                </div>
-                <div className="mx-auto mb-44 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
-                    <input
-                        id="templateIndex"
-                        type="text"
-                        name="templateIndex"
-                        placeholder="0: work, 1: hackathon, 2: education"
-                        className="max-w-5xl flex-1 rounded-lg pl-4"
-                        value={templateValue}
-                        onChange={(e) => onTemplateChange(e)}
-                    />
-                    <CreateSubProfile templateIndex={templateValue!} />
-                </div>
+                {/* <div className="mx-auto mb-44 flex w-screen max-w-5xl flex-wrap gap-4 px-4 border">
+                    <select className="rounded-lg p-2" value={templateValue!} onChange={(e) => setTemplateValue(Number(e.target.value))}>
+                        <option className="p-2" value={0}> Work </option>
+                        <option className="p-2" value={1}> Hackathon </option>
+                        <option className="p-2" value={2}> Education </option>
+                    </select>
+                    <CreateSubProfile templateIndex={templateValue!} simpleUser={simpleUserAccount} />
+                </div> */}
             </div>
         </>
     ) : null

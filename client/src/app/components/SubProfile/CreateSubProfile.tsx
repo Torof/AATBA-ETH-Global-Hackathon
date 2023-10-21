@@ -5,16 +5,17 @@ import { simpleUserAccountAbi } from "../../../../constants"
 
 type Props = {
     templateIndex: number
+    simpleUser: string;
 }
 
-const CreateSubProfile = ({ templateIndex }: Props) => {
+const CreateSubProfile = ({ templateIndex, simpleUser }: Props) => {
     const { simpleUserAccount } = useSimpleUserStore()
     const { push } = useRouter()
 
     return (
         <Web3Button
             contractAbi={simpleUserAccountAbi}
-            contractAddress={simpleUserAccount!}
+            contractAddress={simpleUserAccount || simpleUser}
             action={(contract) => {
                 contract.call("createSubProfile", [templateIndex])
             }}
