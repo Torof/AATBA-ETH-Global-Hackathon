@@ -90,7 +90,6 @@ const Dashboard = ({ userAddress }: Props) => {
         // * No User Account available
         <section className="mt-44 flex h-screen max-h-[32rem] w-screen max-w-5xl items-center justify-center">
             <CreateUserAccount />
-            {chainId}
         </section>
     ) : userAccountResponse && !userAccountResponse.isLoading && userAccountResponse.data !== "0x0000000000000000000000000000000000000000" ? (
         // * User Account available with valid address
