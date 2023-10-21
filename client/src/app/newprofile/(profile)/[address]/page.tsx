@@ -1,12 +1,12 @@
 "use client"
 
 import { CreateSubProfile, CreateSubProfileTemplate, Dropdown, PageBanner, Title } from "@root/app/components"
-import { useEvents } from "@root/app/hooks"
-import { EventType, useChainId } from "@thirdweb-dev/react"
-import Image from "next/image"
-import { ChangeEvent, useEffect, useState } from "react"
-import { userAccountFactoryAbi } from "../../../../../constants"
 import { useSimpleUserStore } from "@root/app/context"
+import { useEvents } from "@root/app/hooks"
+import { useChainId } from "@thirdweb-dev/react"
+import Image from "next/image"
+import { useEffect, useState } from "react"
+import { userAccountFactoryAbi } from "../../../../../constants"
 
 type Props = {
     params: { address: string }
@@ -31,19 +31,18 @@ const page = ({ params: { address }, searchParams }: Props) => {
     const [getAllEvents] = useEvents()
     const events = getAllEvents(userAccountFactoryAddress, userAccountFactoryAbi)
 
-    // events ? setSimpleUserAccount(ev) 
+    // events ? setSimpleUserAccount(ev)
     events ? console.log(events.data[0].data.acount) : null
     // events ? setSimpleUserAccount(events.data[0].data.acount) : null
-    
+
     useEffect(() => {
         if (events && events.data) {
             console.log(events.data[0].data.acount)
             setSimpleUserAccount(events.data[0].data.acount)
         }
     }, [events?.data])
-    
 
-    return address && address !== "" ? (
+    return address && address !== "" && address !== "template" ? (
         <>
             <div>
                 <PageBanner subProfile={address} />
@@ -69,19 +68,19 @@ const page = ({ params: { address }, searchParams }: Props) => {
                                 let the people know you’re the GOAT.
                             </p>
                         </div>
-                        <div className="flex gap-4 justify-between mt-8">
-                        <select className="rounded-lg p-2" value={templateValue!} onChange={(e) => setTemplateValue(Number(e.target.value))}>
-                            <option className="p-2" value={0}>
-                                Work
-                            </option>
-                            <option className="p-2" value={1}>
-                                Hackathon
-                            </option>
-                            <option className="p-2" value={2}>
-                                Education
-                            </option>
-                        </select>
-                        <CreateSubProfile templateIndex={templateValue!} simpleUser={simpleUserAccount} />
+                        <div className="mt-8 flex justify-between gap-4">
+                            <select className="rounded-lg p-2" value={templateValue!} onChange={(e) => setTemplateValue(Number(e.target.value))}>
+                                <option className="p-2" value={0}>
+                                    Work
+                                </option>
+                                <option className="p-2" value={1}>
+                                    Hackathon
+                                </option>
+                                <option className="p-2" value={2}>
+                                    Education
+                                </option>
+                            </select>
+                            <CreateSubProfile templateIndex={templateValue!} simpleUser={simpleUserAccount} />
                         </div>
                         {/* <div className="mt-16 rounded-3xl border border-pink-300 p-4">
                         <h3> On Chain Info</h3>
@@ -156,6 +155,42 @@ const page = ({ params: { address }, searchParams }: Props) => {
                     <CreateSubProfile templateIndex={templateValue!} simpleUser={simpleUserAccount} />
                 </div> */}
             </div>
+        </>
+    ) : address && address === "template" ? (
+        <>
+            <div>
+                <PageBanner subProfile={address} />
+                <div className="mx-auto max-w-6xl py-8">
+                    <Title title={`Create New ${address}`} cn="text-4xl" />
+                </div>
+                {/* <div className="relative mx-auto mb-44 flex w-full max-w-6xl flex-col items-center justify-center gap-4 md:flex-row md:items-start"> */}
+                {/* <Sidebar /> */}
+                <div className="relative mx-auto mb-44 mt-24 flex w-1/3 flex-col rounded-lg border-4 border-dashed">
+                    <div className="mt-8 flex justify-between gap-4">
+                        {/* create sub profile template */}
+                        <div className="mx-auto my-6 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
+                            <input
+                                type="text"
+                                name="name"
+                                placeholder="Work"
+                                className="max-w-lg flex-1 rounded-lg bg-secondary p-4"
+                                value={nameValue}
+                                onChange={(e) => onNameChange(e)}
+                            />
+                            <input
+                                type="text"
+                                name="symbol"
+                                placeholder="WRK"
+                                className="max-w-lg rounded-lg bg-secondary p-4"
+                                value={symbolValue}
+                                onChange={(e) => onSymbolChange(e)}
+                            />
+                            <CreateSubProfileTemplate name={nameValue} symbol={symbolValue} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* </div> */}
         </>
     ) : null
 }
