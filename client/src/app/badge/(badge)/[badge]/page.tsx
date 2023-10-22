@@ -15,7 +15,7 @@ type Props = {
 }
 
 const page = ({ params: { badge }, searchParams }: Props) => {
-    const DATE = "Sept 25 / 2023"
+    const DATE = "Okt 22 / 2023"
     const USERADDRESS = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
 
     const user = useAddress()

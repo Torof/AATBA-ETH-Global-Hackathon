@@ -199,13 +199,13 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                                 <span> Contract Address</span>
                                 <span>0x .... </span>
                             </div>
-                            <div className="flex justify-between">
+                            {/* <div className="flex justify-between">
                                 <span>Chain:</span>
-                                <span>Ethereum</span>
-                            </div>
+                                <span>Polygon</span>
+                            </div> */}
                             <div className="flex justify-between">
                                 <span>Date Minted</span>
-                                <span>Sept 25, 2023</span>
+                                <span>Okt 22, 2023</span>
                             </div>
                             <div className="flex justify-between">
                                 <span>Token Standard</span>
