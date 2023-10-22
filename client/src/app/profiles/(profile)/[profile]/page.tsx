@@ -141,6 +141,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                     </div>
                 </div>
 
+                {/* DEBUG MINT SCREEN 
                 <div className="mb-44 flex w-full max-w-6xl items-center justify-center border-2 border-red-700 p-4">
                     {workSubProfileAddress && profile === "work" ? (
                         <div className="flex flex-col gap-8">
@@ -149,25 +150,22 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                                 <span className="font-bold text-red-700"> --debug panel</span>
                             </div>
                             <MintNFTButton to={workSubProfileAddress} />
-                            {/* <MintNFTButton nft={2} to={workAddress} /> */}
                             <GetBatchButton subProfileAddress={workSubProfileAddress} />
                         </div>
                     ) : hackathonSubProfileAddress && profile === "hackathon" ? (
                         <div className="flex flex-col gap-8">
                             <h3> SubProfile address: {hackathonSubProfileAddress} </h3>
                             <MintNFTButton to={hackathonSubProfileAddress} />
-                            {/* <MintNFTButton nft={2} to={hackathonAddress} /> */}
                             <GetBatchButton subProfileAddress={hackathonSubProfileAddress} />
                         </div>
                     ) : educationSubProfileAddress && profile === "education" ? (
                         <div className="flex flex-col gap-8">
                             <h3> SubProfile address: {educationSubProfileAddress} </h3>
                             <MintNFTButton to={educationSubProfileAddress} />
-                            {/* <MintNFTButton nft={2} to={educationSubProfileAddress} /> */}
                             <GetBatchButton subProfileAddress={educationSubProfileAddress} />
                         </div>
                     ) : null}
-                </div>
+                </div> */}
 
                 <div className="relative mx-auto mb-44 flex w-full max-w-6xl flex-col items-center justify-center gap-4 md:flex-row md:items-start md:justify-start">
                     {/* <Sidebar /> */}
