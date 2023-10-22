@@ -35,7 +35,7 @@ const LandingPage = (props: Props) => {
     ]
     return (
         <div>
-            <PageBanner cn="bg-gradient-to-r from-[#DAFBE3] to-[#E3E2FD] p-4 shadow drop-shadow-lg dark:from-[#7faa89] dark:to-[#848491] w-screen max-w-sm lg:max-w-5xl" />
+            <PageBanner cn="bg-gradient-to-r from-[#DAFBE3] to-[#E3E2FD] p-4 shadow drop-shadow-lg dark:from-[#7faa89] dark:to-[#848491] w-screen max-w-sm md:max-w-xl sm:max-w-md lg:max-w-7xl" />
             <Image
                 height={700}
                 width={700}
@@ -43,11 +43,11 @@ const LandingPage = (props: Props) => {
                 src={"/landing/1.png"}
                 className="absolute z-30 hidden w-auto object-contain md:right-0 md:top-0 lg:block"
             />
-            <h1 className="absolute top-44 z-30 ml-64 max-w-2xl bg-gradient-to-r from-fuchsia-300 to-teal-300 bg-clip-text text-xl font-bold text-transparent shadow-slate-800 drop-shadow-2xl lg:ml-16 lg:text-7xl">
+            <h1 className="absolute top-44 z-30 mx-auto ml-40 max-w-md bg-gradient-to-r from-fuchsia-300 to-teal-300 bg-clip-text text-3xl md:text-5xl font-bold text-transparent shadow-slate-800 drop-shadow-2xl sm:ml-52 md:ml-64 lg:ml-16 lg:max-w-2xl lg:text-7xl">
                 Proof of your life Achievements
             </h1>
             <h3 className="absolute top-36 z-30 ml-96 font-bold lg:left-1/2 lg:text-lg lg:tracking-wider">Verified</h3>
-            <h3 className="absolute top-80 z-30 ml-60 text-base font-bold lg:ml-16 lg:text-lg lg:tracking-wider">
+            <h3 className="lg:max-w-2xl absolute top-80 z-30 ml-24 text-base font-bold sm:ml-52 md:ml-64 lg:ml-16 lg:text-lg lg:tracking-wider">
                 Education, Experience, Awards, and MORE!
             </h3>
             <div className="mx-auto flex max-w-md flex-col gap-4 py-20 text-center md:max-w-lg lg:w-full lg:max-w-5xl">
@@ -137,9 +137,9 @@ const LandingPage = (props: Props) => {
                 The <span className="bg-gradient-to-br from-violet-600 to-teal-300 bg-clip-text text-transparent"> A </span> Team
             </h2>
             {/* profiles */}
-            <div className="flex flex-wrap gap-4 mx-auto justify-center items-center max-w-sm sm:max-w-md md:max-w-5xl">
+            <div className="mx-auto mb-44 flex max-w-sm flex-wrap items-center justify-center gap-4 sm:max-w-md md:max-w-5xl">
                 {team.map((t) => (
-                    <div key={t.id} className="flex flex-col justify-center items-center">
+                    <div key={t.id} className="flex flex-col items-center justify-center">
                         <div className="mb-4 flex h-60 w-48 flex-col justify-between rounded-3xl bg-[#404040]">
                             {/* pfp */}
                             <Image
