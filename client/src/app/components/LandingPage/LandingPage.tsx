@@ -35,7 +35,7 @@ const LandingPage = (props: Props) => {
     ]
     return (
         <div>
-            <PageBanner cn="bg-gradient-to-r from-[#DAFBE3] to-[#E3E2FD] p-4 shadow drop-shadow-lg dark:from-[#7faa89] dark:to-[#848491] w-screen max-w-sm md:max-w-xl sm:max-w-md lg:max-w-7xl" />
+            <PageBanner cn="bg-gradient-to-r from-[#DAFBE3] to-[#E3E2FD] p-4 shadow drop-shadow-lg dark:from-[#7faa89] dark:to-[#848491] w-screen max-w-sm md:max-w-xl sm:max-w-md lg:max-w-6xl" />
             <Image
                 height={700}
                 width={700}
@@ -46,7 +46,7 @@ const LandingPage = (props: Props) => {
             <h1 className="absolute top-44 z-30 mx-auto ml-40 max-w-md bg-gradient-to-r from-fuchsia-300 to-teal-300 bg-clip-text text-3xl font-bold text-transparent shadow-slate-800 drop-shadow-2xl sm:ml-52 md:ml-64 md:text-5xl lg:ml-16 lg:max-w-2xl lg:text-7xl">
                 Proof of your life Achievements
             </h1>
-            <h3 className="absolute top-36 z-30 ml-96 font-bold lg:left-1/2 lg:text-lg lg:tracking-wider">Verified</h3>
+            {/* <h3 className="absolute top-36 z-30 ml-96 font-bold lg:left-1/2 lg:text-lg lg:tracking-wider">Verified</h3> */}
             <h3 className="absolute top-80 z-30 ml-24 text-base font-bold sm:ml-52 md:ml-64 lg:ml-16 lg:max-w-2xl lg:text-lg lg:tracking-wider">
                 Education, Experience, Awards, and MORE!
             </h3>
@@ -54,7 +54,7 @@ const LandingPage = (props: Props) => {
                 <h2 className="text-5xl font-black tracking-wider">Trustless & Verifiable profiles</h2>
                 <h4 className="tracking wide font-medium">With Security and Privacy Fully On-Chain</h4>
             </div>
-            <div className="mb-12 flex w-full flex-col gap-8 px-16 lg:flex-row">
+            <div className="mb-12 flex w-full flex-col gap-8 px-12 lg:flex-row">
                 <div className="relative mx-auto h-[38rem] rounded-3xl bg-[#A7D790] px-8 lg:w-1/2">
                     <div className="max-w-md">
                         <h2 className="py-6 text-5xl font-black tracking-wider">Account Abstraction</h2>
@@ -86,21 +86,21 @@ const LandingPage = (props: Props) => {
                 </div>
             </div>
             <Image
-                height={1200}
-                width={1200}
+                height={1210}
+                width={1210}
                 alt="logo aatba"
                 src={"/landing/4.png"}
-                className="z-30 mx-auto w-auto object-contain px-4 md:right-0 md:top-0 lg:block"
+                className=" z-30 mx-auto object-contain md:right-0 md:top-0 lg:block max-w-[67.8rem]"
             />
             <h2 className="my-12 text-center text-5xl font-black tracking-wider">
                 How <span className="bg-gradient-to-br from-violet-600 to-teal-300 bg-clip-text text-transparent"> AATBA </span> Works?
             </h2>
             <Image
-                height={1200}
-                width={1200}
+                height={1100}
+                width={1100}
                 alt="logo aatba"
                 src={"/landing/7.png"}
-                className="z-30 mx-auto w-auto object-contain md:right-0 md:top-0 lg:block"
+                className="z-30 mx-auto object-contain md:right-0 md:top-0 lg:block"
             />
             <div className="mx-auto my-12 flex max-w-md justify-center gap-4 lg:max-w-5xl">
                 <Image
