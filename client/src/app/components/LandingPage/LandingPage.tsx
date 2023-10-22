@@ -26,7 +26,7 @@ const LandingPage = (props: Props) => {
         },
         {
             id: 4,
-            name: "Camilo",
+            name: "Camilo León",
             li: "https://www.linkedin.com/in/camilo-leon/",
             x: "https://twitter.com/cryptocuentos",
             be: "https://www.behance.net/welcome2dsimulation",

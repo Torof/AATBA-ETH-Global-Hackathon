@@ -23,7 +23,7 @@ const UserInfo = ({ user }: Props) => {
         <div className="flex h-32 items-center justify-between rounded-[2rem] bg-gradient-to-r from-[#FFE1D0] to-[#FFBCBC]">
             {/* profile pic */}
             <div className="mx-5 flex h-24 w-24 items-center justify-center rounded-[1.7rem]">
-                <Image src="/pfp.png" height={200} width={200} alt="#" priority />
+                <Image src="/pfp2.png" height={200} width={200} alt="#" priority />
             </div>
             <div className="flex flex-1 flex-col items-start justify-center gap-2">
                 {/* username */}

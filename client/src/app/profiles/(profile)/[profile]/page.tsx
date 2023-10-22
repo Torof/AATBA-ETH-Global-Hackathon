@@ -1,13 +1,12 @@
 "use client"
 
-import { Dropdown, GetBatchButton, MintNFTButton, PageBanner, SymbolAddress, Title } from "@root/app/components"
+import { Dropdown, PageBanner, SymbolAddress, Title } from "@root/app/components"
 import { useEducationStore, useHackathonStore, useSimpleUserStore, useWorkStore } from "@root/app/context"
 import { useEvents, useSimpleContract, useSubProfileTBA, useUserAccountFactory } from "@root/app/hooks"
 import { useAddress } from "@thirdweb-dev/react"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { testNFTAbi1 } from "../../../../../constants"
 import { SubProfile } from "../../../../../typings"
 
 type Props = {
@@ -240,17 +239,35 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                                         width={200}
                                         alt="logo aatba"
                                         src={"/badges/ethonline.png"}
-                                        className="h-72 w-auto object-contain"
+                                        className="h-72 w-auto object-contain hover:scale-105 hover:grayscale"
                                     />
                                 </Link>
                                 <Link href={"/badge/ETHNY"}>
-                                    <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHNY.png"} className="h-72 w-auto object-contain" />
+                                    <Image
+                                        height={200}
+                                        width={200}
+                                        alt="logo aatba"
+                                        src={"/badges/ETHNY.png"}
+                                        className="h-72 w-auto object-contain hover:scale-105 hover:grayscale"
+                                    />
                                 </Link>
                                 <Link href={"/badge/ETHLS"}>
-                                    <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHLS.png"} className="h-72 w-auto object-contain" />
+                                    <Image
+                                        height={200}
+                                        width={200}
+                                        alt="logo aatba"
+                                        src={"/badges/ETHLS.png"}
+                                        className="h-72 w-auto object-contain hover:scale-105 hover:grayscale"
+                                    />
                                 </Link>
                                 <Link href={"/badge/ETHWT"}>
-                                    <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHWT.png"} className="h-72 w-auto object-contain" />
+                                    <Image
+                                        height={200}
+                                        width={200}
+                                        alt="logo aatba"
+                                        src={"/badges/ETHWT.png"}
+                                        className="h-72 w-auto object-contain hover:scale-105 hover:grayscale"
+                                    />
                                 </Link>
                                 <Link href={"/badge/HACKMOS"}>
                                     <Image
@@ -258,11 +275,17 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                                         width={200}
                                         alt="logo aatba"
                                         src={"/badges/HACKMOS.png"}
-                                        className="h-72 w-auto object-contain"
+                                        className="h-72 w-auto object-contain hover:scale-105 hover:grayscale"
                                     />
                                 </Link>
                                 <Link href={"/badge/ETHGB"}>
-                                    <Image height={200} width={200} alt="logo aatba" src={"/badges/ETHGB.png"} className="h-72 w-auto object-contain" />
+                                    <Image
+                                        height={200}
+                                        width={200}
+                                        alt="logo aatba"
+                                        src={"/badges/ETHGB.png"}
+                                        className="h-72 w-auto object-contain hover:scale-105 hover:grayscale"
+                                    />
                                 </Link>
                             </div>
                         ) : (

@@ -45,7 +45,7 @@ const page = ({ params: { address }, searchParams }: Props) => {
     return address && address !== "" && address !== "template" ? (
         <>
             <div>
-                <PageBanner subProfile={address} />
+                <PageBanner subProfile={address} avatar={"/pfp.png"} />
                 <div className="mx-auto max-w-6xl py-8">
                     <Title title={address} cn="text-4xl" />
                 </div>
@@ -82,29 +82,6 @@ const page = ({ params: { address }, searchParams }: Props) => {
                             </select>
                             <CreateSubProfile templateIndex={templateValue!} simpleUser={simpleUserAccount} />
                         </div>
-                        {/* <div className="mt-16 rounded-3xl border border-pink-300 p-4">
-                        <h3> On Chain Info</h3>
-                        <div className="flex justify-between">
-                            <span> Contract Address</span>
-                            <span>0x .... </span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span>Chain:</span>
-                            <span>Ethereum</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span>Date Minted</span>
-                            <span>Sept 25, 2023</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span>Token Standard</span>
-                            <span> ERC-4337 </span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span>Token Id</span>
-                            <span>#68714</span>
-                        </div>
-                    </div> */}
                     </div>
                     {/* achievements */}
                     <div className="achievements flex flex-1 flex-col rounded-3xl border border-pink-300 p-4">
@@ -125,35 +102,6 @@ const page = ({ params: { address }, searchParams }: Props) => {
                         </div>
                     </div>
                 </div>
-                {/* create sub profile template */}
-                {/* <div className="mx-auto my-6 flex w-screen max-w-5xl flex-wrap gap-4 px-4">
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="name"
-                        className="max-w-lg flex-1 rounded-lg pl-4"
-                        value={nameValue}
-                        onChange={(e) => onNameChange(e)}
-                    />
-                    <input
-                        type="text"
-                        name="symbol"
-                        placeholder="symbol"
-                        className="max-w-lg flex-1 rounded-lg pl-4"
-                        value={symbolValue}
-                        onChange={(e) => onSymbolChange(e)}
-                    />
-                    <CreateSubProfileTemplate name={nameValue} symbol={symbolValue} />
-                </div> */}
-                {/* create sub profile */}
-                {/* <div className="mx-auto mb-44 flex w-screen max-w-5xl flex-wrap gap-4 px-4 border">
-                    <select className="rounded-lg p-2" value={templateValue!} onChange={(e) => setTemplateValue(Number(e.target.value))}>
-                        <option className="p-2" value={0}> Work </option>
-                        <option className="p-2" value={1}> Hackathon </option>
-                        <option className="p-2" value={2}> Education </option>
-                    </select>
-                    <CreateSubProfile templateIndex={templateValue!} simpleUser={simpleUserAccount} />
-                </div> */}
             </div>
         </>
     ) : address && address === "template" ? (
@@ -163,7 +111,6 @@ const page = ({ params: { address }, searchParams }: Props) => {
                 <div className="mx-auto max-w-6xl py-8">
                     <Title title={`Create New ${address}`} cn="text-4xl" />
                 </div>
-                {/* <div className="relative mx-auto mb-44 flex w-full max-w-6xl flex-col items-center justify-center gap-4 md:flex-row md:items-start"> */}
                 {/* <Sidebar /> */}
                 <div className="relative mx-auto mb-44 mt-24 flex w-1/3 flex-col rounded-lg border-4 border-dashed">
                     <div className="mt-8 flex justify-between gap-4">

@@ -8,9 +8,10 @@ type Props = {
     }
     cn?: string
     subProfile?: string
+    avatar?: string
 }
 
-const PageBanner = ({ userAccountResponse, cn, subProfile }: Props) => {
+const PageBanner = ({ userAccountResponse, cn, subProfile, avatar }: Props) => {
     return userAccountResponse && userAccountResponse.data ? (
         <div className={`${cn} mx-4 flex flex-col gap-5 rounded-3xl`}>
             <UserInfo user={userAccountResponse.data} />
@@ -30,7 +31,7 @@ const PageBanner = ({ userAccountResponse, cn, subProfile }: Props) => {
             />
             {/* profile pic */}
             <div className="absolute left-0 right-0 top-[13rem] z-30 mx-auto h-24 w-24 max-w-6xl rounded-[1.7rem]">
-                <Image className="" src="/pfp.png" height={200} width={200} alt="#" priority />
+                <Image className="" src={`${avatar ? avatar : "/pfp1.png"}`} height={200} width={200} alt="#" priority />
             </div>
         </div>
     ) : (
