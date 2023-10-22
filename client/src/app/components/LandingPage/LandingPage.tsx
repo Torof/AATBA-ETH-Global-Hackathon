@@ -46,7 +46,7 @@ const LandingPage = (props: Props) => {
                 <h4 className="tracking wide font-medium">With Security and Privacy Fully On-Chain</h4>
             </div>
             <div className="mb-12 flex w-full gap-8 px-16">
-                <div className="relative h-[38rem] w-1/2 rounded-3xl border bg-[#A7D790] px-8">
+                <div className="relative h-[38rem] w-1/2 rounded-3xl bg-[#A7D790] px-8">
                     <div className="max-w-md">
                         <h2 className="py-6 text-5xl font-black tracking-wider">Account Abstraction</h2>
                         <p className="mb-4">Smart profiles need smart accounts!</p>
@@ -61,7 +61,7 @@ const LandingPage = (props: Props) => {
                         className="absolute bottom-0 left-0 z-30 mx-auto w-auto object-contain"
                     />
                 </div>
-                <div className="relative h-[38rem] w-1/2 rounded-3xl border bg-[#F8B6B6] px-8">
+                <div className="relative h-[38rem] w-1/2 rounded-3xl bg-[#F8B6B6] px-8">
                     <div className="max-w-md">
                         <h2 className="py-6 text-5xl font-black tracking-wider">Token Bound Account</h2>
                         <p className="mb-4">One account to rule them all!</p>
@@ -93,21 +93,21 @@ const LandingPage = (props: Props) => {
                 src={"/landing/7.png"}
                 className="z-30 mx-auto w-auto object-contain md:right-0 md:top-0 lg:block"
             />
-            <div className="mx-auto flex max-w-5xl justify-center gap-4 border">
+            <div className="mx-auto flex max-w-5xl justify-center gap-4">
                 <Image
                     height={1200}
                     width={1200}
                     alt="logo aatba"
                     src={"/landing/eth.png"}
-                    className=" z-30 w-auto border object-contain md:right-0 md:top-0 lg:block"
+                    className=" z-30 w-auto object-contain md:right-0 md:top-0 lg:block"
                 />
-                <h2 className="my-8 border text-center text-5xl font-black tracking-wider">Powered by Ethereum</h2>
+                <h2 className="my-8 text-center text-5xl font-black tracking-wider">Powered by Ethereum</h2>
                 <Image
                     height={1200}
                     width={1200}
                     alt="logo aatba"
                     src={"/landing/eth.png"}
-                    className=" z-30 w-auto border object-contain md:right-0 md:top-0 lg:block"
+                    className=" z-30 w-auto object-contain md:right-0 md:top-0 lg:block"
                 />
             </div>
             <Image
