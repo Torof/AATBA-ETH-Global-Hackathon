@@ -6,10 +6,10 @@ type Props = {}
 
 const LandingPage = (props: Props) => {
     const team = [
-        { id: 0, name: "Hojay Lee", li: "https://www.linkedin.com/in/hojay/", x: "https://twitter.com/hojayxyz", pfp: "1.png" },
+        { id: 0, name: "Hojay", li: "https://www.linkedin.com/in/hojay/", x: "https://twitter.com/hojayxyz", pfp: "1.png" },
         {
             id: 1,
-            name: "Kalpita Mandal",
+            name: "Kalpita",
             li: "https://www.linkedin.com/in/kalpita-mandal-220974153/",
             x: "https://twitter.com/KalpitaMandal",
             git: "https://github.com/KalpitaMandal",
@@ -26,7 +26,7 @@ const LandingPage = (props: Props) => {
         },
         {
             id: 4,
-            name: "Camilo León",
+            name: "Camilo",
             li: "https://www.linkedin.com/in/camilo-leon/",
             x: "https://twitter.com/cryptocuentos",
             be: "https://www.behance.net/welcome2dsimulation",
