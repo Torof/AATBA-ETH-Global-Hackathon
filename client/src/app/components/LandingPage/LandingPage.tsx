@@ -43,14 +43,14 @@ const LandingPage = (props: Props) => {
                 src={"/landing/1.png"}
                 className="absolute z-30 hidden w-auto object-contain md:right-0 md:top-0 lg:block"
             />
-            <h1 className="absolute top-44 z-30 mx-auto ml-40 max-w-md bg-gradient-to-r from-fuchsia-300 to-teal-300 bg-clip-text text-3xl md:text-5xl font-bold text-transparent shadow-slate-800 drop-shadow-2xl sm:ml-52 md:ml-64 lg:ml-16 lg:max-w-2xl lg:text-7xl">
+            <h1 className="absolute top-44 z-30 mx-auto ml-40 max-w-md bg-gradient-to-r from-fuchsia-300 to-teal-300 bg-clip-text text-3xl font-bold text-transparent shadow-slate-800 drop-shadow-2xl sm:ml-52 md:ml-64 md:text-5xl lg:ml-16 lg:max-w-2xl lg:text-7xl">
                 Proof of your life Achievements
             </h1>
             <h3 className="absolute top-36 z-30 ml-96 font-bold lg:left-1/2 lg:text-lg lg:tracking-wider">Verified</h3>
-            <h3 className="lg:max-w-2xl absolute top-80 z-30 ml-24 text-base font-bold sm:ml-52 md:ml-64 lg:ml-16 lg:text-lg lg:tracking-wider">
+            <h3 className="absolute top-80 z-30 ml-24 text-base font-bold sm:ml-52 md:ml-64 lg:ml-16 lg:max-w-2xl lg:text-lg lg:tracking-wider">
                 Education, Experience, Awards, and MORE!
             </h3>
-            <div className="mx-auto flex max-w-md flex-col gap-4 py-20 text-center md:max-w-lg lg:w-full lg:max-w-5xl">
+            <div className="mx-auto flex max-w-md flex-col gap-4 py-20 text-center md:max-w-lg lg:w-full lg:max-w-5xl mt-12">
                 <h2 className="text-5xl font-black tracking-wider">Trustless & Verifiable profiles</h2>
                 <h4 className="tracking wide font-medium">With Security and Privacy Fully On-Chain</h4>
             </div>
@@ -92,7 +92,7 @@ const LandingPage = (props: Props) => {
                 src={"/landing/4.png"}
                 className="z-30 mx-auto w-auto object-contain px-4 md:right-0 md:top-0 lg:block"
             />
-            <h2 className="my-8 text-center text-5xl font-black tracking-wider">
+            <h2 className="my-12 text-center text-5xl font-black tracking-wider">
                 How <span className="bg-gradient-to-br from-violet-600 to-teal-300 bg-clip-text text-transparent"> AATBA </span> Works?
             </h2>
             <Image
@@ -102,13 +102,13 @@ const LandingPage = (props: Props) => {
                 src={"/landing/7.png"}
                 className="z-30 mx-auto w-auto object-contain md:right-0 md:top-0 lg:block"
             />
-            <div className="mx-auto flex max-w-md justify-center gap-4 lg:max-w-5xl">
+            <div className="mx-auto my-12 flex max-w-md justify-center gap-4 lg:max-w-5xl">
                 <Image
                     height={1200}
                     width={1200}
                     alt="logo aatba"
                     src={"/landing/eth.png"}
-                    className="z-30 hidden w-auto object-contain md:right-0 md:top-0 lg:block lg:block"
+                    className="z-30 hidden w-auto object-contain md:right-0 md:top-0 lg:block"
                 />
                 <h2 className="my-8 text-center text-5xl font-black tracking-wider">Powered by Ethereum</h2>
                 <Image
@@ -116,7 +116,7 @@ const LandingPage = (props: Props) => {
                     width={1200}
                     alt="logo aatba"
                     src={"/landing/eth.png"}
-                    className="z-30 hidden w-auto object-contain md:right-0 md:top-0 lg:block lg:block"
+                    className="z-30 hidden w-auto object-contain md:right-0 md:top-0 lg:block"
                 />
             </div>
             <Image
@@ -133,11 +133,11 @@ const LandingPage = (props: Props) => {
                 src={"/landing/6.png"}
                 className="z-30 mx-auto w-auto object-contain md:right-0 md:top-0 lg:block"
             />
-            <h2 className="my-8 mt-12 text-center text-5xl font-black tracking-wider">
+            <h2 className="my-12 mt-12 text-center text-5xl font-black tracking-wider">
                 The <span className="bg-gradient-to-br from-violet-600 to-teal-300 bg-clip-text text-transparent"> A </span> Team
             </h2>
             {/* profiles */}
-            <div className="mx-auto mb-44 flex max-w-sm flex-wrap items-center justify-center gap-4 sm:max-w-md md:max-w-5xl">
+            <div className="mx-auto mb-32 flex max-w-sm flex-wrap items-center justify-center gap-4 sm:max-w-md md:max-w-5xl">
                 {team.map((t) => (
                     <div key={t.id} className="flex flex-col items-center justify-center">
                         <div className="mb-4 flex h-60 w-48 flex-col justify-between rounded-3xl bg-[#404040]">
