@@ -205,7 +205,7 @@ const page = ({ params: { profile }, searchParams }: Props) => {
                             </div> */}
                             <div className="flex justify-between">
                                 <span>Date Minted</span>
-                                <span>Okt 22, 2023</span>
+                                <span>Oct 22, 2023</span>
                             </div>
                             <div className="flex justify-between">
                                 <span>Token Standard</span>
