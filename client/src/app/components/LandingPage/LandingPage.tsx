@@ -24,11 +24,18 @@ const LandingPage = (props: Props) => {
             git: "https://github.com/r-bytes",
             pfp: "4.png",
         },
-        { id: 4, name: "Camilo León", li: "", x: "", be: "", pfp: "5.png" },
+        {
+            id: 4,
+            name: "Camilo León",
+            li: "https://www.linkedin.com/in/camilo-leon/",
+            x: "https://twitter.com/cryptocuentos",
+            be: "https://www.behance.net/welcome2dsimulation",
+            pfp: "5.png",
+        },
     ]
     return (
         <div>
-            <PageBanner cn="bg-gradient-to-r from-[#DAFBE3] to-[#E3E2FD] p-4 shadow drop-shadow-lg dark:from-[#7faa89] dark:to-[#848491] w-screen max-w-5xl" />
+            <PageBanner cn="bg-gradient-to-r from-[#DAFBE3] to-[#E3E2FD] p-4 shadow drop-shadow-lg dark:from-[#7faa89] dark:to-[#848491] w-screen max-w-sm lg:max-w-5xl" />
             <Image
                 height={700}
                 width={700}
@@ -36,17 +43,19 @@ const LandingPage = (props: Props) => {
                 src={"/landing/1.png"}
                 className="absolute z-30 hidden w-auto object-contain md:right-0 md:top-0 lg:block"
             />
-            <h1 className="absolute top-44 z-30 ml-16 max-w-2xl bg-gradient-to-r from-fuchsia-300 to-teal-300 bg-clip-text text-7xl font-bold text-transparent shadow-slate-800 drop-shadow-2xl">
+            <h1 className="absolute top-44 z-30 ml-64 max-w-2xl bg-gradient-to-r from-fuchsia-300 to-teal-300 bg-clip-text text-xl font-bold text-transparent shadow-slate-800 drop-shadow-2xl lg:ml-16 lg:text-7xl">
                 Proof of your life Achievements
             </h1>
-            <h3 className="absolute left-1/2 top-36 z-30 text-lg font-bold tracking-wider">Verified</h3>
-            <h3 className="absolute top-80 z-30 ml-16 text-lg font-bold tracking-wider">Education, Experience, Awards, and MORE!</h3>
-            <div className="flex w-full flex-col gap-4 py-20 text-center">
+            <h3 className="absolute top-36 z-30 ml-96 font-bold lg:left-1/2 lg:text-lg lg:tracking-wider">Verified</h3>
+            <h3 className="absolute top-80 z-30 ml-60 text-base font-bold lg:ml-16 lg:text-lg lg:tracking-wider">
+                Education, Experience, Awards, and MORE!
+            </h3>
+            <div className="mx-auto flex max-w-md flex-col gap-4 py-20 text-center md:max-w-lg lg:w-full lg:max-w-5xl">
                 <h2 className="text-5xl font-black tracking-wider">Trustless & Verifiable profiles</h2>
                 <h4 className="tracking wide font-medium">With Security and Privacy Fully On-Chain</h4>
             </div>
-            <div className="mb-12 flex w-full gap-8 px-16">
-                <div className="relative h-[38rem] w-1/2 rounded-3xl bg-[#A7D790] px-8">
+            <div className="mb-12 flex w-full flex-col gap-8 px-16 lg:flex-row">
+                <div className="relative mx-auto h-[38rem] rounded-3xl bg-[#A7D790] px-8 lg:w-1/2">
                     <div className="max-w-md">
                         <h2 className="py-6 text-5xl font-black tracking-wider">Account Abstraction</h2>
                         <p className="mb-4">Smart profiles need smart accounts!</p>
@@ -61,7 +70,7 @@ const LandingPage = (props: Props) => {
                         className="absolute bottom-0 left-0 z-30 mx-auto w-auto object-contain"
                     />
                 </div>
-                <div className="relative h-[38rem] w-1/2 rounded-3xl bg-[#F8B6B6] px-8">
+                <div className="relative mx-auto h-[38rem] rounded-3xl bg-[#F8B6B6] px-8 lg:w-1/2">
                     <div className="max-w-md">
                         <h2 className="py-6 text-5xl font-black tracking-wider">Token Bound Account</h2>
                         <p className="mb-4">One account to rule them all!</p>
@@ -81,7 +90,7 @@ const LandingPage = (props: Props) => {
                 width={1200}
                 alt="logo aatba"
                 src={"/landing/4.png"}
-                className="z-30 mx-auto w-auto object-contain md:right-0 md:top-0 lg:block"
+                className="z-30 mx-auto w-auto object-contain px-4 md:right-0 md:top-0 lg:block"
             />
             <h2 className="my-8 text-center text-5xl font-black tracking-wider">
                 How <span className="bg-gradient-to-br from-violet-600 to-teal-300 bg-clip-text text-transparent"> AATBA </span> Works?
@@ -93,13 +102,13 @@ const LandingPage = (props: Props) => {
                 src={"/landing/7.png"}
                 className="z-30 mx-auto w-auto object-contain md:right-0 md:top-0 lg:block"
             />
-            <div className="mx-auto flex max-w-5xl justify-center gap-4">
+            <div className="mx-auto flex max-w-md justify-center gap-4 lg:max-w-5xl">
                 <Image
                     height={1200}
                     width={1200}
                     alt="logo aatba"
                     src={"/landing/eth.png"}
-                    className=" z-30 w-auto object-contain md:right-0 md:top-0 lg:block"
+                    className="z-30 hidden w-auto object-contain md:right-0 md:top-0 lg:block lg:block"
                 />
                 <h2 className="my-8 text-center text-5xl font-black tracking-wider">Powered by Ethereum</h2>
                 <Image
@@ -107,7 +116,7 @@ const LandingPage = (props: Props) => {
                     width={1200}
                     alt="logo aatba"
                     src={"/landing/eth.png"}
-                    className=" z-30 w-auto object-contain md:right-0 md:top-0 lg:block"
+                    className="z-30 hidden w-auto object-contain md:right-0 md:top-0 lg:block lg:block"
                 />
             </div>
             <Image
@@ -124,13 +133,13 @@ const LandingPage = (props: Props) => {
                 src={"/landing/6.png"}
                 className="z-30 mx-auto w-auto object-contain md:right-0 md:top-0 lg:block"
             />
-            <h2 className="mt-12 my-8 text-center text-5xl font-black tracking-wider">
+            <h2 className="my-8 mt-12 text-center text-5xl font-black tracking-wider">
                 The <span className="bg-gradient-to-br from-violet-600 to-teal-300 bg-clip-text text-transparent"> A </span> Team
             </h2>
             {/* profiles */}
-            <div className="mx-auto mb-24 mt-16 flex w-full max-w-6xl flex-wrap justify-center gap-6">
+            <div className="flex flex-wrap gap-4 mx-auto justify-center items-center max-w-sm sm:max-w-md md:max-w-5xl">
                 {team.map((t) => (
-                    <div key={t.id}>
+                    <div key={t.id} className="flex flex-col justify-center items-center">
                         <div className="mb-4 flex h-60 w-48 flex-col justify-between rounded-3xl bg-[#404040]">
                             {/* pfp */}
                             <Image
