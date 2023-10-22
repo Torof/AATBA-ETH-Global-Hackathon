@@ -16,7 +16,7 @@
     <br />
     <br />
     .
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <a href="https://aatba.org">View Demo</a>
     ·
   </p>
 </div>
